@@ -2,22 +2,23 @@ import Link from "next/link";
 
 const products = [
   {
-    tier: "Entree de gamme",
+    tier: "Entrée de gamme",
     badge: null,
     name: "Essentiel",
     brand: "Marque fiable",
     tagline: "L'air frais sans se ruiner",
     priceFrom: "699",
     priceInstalledFrom: "1 499",
-    surface: "Jusqu'a 20 m2",
+    surface: "Jusqu'à 20 m²",
     noise: "24 dB(A)",
     efficiency: "A+",
-    consumption: "~15 EUR/mois en ete",
-    savings: "Economique a l'achat et a l'usage",
+    consumption: "~15 €/mois en été",
+    savings: "Économique à l'achat et à l'usage",
+    image: "https://images.unsplash.com/photo-1625961332771-3f40b0e2bdcf?auto=format&fit=crop&w=600&q=80",
     benefits: [
-      "Ideal pour une chambre ou un bureau",
+      "Idéal pour une chambre ou un bureau",
       "Silencieuse en mode nuit",
-      "Telecommande incluse",
+      "Télécommande incluse",
       "Garantie 5 ans",
     ],
     highlight: false,
@@ -27,19 +28,20 @@ const products = [
     badge: "Le plus choisi",
     name: "Confort+",
     brand: "Marque premium",
-    tagline: "Le meilleur rapport qualite-prix",
+    tagline: "Le meilleur rapport qualité-prix",
     priceFrom: "999",
     priceInstalledFrom: "1 899",
-    surface: "Jusqu'a 35 m2",
+    surface: "Jusqu'à 35 m²",
     noise: "21 dB(A)",
     efficiency: "A++",
-    consumption: "~18 EUR/mois en ete",
-    savings: "Jusqu'a 50% vs chauffage electrique en hiver",
+    consumption: "~18 €/mois en été",
+    savings: "Jusqu'à 50% vs chauffage électrique en hiver",
+    image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=600&q=80",
     benefits: [
-      "Parfait pour un salon ou piece de vie",
-      "Ultra-silencieuse, meme en journee",
-      "WiFi integre + appli smartphone",
-      "Filtre anti-bacterien & deshumidification",
+      "Parfait pour un salon ou pièce de vie",
+      "Ultra-silencieuse, même en journée",
+      "WiFi intégré + appli smartphone",
+      "Filtre anti-bactérien & déshumidification",
     ],
     highlight: true,
   },
@@ -51,16 +53,17 @@ const products = [
     tagline: "La performance sans compromis",
     priceFrom: "1 499",
     priceInstalledFrom: "2 399",
-    surface: "Jusqu'a 50 m2",
+    surface: "Jusqu'à 50 m²",
     noise: "19 dB(A)",
     efficiency: "A+++",
-    consumption: "~20 EUR/mois en ete",
-    savings: "La plus econome au m2 sur le long terme",
+    consumption: "~20 €/mois en été",
+    savings: "La plus économe au m² sur le long terme",
+    image: "https://images.unsplash.com/photo-1631545806609-05987a2e9868?auto=format&fit=crop&w=600&q=80",
     benefits: [
-      "Grandes pieces et espaces ouverts",
-      "La plus silencieuse du marche",
-      "Purificateur d'air integre",
-      "Garantie etendue 7 ans",
+      "Grandes pièces et espaces ouverts",
+      "La plus silencieuse du marché",
+      "Purificateur d'air intégré",
+      "Garantie étendue 7 ans",
     ],
     highlight: false,
   },
@@ -91,20 +94,16 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         <h3 className="text-2xl font-extrabold text-dark mt-2">{product.name}</h3>
         <p className="text-sm text-gray-500 mt-1">{product.tagline}</p>
 
-        {/* Illustration placeholder */}
-        <div className={`my-6 rounded-2xl p-6 flex items-center justify-center ${
-          product.highlight ? "bg-primary-light" : "bg-cream"
+        {/* Product image */}
+        <div className={`my-6 rounded-2xl overflow-hidden ${
+          product.highlight ? "ring-2 ring-primary/20" : ""
         }`}>
-          <svg width="140" height="80" viewBox="0 0 140 80" fill="none">
-            <rect x="10" y="8" width="120" height="45" rx="8" fill="white" stroke={product.highlight ? "#88a78b" : "#CBD5CE"} strokeWidth="2" />
-            <rect x="18" y="15" width="104" height="22" rx="4" fill={product.highlight ? "#E8F5EC" : "#F5EDE3"} />
-            {[0, 1, 2, 3, 4].map((i) => (
-              <line key={i} x1={28 + i * 20} y1="46" x2={28 + i * 20} y2="49" stroke="#CBD5CE" strokeWidth="1.5" strokeLinecap="round" />
-            ))}
-            <circle cx="70" cy="26" r="2.5" fill={product.highlight ? "#88a78b" : "#94A39A"} />
-            <path d="M45 62C53 58 61 66 69 62" stroke={product.highlight ? "#88a78b" : "#94A39A"} strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
-            <path d="M60 70C68 66 76 74 84 70" stroke={product.highlight ? "#88a78b" : "#94A39A"} strokeWidth="1.5" strokeLinecap="round" opacity="0.2" />
-          </svg>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-40 object-cover"
+            loading="lazy"
+          />
         </div>
 
         {/* Specs row */}
@@ -204,13 +203,13 @@ export default function ProductHighlights() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-block px-4 py-1.5 bg-primary-light text-primary text-sm font-semibold rounded-full mb-4">
-            Nos 3 climatisations recommandees
+            Nos 3 climatisations recommandées
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark">
-            On a simplifie le choix pour vous.
+            On a simplifié le choix pour vous.
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            Pas 50 modeles. Juste 3 clims soigneusement selectionnees pour couvrir tous les besoins. Choisissez en fonction de votre surface et de votre budget.
+            Pas 50 modèles. Juste 3 clims soigneusement sélectionnées pour couvrir tous les besoins. Choisissez en fonction de votre surface et de votre budget.
           </p>
         </div>
 
@@ -231,7 +230,7 @@ export default function ProductHighlights() {
             </div>
             <div>
               <p className="text-sm font-semibold text-dark">Multi-split ou config sur-mesure ?</p>
-              <p className="text-xs text-gray-400 mt-1">Contactez-nous pour un devis personnalise. On s&apos;adapte a tous les projets, toutes les surfaces.</p>
+              <p className="text-xs text-gray-400 mt-1">Contactez-nous pour un devis personnalisé. On s&apos;adapte à tous les projets, toutes les surfaces.</p>
             </div>
           </div>
         </div>

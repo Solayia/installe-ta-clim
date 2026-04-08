@@ -3,16 +3,16 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden min-h-[90vh] flex items-center">
-      {/* Background image */}
+      {/* Background image — modern living room */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1631545806609-05987a2e9868?auto=format&fit=crop&w=1920&q=80')",
+            "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80')",
         }}
       />
       {/* Overlay gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1f]/85 via-[#1a2e1f]/65 to-[#1a2e1f]/40" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
         <div className="max-w-2xl">
