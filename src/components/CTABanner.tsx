@@ -20,7 +20,7 @@ export default function CTABanner() {
         {/* Dual CTA */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="#"
+            href="/#comment-ca-marche"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-primary font-bold text-base rounded-2xl hover:bg-cream shadow-lg shadow-dark/10 transition-all duration-300 hover:-translate-y-0.5"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -5,10 +5,10 @@ const footerSections = [
   {
     title: "Nos services",
     links: [
-      { label: "Clims prêt à poser", href: "#" },
-      { label: "Installation complète", href: "#" },
-      { label: "Devis gratuit", href: "#" },
-      { label: "Nos marques", href: "#" },
+      { label: "Nos climatisations", href: "/#nos-clims" },
+      { label: "Installation complète", href: "/#comment-ca-marche" },
+      { label: "Devis gratuit", href: "/#devis" },
+      { label: "Prêt à poser", href: "/#nos-clims" },
     ],
   },
   {
@@ -17,25 +17,25 @@ const footerSections = [
       { label: "Blog", href: "/blog" },
       { label: "Comment ça marche", href: "/#comment-ca-marche" },
       { label: "FAQ", href: "/#faq" },
-      { label: "Guide d'installation", href: "#" },
+      { label: "Guide climatisation", href: "/blog" },
     ],
   },
   {
     title: "À propos",
     links: [
-      { label: "Notre histoire", href: "#" },
-      { label: "Nos certifications", href: "#" },
-      { label: "Avis clients", href: "#" },
-      { label: "Contact", href: "#" },
+      { label: "Notre démarche", href: "/#comment-ca-marche" },
+      { label: "Certifié RGE QualiPAC", href: "/#faq" },
+      { label: "Avis clients", href: "/#faq" },
+      { label: "Contact", href: "/#devis" },
     ],
   },
   {
     title: "Légal",
     links: [
-      { label: "Mentions légales", href: "#" },
-      { label: "CGV", href: "#" },
-      { label: "Politique de confidentialité", href: "#" },
-      { label: "Cookies", href: "#" },
+      { label: "Mentions légales", href: "/mentions-legales" },
+      { label: "CGV", href: "/mentions-legales" },
+      { label: "Politique de confidentialité", href: "/mentions-legales" },
+      { label: "Cookies", href: "/mentions-legales" },
     ],
   },
 ];
@@ -108,21 +108,11 @@ export default function Footer() {
           <p className="text-xs text-gray-500">
             &copy; {new Date().getFullYear()} Installe ta Clim. Tous droits réservés.
           </p>
-          <div className="flex items-center gap-4">
-            {["facebook", "instagram", "youtube"].map((social) => (
-              <a
-                key={social}
-                href="#"
-                className="w-8 h-8 bg-white/5 hover:bg-accent rounded-lg flex items-center justify-center text-gray-400 hover:text-white transition-all"
-                aria-label={social}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  {social === "facebook" && <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />}
-                  {social === "instagram" && <><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" /><circle cx="17.5" cy="6.5" r="1.5" /></>}
-                  {social === "youtube" && <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z" />}
-                </svg>
-              </a>
-            ))}
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            Site sécurisé — SSL
           </div>
         </div>
       </div>

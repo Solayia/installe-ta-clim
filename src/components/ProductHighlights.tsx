@@ -14,7 +14,7 @@ const products = [
     efficiency: "A+",
     consumption: "~15 €/mois en été",
     savings: "Économique à l'achat et à l'usage",
-    image: "https://images.unsplash.com/photo-1625961332771-3f40b0e2bdcf?auto=format&fit=crop&w=600&q=80",
+    image: "",
     benefits: [
       "Idéal pour une chambre ou un bureau",
       "Silencieuse en mode nuit",
@@ -36,7 +36,7 @@ const products = [
     efficiency: "A++",
     consumption: "~18 €/mois en été",
     savings: "Jusqu'à 50% vs chauffage électrique en hiver",
-    image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=600&q=80",
+    image: "",
     benefits: [
       "Parfait pour un salon ou pièce de vie",
       "Ultra-silencieuse, même en journée",
@@ -58,7 +58,7 @@ const products = [
     efficiency: "A+++",
     consumption: "~20 €/mois en été",
     savings: "La plus économe au m² sur le long terme",
-    image: "https://images.unsplash.com/photo-1631545806609-05987a2e9868?auto=format&fit=crop&w=600&q=80",
+    image: "",
     benefits: [
       "Grandes pièces et espaces ouverts",
       "La plus silencieuse du marché",
@@ -94,16 +94,28 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         <h3 className="text-2xl font-extrabold text-dark mt-2">{product.name}</h3>
         <p className="text-sm text-gray-500 mt-1">{product.tagline}</p>
 
-        {/* Product image */}
+        {/* Product visual */}
         <div className={`my-6 rounded-2xl overflow-hidden ${
           product.highlight ? "ring-2 ring-primary/20" : ""
         }`}>
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-40 object-cover"
-            loading="lazy"
-          />
+          <div className={`w-full h-40 flex flex-col items-center justify-center relative ${
+            product.highlight
+              ? "bg-gradient-to-br from-primary/10 via-primary-light to-cream"
+              : "bg-gradient-to-br from-gray-50 via-primary-light/50 to-cream"
+          }`}>
+            {/* AC unit icon */}
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="opacity-80">
+              <rect x="8" y="16" width="48" height="24" rx="4" stroke="#88a78b" strokeWidth="2" fill="white" />
+              <line x1="14" y1="34" x2="50" y2="34" stroke="#88a78b" strokeWidth="1.5" />
+              <line x1="14" y1="30" x2="50" y2="30" stroke="#88a78b" strokeWidth="1" opacity="0.4" />
+              <circle cx="46" cy="24" r="2" fill="#88a78b" opacity="0.6" />
+              {/* Air flow lines */}
+              <path d="M20 44 C20 48 24 48 24 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+              <path d="M32 44 C32 48 36 48 36 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+              <path d="M44 44 C44 48 48 48 48 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+            </svg>
+            <span className="text-xs font-semibold text-primary/60 mt-2 tracking-wide uppercase">{product.name}</span>
+          </div>
         </div>
 
         {/* Specs row */}
