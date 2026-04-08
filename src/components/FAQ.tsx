@@ -5,35 +5,35 @@ import { useState } from "react";
 const faqs = [
   {
     question: "Comment savoir quelle clim choisir ?",
-    answer: "C'est simple : on vous propose 3 modeles, en fonction de la surface de votre piece. Jusqu'a 20 m2, le modele Essentiel suffit. Jusqu'a 35 m2, on recommande le Confort+ (c'est le plus choisi). Au-dela, le Premium est fait pour ca. Et si vous hesitez, un conseiller vous aide en 5 minutes.",
+    answer: "C'est simple : on vous propose 3 modèles, en fonction de la surface de votre pièce. Jusqu'à 20 m², le modèle Essentiel suffit. Jusqu'à 35 m², on recommande le Confort+ (c'est le plus choisi). Au-delà, le Premium est fait pour ça. Et si vous hésitez, un conseiller vous aide en 5 minutes.",
   },
   {
     question: "Est-ce que je peux demander une estimation sans visite ?",
-    answer: "Oui, c'est meme notre fonctionnement normal. Vous remplissez un formulaire en 2 minutes avec les infos de votre logement, et on vous envoie une estimation sous 48h. La validation se fait ensuite en visio de 15 min, depuis votre canape, le soir si besoin.",
+    answer: "Oui, c'est même notre fonctionnement normal. Vous remplissez un formulaire en 2 minutes avec les infos de votre logement, et on vous envoie une estimation sous 48h. La validation se fait ensuite en visio de 15 min, depuis votre canapé, le soir si besoin.",
   },
   {
     question: "En combien de temps j'ai un devis ?",
-    answer: "Sous 48h. Vous remplissez le formulaire, on analyse votre projet, et vous recevez une proposition claire et detaillee. Pas de jargon technique, pas de ligne obscure. Et si vous avez des questions, un conseiller vous rappelle pour tout expliquer.",
+    answer: "Sous 48h. Vous remplissez le formulaire, on analyse votre projet, et vous recevez une proposition claire et détaillée. Pas de jargon technique, pas de ligne obscure. Et si vous avez des questions, un conseiller vous rappelle pour tout expliquer.",
   },
   {
-    question: "Est-ce que je peux installer moi-meme ?",
-    answer: "Oui ! Nos packs pret a poser sont concus pour ca. Vous recevez tout le materiel, un guide d'installation pas a pas, des tutoriels video, et notre hotline technique est gratuite si vous bloquez. La plupart de nos clients installent leur clim en un week-end.",
+    question: "Est-ce que je peux installer moi-même ?",
+    answer: "Oui ! Nos packs prêt à poser sont conçus pour ça. Vous recevez tout le matériel, un guide d'installation pas à pas, des tutoriels vidéo, et notre hotline technique est gratuite si vous bloquez. La plupart de nos clients installent leur clim en un week-end.",
   },
   {
     question: "Intervenez-vous dans ma zone ?",
-    answer: "Aujourd'hui, nos installateurs couvrent la region de Toulouse et ses alentours (departements 31, 81, 82, 65). On etend progressivement notre couverture. Pour les packs pret a poser, la livraison se fait partout en France en 24 a 72h.",
+    answer: "Aujourd'hui, nos installateurs couvrent la région de Toulouse et ses alentours (départements 31, 81, 82, 65). On étend progressivement notre couverture. Pour les packs prêt à poser, la livraison se fait partout en France en 24 à 72h.",
   },
   {
-    question: "Quelle difference entre les 3 modeles ?",
-    answer: "L'Essentiel est parfait pour les petites pieces (chambre, bureau) — c'est le plus economique. Le Confort+ est le meilleur rapport qualite-prix pour les salons et pieces de vie, avec WiFi et filtration integres. Le Premium est fait pour les grands espaces, avec le meilleur niveau sonore et un purificateur d'air. Tous sont de marques reconnues et garantis 5 a 7 ans.",
+    question: "Quelle différence entre les 3 modèles ?",
+    answer: "L'Essentiel est parfait pour les petites pièces (chambre, bureau) — c'est le plus économique. Le Confort+ est le meilleur rapport qualité-prix pour les salons et pièces de vie, avec WiFi et filtration intégrés. Le Premium est fait pour les grands espaces, avec le meilleur niveau sonore et un purificateur d'air. Tous sont de marques reconnues et garantis 5 à 7 ans.",
   },
   {
     question: "Vos prix sont-ils vraiment moins chers ?",
-    answer: "Oui, en moyenne 30 a 40% moins chers qu'un devis artisan classique. Comment ? En simplifiant le parcours, en reduisant les intermediaires, et en selectionnant des modeles directement aupres des fabricants. On affiche nos prix clairement, pas de mauvaise surprise.",
+    answer: "Oui, en moyenne 30 à 40% moins chers qu'un devis artisan classique. Comment ? En simplifiant le parcours, en réduisant les intermédiaires, et en sélectionnant des modèles directement auprès des fabricants. On affiche nos prix clairement, pas de mauvaise surprise.",
   },
   {
     question: "Est-ce que les produits sont fiables ?",
-    answer: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont certifies RGE QualiPAC. Chaque installation est garantie minimum 5 ans. On ne sacrifie jamais la qualite pour le prix — c'est pour ca qu'on ne propose que 3 modeles : les meilleurs dans chaque gamme.",
+    answer: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont certifiés RGE QualiPAC. Chaque installation est garantie minimum 5 ans. On ne sacrifie jamais la qualité pour le prix — c'est pour ça qu'on ne propose que 3 modèles : les meilleurs dans chaque gamme.",
   },
 ];
 
@@ -75,13 +75,13 @@ export default function FAQ() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 bg-primary-light text-primary text-sm font-semibold rounded-full mb-4">
-            Questions frequentes
+            Questions fréquentes
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark">
-            Vous hesitez encore ? C&apos;est normal.
+            Vous hésitez encore ? C&apos;est normal.
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            Voici les reponses aux questions qu&apos;on nous pose le plus souvent.
+            Voici les réponses aux questions qu&apos;on nous pose le plus souvent.
           </p>
         </div>
 
@@ -117,7 +117,7 @@ export default function FAQ() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
               </svg>
-              Ecrivez-nous
+              Écrivez-nous
             </a>
           </div>
         </div>

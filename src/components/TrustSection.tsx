@@ -7,7 +7,7 @@ export default function TrustSection() {
         </svg>
       ),
       title: "Expertise terrain",
-      text: "Des annees d'experience dans l'installation de climatisation. On connait les problemes avant qu'ils arrivent.",
+      text: "Des années d'expérience dans l'installation de climatisation. On connaît les problèmes avant qu'ils arrivent.",
     },
     {
       icon: (
@@ -16,7 +16,7 @@ export default function TrustSection() {
         </svg>
       ),
       title: "Certifications reconnues",
-      text: "RGE QualiPAC, assurance decennale, habilitation fluides frigorigenes. Tout est en regle, tout est verifiable.",
+      text: "RGE QualiPAC, assurance décennale, habilitation fluides frigorigènes. Tout est en règle, tout est vérifiable.",
     },
     {
       icon: (
@@ -25,8 +25,8 @@ export default function TrustSection() {
           <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
         </svg>
       ),
-      title: "Modeles selectionnes avec soin",
-      text: "On ne vend pas 200 references. On a choisi 3 modeles fiables, testes et approuves, pour que vous ne puissiez pas vous tromper.",
+      title: "Modèles sélectionnés avec soin",
+      text: "On ne vend pas 200 références. On a choisi 3 modèles fiables, testés et approuvés, pour que vous ne puissiez pas vous tromper.",
     },
     {
       icon: (
@@ -34,7 +34,7 @@ export default function TrustSection() {
           <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" /><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
         </svg>
       ),
-      title: "Pedagogie avant tout",
+      title: "Pédagogie avant tout",
       text: "On vous explique tout en langage clair. Pas de jargon, pas de termes techniques inutiles. Vous comprenez ce que vous achetez.",
     },
     {
@@ -44,7 +44,7 @@ export default function TrustSection() {
         </svg>
       ),
       title: "Transparence totale",
-      text: "Prix affiches, devis detailles, pas de frais caches. Ce qu'on vous dit, c'est ce que vous payez. Point.",
+      text: "Prix affichés, devis détaillés, pas de frais cachés. Ce qu'on vous dit, c'est ce que vous payez. Point.",
     },
     {
       icon: (
@@ -52,8 +52,8 @@ export default function TrustSection() {
           <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
         </svg>
       ),
-      title: "Reactivite reelle",
-      text: "Estimation sous 48h, reponse le jour meme, disponibilite le soir. On s'adapte a votre vie, pas l'inverse.",
+      title: "Réactivité réelle",
+      text: "Estimation sous 48h, réponse le jour même, disponibilité le soir. On s'adapte à votre vie, pas l'inverse.",
     },
   ];
 
@@ -69,7 +69,7 @@ export default function TrustSection() {
             On ne vous demande pas de nous croire sur parole.
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            Voici concretement pourquoi des centaines de clients nous choisissent pour leur projet clim.
+            Voici concrètement pourquoi des centaines de clients nous choisissent pour leur projet clim.
           </p>
         </div>
 
@@ -94,8 +94,8 @@ export default function TrustSection() {
           <div className="flex flex-wrap items-center justify-center gap-8">
             {[
               { label: "RGE QualiPAC", sub: "Certification" },
-              { label: "Assurance decennale", sub: "Protection" },
-              { label: "Fluides frigorigenes", sub: "Habilitation" },
+              { label: "Assurance décennale", sub: "Protection" },
+              { label: "Fluides frigorigènes", sub: "Habilitation" },
               { label: "Garantie 5-7 ans", sub: "Couverture" },
             ].map((cert) => (
               <div key={cert.label} className="flex items-center gap-3 text-sm">

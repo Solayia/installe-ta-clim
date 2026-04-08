@@ -108,7 +108,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
 
         {/* Specs row */}
         <div className="flex items-center justify-between text-sm mb-4 pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-1.5" title="Surface recommandee">
+          <div className="flex items-center gap-1.5" title="Surface recommandée">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
             </svg>
@@ -120,7 +120,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
             </svg>
             <span className="text-gray-600">{product.noise}</span>
           </div>
-          <div className="flex items-center gap-1.5" title="Classe energetique">
+          <div className="flex items-center gap-1.5" title="Classe énergétique">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
@@ -158,15 +158,15 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         <div className="bg-gray-50 rounded-2xl p-4 mb-5">
           <div className="flex items-center justify-between mb-2.5">
             <div>
-              <span className="text-[10px] font-medium text-gray-400 uppercase block">Pack pret a poser</span>
-              <span className="text-[10px] text-gray-300">a partir de</span>
+              <span className="text-[10px] font-medium text-gray-400 uppercase block">Pack prêt à poser</span>
+              <span className="text-[10px] text-gray-300">à partir de</span>
             </div>
             <span className="text-xl font-extrabold text-dark">{product.priceFrom} <span className="text-sm font-medium text-gray-400">EUR</span></span>
           </div>
           <div className="border-t border-gray-100 pt-2.5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-medium text-gray-400 uppercase block">Fourni + installe</span>
-              <span className="text-[10px] text-gray-300">a partir de</span>
+              <span className="text-[10px] font-medium text-gray-400 uppercase block">Fourni + installé</span>
+              <span className="text-[10px] text-gray-300">à partir de</span>
             </div>
             <span className="text-xl font-extrabold text-primary">{product.priceInstalledFrom} <span className="text-sm font-medium text-gray-400">EUR</span></span>
           </div>
@@ -188,7 +188,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
             href="#devis"
             className="block w-full text-center px-5 py-3 text-sm font-medium text-gray-500 hover:text-primary transition-colors"
           >
-            Demander une estimation installee
+            Demander une estimation installée
           </Link>
         </div>
       </div>

@@ -16,7 +16,7 @@ export default function ProblemSection() {
         </svg>
       ),
       title: "Des semaines d'attente",
-      text: "Entre le premier contact et l'installation, il se passe souvent 4 a 8 semaines. En pleine canicule, c'est trop long.",
+      text: "Entre le premier contact et l'installation, il se passe souvent 4 à 8 semaines. En pleine canicule, c'est trop long.",
     },
     {
       icon: (
@@ -24,7 +24,7 @@ export default function ProblemSection() {
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6" /><line x1="12" y1="18" x2="12" y2="12" /><line x1="9" y1="15" x2="15" y2="15" />
         </svg>
       ),
-      title: "Des devis incomprehensibles",
+      title: "Des devis incompréhensibles",
       text: "Termes techniques, options floues, prix qui varient du simple au triple. Impossible de comparer sereinement.",
     },
     {
@@ -34,7 +34,7 @@ export default function ProblemSection() {
         </svg>
       ),
       title: "Des visites obligatoires",
-      text: "Poser une demi-journee pour qu'un technicien passe chez vous... avant meme d'avoir un devis ? C'est penible.",
+      text: "Poser une demi-journée pour qu'un technicien passe chez vous... avant même d'avoir un devis ? C'est pénible.",
     },
     {
       icon: (
@@ -42,8 +42,8 @@ export default function ProblemSection() {
           <circle cx="12" cy="12" r="10" /><path d="M16 16s-1.5-2-4-2-4 2-4 2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" />
         </svg>
       ),
-      title: "Un manque de visibilite total",
-      text: "On ne sait jamais ou on en est, combien ca va couter au final, ni quand ca sera installe.",
+      title: "Un manque de visibilité total",
+      text: "On ne sait jamais où on en est, combien ça va coûter au final, ni quand ça sera installé.",
     },
     {
       icon: (
@@ -51,8 +51,8 @@ export default function ProblemSection() {
           <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
         </svg>
       ),
-      title: "Pas le temps de gerer ca",
-      text: "Entre le boulot et les enfants, qui a le temps de gerer 3 devis, 2 relances et une prise de rendez-vous ?",
+      title: "Pas le temps de gérer ça",
+      text: "Entre le boulot et les enfants, qui a le temps de gérer 3 devis, 2 relances et une prise de rendez-vous ?",
     },
   ];
 
@@ -62,15 +62,15 @@ export default function ProblemSection() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-block px-4 py-1.5 bg-secondary-light text-secondary text-sm font-semibold rounded-full mb-4">
-            Le probleme aujourd&apos;hui
+            Le problème aujourd&apos;hui
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark">
-            Installer une clim, c&apos;est cense etre simple.
+            Installer une clim, c&apos;est censé être simple.
             <br />
             <span className="text-gray-400">Mais en vrai...</span>
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            Si vous avez deja essaye de faire installer une clim, vous savez que le parcours peut vite devenir un casse-tete.
+            Si vous avez déjà essayé de faire installer une clim, vous savez que le parcours peut vite devenir un casse-tête.
           </p>
         </div>
 
@@ -96,7 +96,7 @@ export default function ProblemSection() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
-            <span className="text-primary font-semibold">On a cree Installe ta Clim pour regler tout ca.</span>
+            <span className="text-primary font-semibold">On a créé Installe ta Clim pour régler tout ça.</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>

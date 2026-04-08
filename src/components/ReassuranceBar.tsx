@@ -6,7 +6,7 @@ const items = [
       </svg>
     ),
     title: "Devis sous 48h",
-    text: "Reponse rapide, sans attendre des semaines",
+    text: "Réponse rapide, sans attendre des semaines",
   },
   {
     icon: (
@@ -15,7 +15,7 @@ const items = [
       </svg>
     ),
     title: "4.8/5 sur Google",
-    text: "200+ avis clients verifies",
+    text: "200+ avis clients vérifiés",
   },
   {
     icon: (
@@ -23,8 +23,8 @@ const items = [
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" />
       </svg>
     ),
-    title: "Produits selectionnes",
-    text: "Marques reconnues, qualite garantie",
+    title: "Produits sélectionnés",
+    text: "Marques reconnues, qualité garantie",
   },
   {
     icon: (
@@ -33,7 +33,7 @@ const items = [
       </svg>
     ),
     title: "Accompagnement simple",
-    text: "Un conseiller dedie, joignable facilement",
+    text: "Un conseiller dédié, joignable facilement",
   },
   {
     icon: (
@@ -41,7 +41,7 @@ const items = [
         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M2 10h20" />
       </svg>
     ),
-    title: "Paiement securise",
+    title: "Paiement sécurisé",
     text: "CB, virement, 3x sans frais",
   },
   {
@@ -50,8 +50,8 @@ const items = [
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
       </svg>
     ),
-    title: "Toulouse et region",
-    text: "31, 81, 82, 65 — et bientot toute la France",
+    title: "Toulouse et région",
+    text: "31, 81, 82, 65 — et bientôt toute la France",
   },
 ];
 

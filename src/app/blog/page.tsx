@@ -5,7 +5,7 @@ import { BlogPageSchema } from "@/components/SchemaMarkup";
 export const metadata: Metadata = {
   title: "Blog | Installe ta Clim - Guides et conseils climatisation",
   description:
-    "Retrouvez tous nos guides, conseils et astuces pour bien choisir, installer et entretenir votre climatisation. Articles rediges par nos experts.",
+    "Retrouvez tous nos guides, conseils et astuces pour bien choisir, installer et entretenir votre climatisation. Articles rédigés par nos experts.",
 };
 
 const categories = [
@@ -13,16 +13,16 @@ const categories = [
   { label: "Choisir sa clim", slug: "choisir", count: 4 },
   { label: "Installation", slug: "installation", count: 3 },
   { label: "Entretien", slug: "entretien", count: 2 },
-  { label: "Economies d'energie", slug: "economies", count: 2 },
+  { label: "Économies d'énergie", slug: "economies", count: 2 },
   { label: "Comparatifs", slug: "comparatifs", count: 1 },
   { label: "Conseils maison", slug: "conseils", count: 2 },
-  { label: "Toulouse et region", slug: "toulouse", count: 1 },
+  { label: "Toulouse et région", slug: "toulouse", count: 1 },
 ];
 
 const featuredArticle = {
   title: "Climatisation en 2026 : le guide complet pour bien choisir",
   excerpt:
-    "Mono-split, multi-split, reversible, pret a poser... On vous explique tout, en langage simple, pour que vous fassiez le bon choix sans prise de tete.",
+    "Mono-split, multi-split, réversible, prêt à poser... On vous explique tout, en langage simple, pour que vous fassiez le bon choix sans prise de tête.",
   category: "Guides d'achat",
   readTime: "8 min",
   date: "2 avril 2026",
@@ -31,55 +31,55 @@ const featuredArticle = {
 
 const articles = [
   {
-    title: "Installer une clim soi-meme : est-ce vraiment possible ?",
+    title: "Installer une clim soi-même : est-ce vraiment possible ?",
     excerpt:
-      "On demystifie l'installation DIY. Spoiler : oui, c'est faisable, et non, vous n'avez pas besoin d'etre plombier.",
+      "On démystifie l'installation DIY. Spoiler : oui, c'est faisable, et non, vous n'avez pas besoin d'être plombier.",
     category: "Installation",
     readTime: "5 min",
     date: "28 mars 2026",
     slug: "installer-clim-soi-meme",
   },
   {
-    title: "Combien coute une climatisation en 2026 ?",
+    title: "Combien coûte une climatisation en 2026 ?",
     excerpt:
-      "Prix d'achat, cout d'installation, consommation electrique... On fait le point sur le vrai budget a prevoir.",
+      "Prix d'achat, coût d'installation, consommation électrique... On fait le point sur le vrai budget à prévoir.",
     category: "Guides d'achat",
     readTime: "6 min",
     date: "25 mars 2026",
     slug: "cout-climatisation-2026",
   },
   {
-    title: "5 erreurs a eviter quand on achete sa clim",
+    title: "5 erreurs à éviter quand on achète sa clim",
     excerpt:
-      "Trop puissante, mal placee, pas adaptee... Voici les erreurs les plus courantes et comment les eviter.",
+      "Trop puissante, mal placée, pas adaptée... Voici les erreurs les plus courantes et comment les éviter.",
     category: "Guides d'achat",
     readTime: "4 min",
     date: "20 mars 2026",
     slug: "erreurs-achat-climatisation",
   },
   {
-    title: "Clim reversible : chauffage + climatisation en un seul appareil",
+    title: "Clim réversible : chauffage + climatisation en un seul appareil",
     excerpt:
-      "Une clim qui chauffe aussi ? Oui, et c'est meme plus economique qu'un radiateur electrique. On vous explique.",
+      "Une clim qui chauffe aussi ? Oui, et c'est même plus économique qu'un radiateur électrique. On vous explique.",
     category: "Guides d'achat",
     readTime: "5 min",
     date: "15 mars 2026",
     slug: "clim-reversible-guide",
   },
   {
-    title: "Entretenir sa clim : le guide simple en 4 etapes",
+    title: "Entretenir sa clim : le guide simple en 4 étapes",
     excerpt:
-      "Un entretien regulier = une clim qui dure plus longtemps et qui consomme moins. Voici comment faire, simplement.",
+      "Un entretien régulier = une clim qui dure plus longtemps et qui consomme moins. Voici comment faire, simplement.",
     category: "Entretien",
     readTime: "4 min",
     date: "10 mars 2026",
     slug: "entretenir-climatisation-guide",
   },
   {
-    title: "Aides financieres 2026 : ce a quoi vous avez droit",
+    title: "Aides financières 2026 : ce à quoi vous avez droit",
     excerpt:
-      "MaPrimeRenov', CEE, TVA reduite... On fait le point sur les aides disponibles pour votre projet climatisation.",
-    category: "Economies",
+      "MaPrimeRénov', CEE, TVA réduite... On fait le point sur les aides disponibles pour votre projet climatisation.",
+    category: "Économies",
     readTime: "6 min",
     date: "5 mars 2026",
     slug: "aides-financieres-climatisation-2026",
@@ -87,70 +87,70 @@ const articles = [
   {
     title: "Quelle puissance de clim pour quelle surface ?",
     excerpt:
-      "20 m2, 35 m2, 50 m2... On vous donne la regle simple pour ne jamais vous tromper de puissance.",
+      "20 m², 35 m², 50 m²... On vous donne la règle simple pour ne jamais vous tromper de puissance.",
     category: "Guides d'achat",
     readTime: "3 min",
     date: "1 mars 2026",
     slug: "puissance-clim-surface",
   },
   {
-    title: "Clim et consommation electrique : combien ca coute vraiment ?",
+    title: "Clim et consommation électrique : combien ça coûte vraiment ?",
     excerpt:
-      "15 EUR par mois ? 50 EUR ? On a fait le calcul pour 3 scenarios concrets avec les tarifs 2026.",
-    category: "Economies",
+      "15 EUR par mois ? 50 EUR ? On a fait le calcul pour 3 scénarios concrets avec les tarifs 2026.",
+    category: "Économies",
     readTime: "5 min",
-    date: "25 fevrier 2026",
+    date: "25 février 2026",
     slug: "consommation-electrique-climatisation",
   },
   {
     title: "Faut-il une clim monosplit ou multisplit ?",
     excerpt:
-      "Une seule piece ou toute la maison ? On vous explique la difference en termes simples, et laquelle choisir selon votre situation.",
+      "Une seule pièce ou toute la maison ? On vous explique la différence en termes simples, et laquelle choisir selon votre situation.",
     category: "Comparatifs",
     readTime: "5 min",
-    date: "20 fevrier 2026",
+    date: "20 février 2026",
     slug: "monosplit-vs-multisplit",
   },
   {
-    title: "Comment preparer son projet clim sans visite physique",
+    title: "Comment préparer son projet clim sans visite physique",
     excerpt:
-      "Photos, visio, formulaire en ligne : voici comment on arrive a vous proposer une estimation precise sans vous faire poser une journee.",
+      "Photos, visio, formulaire en ligne : voici comment on arrive à vous proposer une estimation précise sans vous faire poser une journée.",
     category: "Conseils maison",
     readTime: "4 min",
-    date: "15 fevrier 2026",
+    date: "15 février 2026",
     slug: "preparer-projet-clim-sans-visite",
   },
   {
-    title: "Climatisation reversible : est-ce vraiment rentable ?",
+    title: "Climatisation réversible : est-ce vraiment rentable ?",
     excerpt:
-      "Chauffer et rafraichir avec un seul appareil, ca semble trop beau. On a fait les calculs pour vous.",
-    category: "Economies d'energie",
+      "Chauffer et rafraîchir avec un seul appareil, ça semble trop beau. On a fait les calculs pour vous.",
+    category: "Économies d'énergie",
     readTime: "6 min",
-    date: "10 fevrier 2026",
+    date: "10 février 2026",
     slug: "clim-reversible-rentabilite",
   },
   {
-    title: "Quelle clim choisir a Toulouse et ses alentours ?",
+    title: "Quelle clim choisir à Toulouse et ses alentours ?",
     excerpt:
-      "Climat, reglementation locale, artisans de confiance : tout ce qu'il faut savoir pour climatiser votre logement dans la region toulousaine.",
-    category: "Toulouse et region",
+      "Climat, réglementation locale, artisans de confiance : tout ce qu'il faut savoir pour climatiser votre logement dans la région toulousaine.",
+    category: "Toulouse et région",
     readTime: "5 min",
-    date: "5 fevrier 2026",
+    date: "5 février 2026",
     slug: "climatisation-toulouse-region",
   },
   {
-    title: "Bien positionner son unite interieure : le guide pratique",
+    title: "Bien positionner son unité intérieure : le guide pratique",
     excerpt:
-      "Hauteur, orientation, distance du lit... Ou placer votre split pour un confort optimal sans courant d'air.",
+      "Hauteur, orientation, distance du lit... Où placer votre split pour un confort optimal sans courant d'air.",
     category: "Conseils maison",
     readTime: "4 min",
-    date: "1 fevrier 2026",
+    date: "1 février 2026",
     slug: "bien-positionner-unite-interieure",
   },
   {
-    title: "Les filtres de clim : a quoi ca sert et quand les changer ?",
+    title: "Les filtres de clim : à quoi ça sert et quand les changer ?",
     excerpt:
-      "Ils sont petits, on les oublie souvent, mais ils font une vraie difference sur la qualite de l'air et la duree de vie de votre clim.",
+      "Ils sont petits, on les oublie souvent, mais ils font une vraie différence sur la qualité de l'air et la durée de vie de votre clim.",
     category: "Entretien",
     readTime: "3 min",
     date: "25 janvier 2026",
@@ -159,7 +159,7 @@ const articles = [
   {
     title: "Climatisation et allergies : ce qu'il faut savoir",
     excerpt:
-      "Bonne nouvelle : une clim bien entretenue peut meme ameliorer la qualite de l'air chez vous. On vous dit tout.",
+      "Bonne nouvelle : une clim bien entretenue peut même améliorer la qualité de l'air chez vous. On vous dit tout.",
     category: "Conseils maison",
     readTime: "4 min",
     date: "20 janvier 2026",
@@ -218,7 +218,7 @@ export default function BlogPage() {
               Blog
             </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-dark">
-              La clim, expliquee <span className="text-primary">simplement</span>.
+              La clim, expliquée <span className="text-primary">simplement</span>.
             </h1>
             <p className="mt-4 text-lg text-gray-500">
               Guides, conseils et astuces pour bien choisir, installer et entretenir votre climatisation. Zero jargon, que du concret.
@@ -332,7 +332,7 @@ export default function BlogPage() {
               S&apos;inscrire
             </button>
           </div>
-          <p className="mt-3 text-xs text-white/50">Desabonnement en 1 clic. On respecte votre boite mail.</p>
+          <p className="mt-3 text-xs text-white/50">Désabonnement en 1 clic. On respecte votre boîte mail.</p>
         </div>
       </section>
     </>

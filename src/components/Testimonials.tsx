@@ -3,48 +3,48 @@ const testimonials = [
     name: "Sophie M.",
     location: "Lyon",
     rating: 5,
-    text: "J'avais peur que ce soit complique. En fait, j'ai eu mon devis en 1 heure et l'installation etait faite 5 jours apres. Bravo.",
-    type: "Installation complete",
+    text: "J'avais peur que ce soit compliqué. En fait, j'ai eu mon devis en 1 heure et l'installation était faite 5 jours après. Bravo.",
+    type: "Installation complète",
     date: "Mars 2026",
   },
   {
     name: "Thomas R.",
     location: "Bordeaux",
     rating: 5,
-    text: "Pack pret a poser commande un lundi, recu le mercredi. J'ai installe avec ma femme en un week-end. Les tutos sont super clairs.",
-    type: "Pack pret a poser",
-    date: "Fevrier 2026",
+    text: "Pack prêt à poser commandé un lundi, reçu le mercredi. J'ai installé avec ma femme en un week-end. Les tutos sont super clairs.",
+    type: "Pack prêt à poser",
+    date: "Février 2026",
   },
   {
     name: "Isabelle L.",
     location: "Marseille",
     rating: 5,
-    text: "Ce qui m'a convaincue c'est la visio. Pas de visite a domicile, pas de demi-journee posee. Tout s'est fait apres 19h.",
-    type: "Installation complete",
+    text: "Ce qui m'a convaincue c'est la visio. Pas de visite à domicile, pas de demi-journée posée. Tout s'est fait après 19h.",
+    type: "Installation complète",
     date: "Janvier 2026",
   },
   {
     name: "Marc D.",
     location: "Paris",
     rating: 4,
-    text: "Prix plus bas que les 3 devis artisans que j'avais eus. Et le service client repond vite. Je recommande.",
-    type: "Installation complete",
+    text: "Prix plus bas que les 3 devis artisans que j'avais eus. Et le service client répond vite. Je recommande.",
+    type: "Installation complète",
     date: "Mars 2026",
   },
   {
     name: "Julie P.",
     location: "Toulouse",
     rating: 5,
-    text: "Mon mari est bricoleur, il a adore le pack. Tout etait bien emballe, avec des etiquettes pour savoir quoi brancher ou. Malin.",
-    type: "Pack pret a poser",
-    date: "Fevrier 2026",
+    text: "Mon mari est bricoleur, il a adoré le pack. Tout était bien emballé, avec des étiquettes pour savoir quoi brancher où. Malin.",
+    type: "Pack prêt à poser",
+    date: "Février 2026",
   },
   {
     name: "Karim A.",
     location: "Nantes",
     rating: 5,
-    text: "J'y connaissais rien. Le conseiller m'a tout explique en 10 minutes sans me prendre de haut. Ca change.",
-    type: "Installation complete",
+    text: "J'y connaissais rien. Le conseiller m'a tout expliqué en 10 minutes sans me prendre de haut. Ça change.",
+    type: "Installation complète",
     date: "Mars 2026",
   },
 ];
@@ -74,7 +74,7 @@ export default function Testimonials() {
             Ils l&apos;ont fait. Ils en parlent.
           </h2>
           <p className="mt-4 text-lg text-gray-500">
-            +200 clients nous font confiance. Voici ce qu&apos;ils disent de leur experience.
+            +200 clients nous font confiance. Voici ce qu&apos;ils disent de leur expérience.
           </p>
           {/* Global rating */}
           <div className="mt-6 inline-flex items-center gap-3 bg-cream rounded-2xl px-6 py-3 border border-gray-200">
@@ -108,7 +108,7 @@ export default function Testimonials() {
                   </div>
                 </div>
                 <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                  t.type === "Pack pret a poser"
+                  t.type === "Pack prêt à poser"
                     ? "bg-primary-light text-primary"
                     : "bg-secondary-light text-secondary"
                 }`}>

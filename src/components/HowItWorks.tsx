@@ -6,41 +6,41 @@ import Link from "next/link";
 const paths = {
   diy: {
     title: "Je veux acheter ma clim",
-    subtitle: "Choix simplifie + livraison + installation par vous-meme",
-    description: "La solution la plus economique. On vous guide pour choisir le bon modele, on vous livre tout le necessaire, et vous installez a votre rythme avec nos tutoriels.",
+    subtitle: "Choix simplifié + livraison + installation par vous-même",
+    description: "La solution la plus économique. On vous guide pour choisir le bon modèle, on vous livre tout le nécessaire, et vous installez à votre rythme avec nos tutoriels.",
     steps: [
-      { num: "1", title: "Je choisis mon modele", desc: "3 modeles, un recommandeur simple : on vous aide a trouver le bon en 2 minutes." },
-      { num: "2", title: "Je commande en ligne", desc: "Paiement securise, CB ou 3x sans frais. Pas de mauvaise surprise." },
-      { num: "3", title: "Je suis livre chez moi", desc: "Livraison en 24 a 72h avec tout le materiel, les accessoires et les guides." },
-      { num: "4", title: "J'installe a mon rythme", desc: "Tutoriels video pas a pas + hotline technique gratuite si vous bloquez." },
+      { num: "1", title: "Je choisis mon modèle", desc: "3 modèles, un recommandeur simple : on vous aide à trouver le bon en 2 minutes." },
+      { num: "2", title: "Je commande en ligne", desc: "Paiement sécurisé, CB ou 3x sans frais. Pas de mauvaise surprise." },
+      { num: "3", title: "Je suis livré chez moi", desc: "Livraison en 24 à 72h avec tout le matériel, les accessoires et les guides." },
+      { num: "4", title: "J'installe à mon rythme", desc: "Tutoriels vidéo pas à pas + hotline technique gratuite si vous bloquez." },
     ],
     cta: "Voir les clims disponibles",
     ctaHref: "#nos-clims",
     benefits: [
-      "Jusqu'a 40% d'economie",
-      "Tutoriels video inclus",
+      "Jusqu'à 40% d'économie",
+      "Tutoriels vidéo inclus",
       "Support technique gratuit",
       "Retour sous 30 jours",
     ],
   },
   installed: {
     title: "Je veux qu'on s'occupe de tout",
-    subtitle: "Estimation + coordination + installation par un pro certifie",
-    description: "Vous n'avez rien a faire. Decrivez votre projet, recevez une estimation, validez en visio, et on planifie l'installation chez vous.",
+    subtitle: "Estimation + coordination + installation par un pro certifié",
+    description: "Vous n'avez rien à faire. Décrivez votre projet, recevez une estimation, validez en visio, et on planifie l'installation chez vous.",
     steps: [
-      { num: "1", title: "Je remplis mon projet", desc: "Formulaire en 2 minutes : surface, type de logement, preferences. C'est tout." },
-      { num: "2", title: "Je recois une estimation sous 48h", desc: "Proposition claire, detaillee, sans jargon. Vous savez exactement ce que vous payez." },
-      { num: "3", title: "Je fais une visio de validation", desc: "Un appel de 15 min pour confirmer les details techniques, depuis votre canape, le soir si besoin." },
-      { num: "4", title: "Je confirme et je verse l'acompte", desc: "Paiement securise. On bloque votre creneau d'installation." },
-      { num: "5", title: "L'installation est planifiee", desc: "Un installateur certifie RGE intervient a la date choisie. Vous n'avez rien a faire." },
+      { num: "1", title: "Je remplis mon projet", desc: "Formulaire en 2 minutes : surface, type de logement, préférences. C'est tout." },
+      { num: "2", title: "Je reçois une estimation sous 48h", desc: "Proposition claire, détaillée, sans jargon. Vous savez exactement ce que vous payez." },
+      { num: "3", title: "Je fais une visio de validation", desc: "Un appel de 15 min pour confirmer les détails techniques, depuis votre canapé, le soir si besoin." },
+      { num: "4", title: "Je confirme et je verse l'acompte", desc: "Paiement sécurisé. On bloque votre créneau d'installation." },
+      { num: "5", title: "L'installation est planifiée", desc: "Un installateur certifié RGE intervient à la date choisie. Vous n'avez rien à faire." },
     ],
     cta: "Obtenir mon estimation gratuite",
     ctaHref: "#devis",
     benefits: [
       "Estimation sous 48h",
-      "Installateur certifie RGE",
+      "Installateur certifié RGE",
       "Garantie 5 ans",
-      "Eligible aides de l'Etat",
+      "Éligible aides de l'État",
     ],
   },
 };
@@ -58,9 +58,9 @@ export default function HowItWorks() {
             La solution Installe ta Clim
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark">
-            Deux facons d&apos;avoir votre clim.
+            Deux façons d&apos;avoir votre clim.
             <br />
-            <span className="text-primary">A vous de choisir.</span>
+            <span className="text-primary">À vous de choisir.</span>
           </h2>
           <p className="mt-4 text-lg text-gray-500">
             Dans les deux cas, c&apos;est simple, rapide et sans mauvaise surprise.
@@ -81,7 +81,7 @@ export default function HowItWorks() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
               </svg>
-              J&apos;achete + j&apos;installe
+              J&apos;achète + j&apos;installe
             </button>
             <button
               onClick={() => setActiveTab("installed")}
@@ -183,14 +183,14 @@ export default function HowItWorks() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-dark">Pas sur de votre choix ?</h4>
+                  <h4 className="font-bold text-dark">Pas sûr de votre choix ?</h4>
                   <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                    Pas de stress. Appelez-nous ou remplissez le formulaire : un conseiller vous aide a choisir la bonne option en 5 minutes. Le soir apres le boulot, ca marche aussi.
+                    Pas de stress. Appelez-nous ou remplissez le formulaire : un conseiller vous aide à choisir la bonne option en 5 minutes. Le soir après le boulot, ça marche aussi.
                   </p>
                   <Link href="tel:+33100000000" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
                     activeTab === "diy" ? "text-primary" : "text-secondary"
                   }`}>
-                    Parler a un conseiller
+                    Parler à un conseiller
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -207,7 +207,7 @@ export default function HowItWorks() {
               </div>
               <div className="flex-1">
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  recommanderaient Installe ta Clim a un proche. Notre secret ? On explique tout clairement et on fait ce qu&apos;on dit.
+                  recommanderaient Installe ta Clim à un proche. Notre secret ? On explique tout clairement et on fait ce qu&apos;on dit.
                 </p>
               </div>
             </div>

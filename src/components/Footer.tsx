@@ -5,8 +5,8 @@ const footerSections = [
   {
     title: "Nos services",
     links: [
-      { label: "Clims pret a poser", href: "#" },
-      { label: "Installation complete", href: "#" },
+      { label: "Clims prêt à poser", href: "#" },
+      { label: "Installation complète", href: "#" },
       { label: "Devis gratuit", href: "#" },
       { label: "Nos marques", href: "#" },
     ],
@@ -15,13 +15,13 @@ const footerSections = [
     title: "Ressources",
     links: [
       { label: "Blog", href: "/blog" },
-      { label: "Comment ca marche", href: "/#comment-ca-marche" },
+      { label: "Comment ça marche", href: "/#comment-ca-marche" },
       { label: "FAQ", href: "/#faq" },
       { label: "Guide d'installation", href: "#" },
     ],
   },
   {
-    title: "A propos",
+    title: "À propos",
     links: [
       { label: "Notre histoire", href: "#" },
       { label: "Nos certifications", href: "#" },
@@ -30,11 +30,11 @@ const footerSections = [
     ],
   },
   {
-    title: "Legal",
+    title: "Légal",
     links: [
-      { label: "Mentions legales", href: "#" },
+      { label: "Mentions légales", href: "#" },
       { label: "CGV", href: "#" },
-      { label: "Politique de confidentialite", href: "#" },
+      { label: "Politique de confidentialité", href: "#" },
       { label: "Cookies", href: "#" },
     ],
   },
@@ -55,7 +55,7 @@ export default function Footer() {
               <span className="text-base font-extrabold uppercase tracking-tight">Installe ta Clim</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              La climatisation simplifiee. Achetez, installez ou faites installer en toute confiance.
+              La climatisation simplifiée. Achetez, installez ou faites installer en toute confiance.
             </p>
             <div className="text-xs text-gray-500 mb-3">Zone d&apos;intervention installation :</div>
             <div className="flex flex-wrap gap-1.5 mb-4">
@@ -91,7 +91,7 @@ export default function Footer() {
         {/* Certifications */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-wrap items-center justify-center gap-8 mb-8">
-            {["RGE QualiPAC", "Garantie 5 ans", "Paiement securise", "Satisfait ou rembourse"].map((cert) => (
+            {["RGE QualiPAC", "Garantie 5 ans", "Paiement sécurisé", "Satisfait ou remboursé"].map((cert) => (
               <div key={cert} className="flex items-center gap-2 text-sm text-gray-400">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#96b399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -106,7 +106,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-500">
-            &copy; {new Date().getFullYear()} Installe ta Clim. Tous droits reserves.
+            &copy; {new Date().getFullYear()} Installe ta Clim. Tous droits réservés.
           </p>
           <div className="flex items-center gap-4">
             {["facebook", "instagram", "youtube"].map((social) => (

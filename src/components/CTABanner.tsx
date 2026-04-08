@@ -11,10 +11,10 @@ export default function CTABanner() {
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
-          Pret a passer au frais ?
+          Prêt à passer au frais ?
         </h2>
         <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto leading-relaxed">
-          Obtenez votre devis en 2 minutes. C&apos;est gratuit, sans engagement, et vous pouvez le faire ce soir depuis votre canape.
+          Obtenez votre devis en 2 minutes. C&apos;est gratuit, sans engagement, et vous pouvez le faire ce soir depuis votre canapé.
         </p>
 
         {/* Dual CTA */}
@@ -36,7 +36,7 @@ export default function CTABanner() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
             </svg>
-            Parler a un conseiller
+            Parler à un conseiller
           </Link>
         </div>
 
@@ -44,7 +44,7 @@ export default function CTABanner() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-white/60">
           {[
             "Sans engagement",
-            "Reponse sous 24h",
+            "Réponse sous 24h",
             "Disponible le soir",
             "100% gratuit",
           ].map((item) => (
