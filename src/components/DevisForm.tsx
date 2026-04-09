@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import ARViewer from "./ARViewer";
 
-type Step = 1 | 2 | 3 | 4 | 5;
+type Step = 0 | 1 | 2 | 3 | 4 | 5;
 
 const pieceTypes = [
   { value: "chambre", label: "Chambre", icon: "bed", m2: "10-15 m²" },
@@ -50,6 +51,7 @@ interface FormData {
   email: string;
   ville: string;
   message: string;
+  arPhoto: string | null;
 }
 
 const initialData: FormData = {
@@ -62,6 +64,7 @@ const initialData: FormData = {
   email: "",
   ville: "",
   message: "",
+  arPhoto: null,
 };
 
 function PieceIcon({ type }: { type: string }) {
@@ -102,7 +105,7 @@ function PieceIcon({ type }: { type: string }) {
 }
 
 export default function DevisForm() {
-  const [step, setStep] = useState<Step>(1);
+  const [step, setStep] = useState<Step>(0);
   const [data, setData] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
 
@@ -112,6 +115,7 @@ export default function DevisForm() {
 
   const canNext = (): boolean => {
     switch (step) {
+      case 0: return true; // AR is optional
       case 1: return !!data.piece;
       case 2: return !!data.logement && !!data.surface;
       case 3: return !!data.installation;
@@ -125,7 +129,7 @@ export default function DevisForm() {
   };
 
   const prev = () => {
-    if (step > 1) setStep((step - 1) as Step);
+    if (step > 0) setStep((step - 1) as Step);
   };
 
   const submit = () => {
@@ -135,7 +139,7 @@ export default function DevisForm() {
   };
 
   const estimation = getEstimation(data);
-  const progress = ((step - 1) / 4) * 100;
+  const progress = (step / 5) * 100;
 
   return (
     <section id="devis" className="py-16 lg:py-20 bg-dark relative overflow-hidden">
@@ -165,10 +169,10 @@ export default function DevisForm() {
         {!submitted && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              {[1, 2, 3, 4].map((s) => (
+              {[0, 1, 2, 3, 4].map((s) => (
                 <div
                   key={s}
-                  className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold transition-all duration-500 ${
+                  className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs font-bold transition-all duration-500 ${
                     s < step
                       ? "bg-primary text-white"
                       : s === step
@@ -181,7 +185,11 @@ export default function DevisForm() {
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   ) : (
-                    s
+                    s === 0 ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" />
+                      </svg>
+                    ) : s
                   )}
                 </div>
               ))}
@@ -193,6 +201,7 @@ export default function DevisForm() {
               />
             </div>
             <div className="flex justify-between mt-2 text-[10px] text-white/30 font-medium uppercase tracking-wider">
+              <span>Visualiser</span>
               <span>Pièce</span>
               <span>Logement</span>
               <span>Installation</span>
@@ -203,6 +212,21 @@ export default function DevisForm() {
 
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
+          {/* Step 0 — AR Visualisation */}
+          {step === 0 && (
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Visualisez la clim chez vous</h3>
+              <p className="text-sm text-gray-400 mb-5">Ouvrez votre caméra et placez le modèle sur votre mur pour vous projeter</p>
+              <ARViewer
+                onCapture={(imageData) => {
+                  setData((prev) => ({ ...prev, arPhoto: imageData }));
+                  setStep(1);
+                }}
+                onSkip={() => setStep(1)}
+              />
+            </div>
+          )}
+
           {/* Step 1 — Pièce */}
           {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
@@ -439,6 +463,12 @@ export default function DevisForm() {
               {/* Recap */}
               <div className="mt-6 bg-cream rounded-2xl p-5 border border-gray-200">
                 <h4 className="text-sm font-bold text-dark mb-3">Récapitulatif de votre projet</h4>
+                {data.arPhoto && (
+                  <div className="mb-3">
+                    <span className="text-xs text-gray-400 block mb-1.5">Photo de votre pièce</span>
+                    <img src={data.arPhoto} alt="Visualisation clim" className="w-full h-32 object-cover rounded-xl border border-gray-200" />
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-y-2 text-sm">
                   <span className="text-gray-400">Pièce</span>
                   <span className="text-dark font-medium">{pieceTypes.find((p) => p.value === data.piece)?.label}</span>
@@ -476,8 +506,16 @@ export default function DevisForm() {
                 Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> avec votre devis détaillé personnalisé.
               </p>
 
+              {/* AR Photo */}
+              {data.arPhoto && (
+                <div className="mt-6 max-w-sm mx-auto">
+                  <img src={data.arPhoto} alt="Votre visualisation" className="w-full h-40 object-cover rounded-2xl border border-gray-200 shadow-sm" />
+                  <p className="text-xs text-gray-400 mt-2">Photo jointe à votre demande de devis</p>
+                </div>
+              )}
+
               {/* Estimation card */}
-              <div className="mt-8 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
+              <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                 <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre estimation</div>
                 <div className="text-3xl font-extrabold text-primary">
                   {data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}
@@ -506,9 +544,9 @@ export default function DevisForm() {
           )}
 
           {/* Navigation buttons */}
-          {!submitted && (
+          {!submitted && step > 0 && (
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
-              {step > 1 ? (
+              {step > 1 && step !== 0 ? (
                 <button
                   onClick={prev}
                   className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
