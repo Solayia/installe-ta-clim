@@ -26,11 +26,10 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
 
   // Position & size of the clim overlay
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
-  const lastPinchDist = useRef<number | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const scale = 1;
 
   const model = climModels.find((m) => m.id === selectedModel)!;
 
@@ -83,11 +82,6 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
       dragOffset.current = { x: touch.clientX - pos.x, y: touch.clientY - pos.y };
       setIsDragging(true);
     }
-    if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      lastPinchDist.current = Math.sqrt(dx * dx + dy * dy);
-    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -97,19 +91,10 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
       const touch = e.touches[0];
       setPos({ x: touch.clientX - dragOffset.current.x, y: touch.clientY - dragOffset.current.y });
     }
-    if (e.touches.length === 2 && lastPinchDist.current !== null) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const delta = dist / lastPinchDist.current;
-      setScale((s) => Math.max(0.5, Math.min(2.5, s * delta)));
-      lastPinchDist.current = dist;
-    }
   };
 
   const handleTouchEnd = () => {
     setIsDragging(false);
-    lastPinchDist.current = null;
   };
 
   // Mouse drag (desktop)
@@ -333,12 +318,9 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
 
         {/* Instructions overlay */}
         {streaming && !captured && (
-          <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-30">
-            <div className="bg-black/50 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">
+          <div className="absolute top-3 left-3 right-3 z-30">
+            <div className="inline-block bg-black/50 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">
               Déplacez la clim avec le doigt
-            </div>
-            <div className="bg-black/50 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg">
-              Pincez pour redimensionner
             </div>
           </div>
         )}
@@ -370,22 +352,6 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
               {m.name}
             </button>
           ))}
-        </div>
-      )}
-
-      {/* Scale slider (desktop) */}
-      {!captured && streaming && (
-        <div className="hidden sm:flex items-center gap-3">
-          <span className="text-xs text-gray-400">Taille :</span>
-          <input
-            type="range"
-            min="0.5"
-            max="2.5"
-            step="0.1"
-            value={scale}
-            onChange={(e) => setScale(parseFloat(e.target.value))}
-            className="flex-1 h-1.5 bg-gray-200 rounded-full appearance-none cursor-pointer accent-primary"
-          />
         </div>
       )}
 
