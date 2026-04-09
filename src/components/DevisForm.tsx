@@ -161,7 +161,7 @@ export default function DevisForm() {
           <span className="text-white/50 text-xs font-medium">Visualiseur AR</span>
         </div>
         {/* AR Viewer fullscreen */}
-        <div className="flex-1 p-3 pb-6 overflow-auto">
+        <div className="flex-1 flex flex-col p-2 pb-4 overflow-auto">
           <ARViewer
             onCapture={(imageData) => {
               setData((prev) => ({ ...prev, arPhoto: imageData }));

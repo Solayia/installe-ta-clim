@@ -14,7 +14,7 @@ interface ARViewerProps {
   fullscreen?: boolean;
 }
 
-export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
+export default function ARViewer({ onCapture, onSkip, fullscreen }: ARViewerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,7 +33,11 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
   const startCamera = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: {
+          facingMode: "environment",
+          width: { ideal: fullscreen ? 720 : 1280 },
+          height: { ideal: fullscreen ? 1280 : 720 },
+        },
         audio: false,
       });
       if (videoRef.current) {
@@ -193,10 +197,10 @@ export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className={`${fullscreen ? "flex flex-col flex-1 gap-3" : "space-y-4"}`}>
       <div
         ref={containerRef}
-        className="relative w-full aspect-[4/3] sm:aspect-video bg-black rounded-2xl overflow-hidden select-none touch-none"
+        className={`relative w-full bg-black overflow-hidden select-none touch-none ${fullscreen ? "flex-1 rounded-xl" : "aspect-[3/4] sm:aspect-video rounded-2xl"}`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
