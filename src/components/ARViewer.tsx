@@ -11,6 +11,7 @@ const climModels = [
 interface ARViewerProps {
   onCapture: (imageData: string) => void;
   onSkip: () => void;
+  fullscreen?: boolean;
 }
 
 export default function ARViewer({ onCapture, onSkip }: ARViewerProps) {

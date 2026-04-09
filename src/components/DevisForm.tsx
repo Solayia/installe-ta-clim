@@ -108,6 +108,7 @@ export default function DevisForm() {
   const [step, setStep] = useState<Step>(0);
   const [data, setData] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
+  const [arFullscreen, setArFullscreen] = useState(false);
 
   const update = (field: keyof FormData, value: string) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -142,6 +143,41 @@ export default function DevisForm() {
   const progress = (step / 5) * 100;
 
   return (
+    <>
+    {/* Fullscreen AR overlay */}
+    {arFullscreen && (
+      <div className="fixed inset-0 z-[100] bg-black flex flex-col">
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-4 py-3 bg-black/80 backdrop-blur-sm z-10">
+          <button
+            onClick={() => setArFullscreen(false)}
+            className="flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium transition-colors"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+            Fermer
+          </button>
+          <span className="text-white/50 text-xs font-medium">Visualiseur AR</span>
+        </div>
+        {/* AR Viewer fullscreen */}
+        <div className="flex-1 p-3 pb-6 overflow-auto">
+          <ARViewer
+            onCapture={(imageData) => {
+              setData((prev) => ({ ...prev, arPhoto: imageData }));
+              setArFullscreen(false);
+              setStep(1);
+            }}
+            onSkip={() => {
+              setArFullscreen(false);
+              setStep(1);
+            }}
+            fullscreen
+          />
+        </div>
+      </div>
+    )}
+
     <section id="devis" className="py-16 lg:py-20 bg-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -212,18 +248,32 @@ export default function DevisForm() {
 
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
-          {/* Step 0 — AR Visualisation */}
-          {step === 0 && (
-            <div className="p-5 sm:p-8 lg:p-10">
-              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Visualisez la clim chez vous</h3>
-              <p className="text-sm text-gray-400 mb-5">Ouvrez votre caméra et placez le modèle sur votre mur pour vous projeter</p>
-              <ARViewer
-                onCapture={(imageData) => {
-                  setData((prev) => ({ ...prev, arPhoto: imageData }));
-                  setStep(1);
-                }}
-                onSkip={() => setStep(1)}
-              />
+          {/* Step 0 — AR intro (the actual AR is fullscreen) */}
+          {step === 0 && !arFullscreen && (
+            <div className="p-5 sm:p-8 lg:p-10 text-center">
+              <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" />
+                </svg>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-dark mb-2">Visualisez la clim chez vous</h3>
+              <p className="text-sm text-gray-500 mb-8 max-w-sm mx-auto">
+                Ouvrez votre caméra et placez un modèle de clim sur votre mur. Prenez une photo — elle sera jointe à votre devis.
+              </p>
+              <div className="flex flex-col gap-3 items-center">
+                <button
+                  onClick={() => setArFullscreen(true)}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" />
+                  </svg>
+                  Ouvrir la caméra
+                </button>
+                <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-gray-600 transition-colors py-2">
+                  Passer cette étape
+                </button>
+              </div>
             </div>
           )}
 
@@ -610,5 +660,6 @@ export default function DevisForm() {
         )}
       </div>
     </section>
+    </>
   );
 }

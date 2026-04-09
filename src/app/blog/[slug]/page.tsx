@@ -144,7 +144,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                 Voir nos clims
               </Link>
               <Link
-                href="/#devis"
+                href="/devis"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/15 text-white font-bold rounded-xl border border-white/30 hover:bg-white/25 transition-colors"
               >
                 Demander un devis

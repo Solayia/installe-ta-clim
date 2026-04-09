@@ -35,7 +35,7 @@ const paths = {
       { num: "5", title: "L'installation est planifiée", desc: "Un installateur certifié RGE intervient à la date choisie. Vous n'avez rien à faire." },
     ],
     cta: "Obtenir mon estimation gratuite",
-    ctaHref: "#devis",
+    ctaHref: "/devis",
     benefits: [
       "Estimation sous 48h",
       "Installateur certifié RGE",

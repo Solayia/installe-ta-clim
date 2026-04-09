@@ -97,7 +97,7 @@ export default function AidesSection() {
               <p className="text-sm text-gray-500 mt-1">Nos installateurs certifiés RGE vous accompagnent dans le montage de vos dossiers d&apos;aides. Vous n&apos;avez rien à faire — on maximise vos économies.</p>
             </div>
             <a
-              href="#devis"
+              href="/devis"
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-colors flex-shrink-0"
             >
               Simuler mes aides

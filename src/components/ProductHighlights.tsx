@@ -200,7 +200,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         {/* CTAs */}
         <div className="space-y-2">
           <Link
-            href="#devis"
+            href="/devis"
             className={`block w-full text-center px-5 py-3.5 font-bold rounded-xl transition-all duration-200 ${
               product.highlight
                 ? "bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/20"
@@ -210,7 +210,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
             Choisir cette clim
           </Link>
           <Link
-            href="#devis"
+            href="/devis"
             className="block w-full text-center px-5 py-3 text-sm font-medium text-gray-500 hover:text-primary transition-colors"
           >
             Demander une estimation installée

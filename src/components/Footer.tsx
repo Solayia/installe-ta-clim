@@ -7,7 +7,7 @@ const footerSections = [
     links: [
       { label: "Nos climatisations", href: "/#nos-clims" },
       { label: "Installation complète", href: "/#comment-ca-marche" },
-      { label: "Devis gratuit", href: "/#devis" },
+      { label: "Devis gratuit", href: "/devis" },
       { label: "Prêt à poser", href: "/#nos-clims" },
     ],
   },
@@ -26,7 +26,7 @@ const footerSections = [
       { label: "Notre démarche", href: "/#comment-ca-marche" },
       { label: "Certifié RGE QualiPAC", href: "/#faq" },
       { label: "Avis clients", href: "/#faq" },
-      { label: "Contact", href: "/#devis" },
+      { label: "Contact", href: "/devis" },
     ],
   },
   {

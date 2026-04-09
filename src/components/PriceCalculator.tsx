@@ -123,7 +123,7 @@ export default function PriceCalculator() {
                 <h3 className="text-xl font-bold text-white">Projet multi-pièces = devis sur-mesure</h3>
                 <p className="text-white/60 mt-2">Chaque configuration est unique. Décrivez votre projet et on vous répond sous 48h.</p>
                 <Link
-                  href="#devis"
+                  href="/devis"
                   className="inline-flex items-center gap-2 mt-6 px-7 py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-colors"
                 >
                   Demander mon devis sur-mesure
@@ -155,7 +155,7 @@ export default function PriceCalculator() {
                 </div>
                 <div className="flex flex-col gap-3">
                   <Link
-                    href="#devis"
+                    href="/devis"
                     className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-colors"
                   >
                     Obtenir mon devis précis

@@ -55,7 +55,7 @@ export default function Hero() {
               </svg>
             </Link>
             <Link
-              href="#devis"
+              href="/devis"
               className="group inline-flex items-center justify-center gap-3 px-7 py-4 bg-white/15 backdrop-blur-sm text-white font-bold text-base rounded-2xl border border-white/25 hover:bg-white/25 shadow-lg transition-all duration-300 hover:-translate-y-0.5"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

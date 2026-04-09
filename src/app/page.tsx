@@ -5,7 +5,7 @@ import AidesBanner from "@/components/AidesBanner";
 import TrustBar from "@/components/TrustBar";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
-import DevisForm from "@/components/DevisForm";
+import CTABanner from "@/components/CTABanner";
 import { HomePageSchema } from "@/components/SchemaMarkup";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -28,8 +28,8 @@ export default function Home() {
       <ScrollReveal>
         <FAQ />
       </ScrollReveal>
-      <ScrollReveal>
-        <DevisForm />
+      <ScrollReveal direction="scale">
+        <CTABanner />
       </ScrollReveal>
     </>
   );

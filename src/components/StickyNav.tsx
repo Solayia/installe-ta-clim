@@ -8,7 +8,7 @@ const sections = [
   { id: "aides", label: "Aides" },
   { id: "avis", label: "Avis" },
   { id: "faq", label: "FAQ" },
-  { id: "devis", label: "Devis gratuit" },
+  { id: "devis", label: "Devis gratuit", href: "/devis" },
 ];
 
 export default function StickyNav() {
@@ -46,7 +46,7 @@ export default function StickyNav() {
           {sections.map((s) => (
             <a
               key={s.id}
-              href={`#${s.id}`}
+              href={"href" in s && s.href ? s.href : `#${s.id}`}
               className={`flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                 active === s.id
                   ? "bg-primary text-white"

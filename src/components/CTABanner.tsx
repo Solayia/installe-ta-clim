@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function CTABanner() {
   return (
-    <section id="devis" className="py-20 lg:py-28 bg-primary relative overflow-hidden">
+    <section className="py-20 lg:py-28 bg-primary relative overflow-hidden">
       {/* Decorative background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
@@ -14,18 +14,17 @@ export default function CTABanner() {
           Prêt à passer au frais ?
         </h2>
         <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto leading-relaxed">
-          Obtenez votre devis en 2 minutes. C&apos;est gratuit, sans engagement, et vous pouvez le faire ce soir depuis votre canapé.
+          Visualisez la clim chez vous en réalité augmentée, obtenez votre devis en 2 minutes. Gratuit et sans engagement.
         </p>
 
         {/* Dual CTA */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/#comment-ca-marche"
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-primary font-bold text-base rounded-2xl hover:bg-cream shadow-lg shadow-dark/10 transition-all duration-300 hover:-translate-y-0.5"
+            href="/devis"
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-primary font-bold text-base rounded-2xl hover:bg-cream shadow-lg shadow-dark/10 transition-all duration-300 hover:-translate-y-0.5 btn-glow"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
+              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" />
             </svg>
             Obtenir mon devis gratuit
           </Link>
@@ -45,7 +44,7 @@ export default function CTABanner() {
           {[
             "Sans engagement",
             "Réponse sous 24h",
-            "Disponible le soir",
+            "Réalité augmentée",
             "100% gratuit",
           ].map((item) => (
             <div key={item} className="flex items-center gap-2">

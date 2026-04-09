@@ -110,7 +110,7 @@ export default function MentionsLegales() {
           <div className="bg-cream rounded-2xl p-8 border border-gray-200 text-center">
             <p className="text-gray-600 mb-4">Une question ? Contactez-nous.</p>
             <Link
-              href="/#devis"
+              href="/devis"
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover transition-colors"
             >
               Nous contacter
