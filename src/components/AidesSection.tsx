@@ -47,11 +47,11 @@ export default function AidesSection() {
         </div>
 
         {/* Aides grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-12">
           {aides.map((aide) => (
             <div
               key={aide.name}
-              className="bg-white rounded-2xl p-6 border border-gray-200 card-lift"
+              className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 card-lift"
             >
               {/* Icon */}
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
@@ -64,8 +64,8 @@ export default function AidesSection() {
               </div>
 
               {/* Content */}
-              <h3 className="font-bold text-dark text-base">{aide.name}</h3>
-              <div className={`text-2xl font-extrabold mt-1 ${
+              <h3 className="font-bold text-dark text-sm sm:text-base">{aide.name}</h3>
+              <div className={`text-lg sm:text-2xl font-extrabold mt-1 ${
                 aide.color === "primary" ? "text-primary" : "text-secondary"
               }`}>
                 {aide.amount}

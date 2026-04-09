@@ -102,21 +102,21 @@ export default function Testimonials() {
             +200 clients dans la région nous font confiance. Voici ce qu&apos;ils disent.
           </p>
           {/* Animated stats */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-8">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-8">
             <div className="text-center">
-              <div className="text-3xl font-extrabold text-primary counter-glow">
+              <div className="text-2xl sm:text-3xl font-extrabold text-primary counter-glow">
                 <AnimatedCounter end={200} suffix="+" />
               </div>
               <div className="text-xs text-gray-400 mt-1">Clients satisfaits</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-extrabold text-primary counter-glow">
+              <div className="text-2xl sm:text-3xl font-extrabold text-primary counter-glow">
                 <AnimatedCounter end={4} suffix=".8/5" />
               </div>
               <div className="text-xs text-gray-400 mt-1">Note moyenne</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-extrabold text-primary counter-glow">
+              <div className="text-2xl sm:text-3xl font-extrabold text-primary counter-glow">
                 <AnimatedCounter end={93} suffix="%" />
               </div>
               <div className="text-xs text-gray-400 mt-1">Recommandent</div>

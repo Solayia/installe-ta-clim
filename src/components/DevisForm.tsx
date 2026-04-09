@@ -205,15 +205,15 @@ export default function DevisForm() {
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
           {/* Step 1 — Pièce */}
           {step === 1 && (
-            <div className="p-8 lg:p-10">
-              <h3 className="text-lg font-bold text-dark mb-1">Quelle pièce voulez-vous climatiser ?</h3>
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Quelle pièce voulez-vous climatiser ?</h3>
               <p className="text-sm text-gray-400 mb-6">Choisissez le type de pièce principal</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                 {pieceTypes.map((p) => (
                   <button
                     key={p.value}
                     onClick={() => update("piece", p.value)}
-                    className={`flex flex-col items-center gap-2 p-5 rounded-2xl border-2 transition-all duration-200 ${
+                    className={`flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 ${
                       data.piece === p.value
                         ? "border-primary bg-primary-light shadow-sm"
                         : "border-gray-200 hover:border-gray-300 bg-gray-50"
@@ -234,8 +234,8 @@ export default function DevisForm() {
 
           {/* Step 2 — Logement + Surface */}
           {step === 2 && (
-            <div className="p-8 lg:p-10">
-              <h3 className="text-lg font-bold text-dark mb-1">Parlez-nous de votre logement</h3>
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre logement</h3>
               <p className="text-sm text-gray-400 mb-6">Pour adapter notre recommandation</p>
 
               <div className="mb-6">
@@ -280,13 +280,13 @@ export default function DevisForm() {
 
           {/* Step 3 — Type d'installation */}
           {step === 3 && (
-            <div className="p-8 lg:p-10">
-              <h3 className="text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
               <p className="text-sm text-gray-400 mb-6">Vous pouvez changer d&apos;avis plus tard</p>
               <div className="space-y-4">
                 <button
                   onClick={() => update("installation", "pro")}
-                  className={`w-full flex items-start gap-4 p-6 rounded-2xl border-2 text-left transition-all ${
+                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
                     data.installation === "pro"
                       ? "border-primary bg-primary-light"
                       : "border-gray-200 hover:border-gray-300"
@@ -317,7 +317,7 @@ export default function DevisForm() {
 
                 <button
                   onClick={() => update("installation", "diy")}
-                  className={`w-full flex items-start gap-4 p-6 rounded-2xl border-2 text-left transition-all ${
+                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
                     data.installation === "diy"
                       ? "border-primary bg-primary-light"
                       : "border-gray-200 hover:border-gray-300"
@@ -376,8 +376,8 @@ export default function DevisForm() {
 
           {/* Step 4 — Coordonnées */}
           {step === 4 && (
-            <div className="p-8 lg:p-10">
-              <h3 className="text-lg font-bold text-dark mb-1">Vos coordonnées</h3>
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Vos coordonnées</h3>
               <p className="text-sm text-gray-400 mb-6">Pour recevoir votre devis détaillé sous 48h</p>
               <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -465,7 +465,7 @@ export default function DevisForm() {
 
           {/* Step 5 — Confirmation */}
           {step === 5 && submitted && (
-            <div className="p-8 lg:p-12 text-center">
+            <div className="p-5 sm:p-8 lg:p-12 text-center">
               <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
@@ -507,7 +507,7 @@ export default function DevisForm() {
 
           {/* Navigation buttons */}
           {!submitted && (
-            <div className="px-8 lg:px-10 pb-8 lg:pb-10 flex items-center justify-between gap-4">
+            <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
               {step > 1 ? (
                 <button
                   onClick={prev}

@@ -86,7 +86,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         </div>
       )}
 
-      <div className={`p-8 ${product.badge ? "pt-14" : ""}`}>
+      <div className={`p-5 sm:p-8 ${product.badge ? "pt-12 sm:pt-14" : ""}`}>
         {/* Tier */}
         <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{product.tier}</span>
 
@@ -239,7 +239,7 @@ export default function ProductHighlights() {
         </div>
 
         {/* Products grid */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-4 items-start max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-4 items-start max-w-5xl mx-auto">
           {products.map((product) => (
             <ProductCard key={product.name} product={product} />
           ))}

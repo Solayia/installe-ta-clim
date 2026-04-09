@@ -45,7 +45,7 @@ export default function Footer() {
     <footer className="bg-dark text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 lg:gap-12">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -90,7 +90,7 @@ export default function Footer() {
 
         {/* Certifications */}
         <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-wrap items-center justify-center gap-8 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8">
             {["RGE QualiPAC", "Garantie 5 ans", "Paiement sécurisé", "Satisfait ou remboursé"].map((cert) => (
               <div key={cert} className="flex items-center gap-2 text-sm text-gray-400">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#96b399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

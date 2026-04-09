@@ -59,14 +59,14 @@ export default function ReassuranceBar() {
   return (
     <section className="bg-white border-y border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-6">
           {items.map((item) => (
             <div key={item.title} className="flex flex-col items-center text-center group">
-              <div className="w-12 h-12 bg-primary-light rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 mb-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-light rounded-xl sm:rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300 mb-2 sm:mb-3">
                 {item.icon}
               </div>
-              <h3 className="text-sm font-semibold text-dark leading-tight">{item.title}</h3>
-              <p className="text-xs text-gray-400 mt-1 leading-snug">{item.text}</p>
+              <h3 className="text-xs sm:text-sm font-semibold text-dark leading-tight">{item.title}</h3>
+              <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1 leading-snug hidden sm:block">{item.text}</p>
             </div>
           ))}
         </div>

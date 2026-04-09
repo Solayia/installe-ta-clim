@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+    <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] flex items-center">
       {/* Background image — modern living room */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -22,7 +22,7 @@ export default function Hero() {
             Devis en 2 minutes, sans engagement
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold text-white leading-[1.1] tracking-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-[3.75rem] font-extrabold text-white leading-[1.1] tracking-tight">
             La clim, en toute{" "}
             <span className="text-primary relative inline-block">
               simplicité
@@ -33,7 +33,7 @@ export default function Hero() {
             .
           </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-white/80 leading-relaxed max-w-xl">
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-white/80 leading-relaxed max-w-xl">
             Choisissez votre modèle, faites-vous livrer, installez vous-même ou faites-vous accompagner de A à Z.{" "}
             <strong className="text-white font-semibold">
               Un parcours clair, des modèles sélectionnés, une estimation rapide — sans perdre des semaines.
@@ -106,24 +106,24 @@ export default function Hero() {
           </div>
 
           {/* Zone + stats */}
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 px-5 py-3">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-4">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/15 px-4 py-2.5 sm:px-5 sm:py-3">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
-              <span className="text-sm text-white/80 font-medium">
+              <span className="text-xs sm:text-sm text-white/80 font-medium">
                 Toulouse &amp; alentours <span className="text-white/40">(31, 32, 65, 81, 82)</span>
               </span>
             </div>
-            <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 px-6 py-3 gap-8">
+            <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/15 px-4 py-2.5 sm:px-6 sm:py-3 gap-5 sm:gap-8">
               {[
                 { value: "24-72h", label: "Livraison" },
                 { value: "-40%", label: "vs devis classique" },
                 { value: "5 ans", label: "Garantie" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-lg font-bold text-primary">{stat.value}</div>
-                  <div className="text-xs text-white/50">{stat.label}</div>
+                  <div className="text-sm sm:text-lg font-bold text-primary">{stat.value}</div>
+                  <div className="text-[10px] sm:text-xs text-white/50">{stat.label}</div>
                 </div>
               ))}
             </div>
