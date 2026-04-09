@@ -71,10 +71,10 @@ const products = [
 
 function ProductCard({ product }: { product: typeof products[0] }) {
   return (
-    <div className={`relative bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+    <div className={`relative bg-white rounded-3xl overflow-hidden card-lift ${
       product.highlight
         ? "border-2 border-primary shadow-xl shadow-primary/10 scale-[1.02] lg:scale-105"
-        : "border border-gray-200 hover:shadow-lg hover:shadow-dark/5"
+        : "border border-gray-200"
     }`}>
       {/* Badge */}
       {product.badge && (

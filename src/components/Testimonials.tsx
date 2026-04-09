@@ -1,3 +1,5 @@
+import AnimatedCounter from "./AnimatedCounter";
+
 const testimonials = [
   {
     name: "Sophie Martinez",
@@ -99,13 +101,26 @@ export default function Testimonials() {
           <p className="mt-4 text-lg text-gray-500">
             +200 clients dans la région nous font confiance. Voici ce qu&apos;ils disent.
           </p>
-          {/* Global rating */}
-          <div className="mt-6 inline-flex items-center gap-3 bg-cream rounded-2xl px-6 py-3 border border-gray-200">
-            <div className="flex items-center gap-1">
-              <Stars count={5} />
+          {/* Animated stats */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-extrabold text-primary counter-glow">
+                <AnimatedCounter end={200} suffix="+" />
+              </div>
+              <div className="text-xs text-gray-400 mt-1">Clients satisfaits</div>
             </div>
-            <span className="text-sm font-bold text-dark">4.8/5</span>
-            <span className="text-sm text-gray-400">basé sur 200+ avis</span>
+            <div className="text-center">
+              <div className="text-3xl font-extrabold text-primary counter-glow">
+                <AnimatedCounter end={4} suffix=".8/5" />
+              </div>
+              <div className="text-xs text-gray-400 mt-1">Note moyenne</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-extrabold text-primary counter-glow">
+                <AnimatedCounter end={93} suffix="%" />
+              </div>
+              <div className="text-xs text-gray-400 mt-1">Recommandent</div>
+            </div>
           </div>
         </div>
 
@@ -114,7 +129,7 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="bg-cream rounded-2xl p-6 border border-gray-200 hover:shadow-lg hover:shadow-dark/5 transition-all duration-300"
+              className="bg-cream rounded-2xl p-6 border border-gray-200 card-lift"
             >
               <Stars count={t.rating} />
               <p className="mt-4 text-sm text-gray-600 leading-relaxed italic">

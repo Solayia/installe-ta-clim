@@ -11,6 +11,7 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTABanner from "@/components/CTABanner";
 import { HomePageSchema } from "@/components/SchemaMarkup";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   return (
@@ -18,16 +19,36 @@ export default function Home() {
       <HomePageSchema />
       <Hero />
       <ReassuranceBar />
-      <ProblemSection />
-      <HowItWorks />
-      <ProductHighlights />
-      <PriceCalculator />
-      <AidesSection />
-      <PedagogySection />
-      <TrustSection />
-      <Testimonials />
-      <FAQ />
-      <CTABanner />
+      <ScrollReveal>
+        <ProblemSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <HowItWorks />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ProductHighlights />
+      </ScrollReveal>
+      <ScrollReveal>
+        <PriceCalculator />
+      </ScrollReveal>
+      <ScrollReveal>
+        <AidesSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <PedagogySection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <TrustSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
+      <ScrollReveal>
+        <FAQ />
+      </ScrollReveal>
+      <ScrollReveal direction="scale">
+        <CTABanner />
+      </ScrollReveal>
     </>
   );
 }

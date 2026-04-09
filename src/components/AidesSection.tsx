@@ -51,7 +51,7 @@ export default function AidesSection() {
           {aides.map((aide) => (
             <div
               key={aide.name}
-              className="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-lg hover:shadow-dark/5 transition-all duration-300 hover:-translate-y-1"
+              className="bg-white rounded-2xl p-6 border border-gray-200 card-lift"
             >
               {/* Icon */}
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${

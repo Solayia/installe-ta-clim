@@ -44,7 +44,7 @@ export default function Hero() {
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <Link
               href="#parcours"
-              className="group inline-flex items-center justify-center gap-3 px-7 py-4 bg-primary text-white font-bold text-base rounded-2xl hover:bg-primary-hover shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary-hover/30 transition-all duration-300 hover:-translate-y-0.5"
+              className="group inline-flex items-center justify-center gap-3 px-7 py-4 bg-primary text-white font-bold text-base rounded-2xl hover:bg-primary-hover shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary-hover/30 transition-all duration-300 hover:-translate-y-0.5 btn-glow"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M3 3h18v18H3zM12 8v8M8 12h8" />
