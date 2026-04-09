@@ -98,23 +98,36 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         <div className={`my-6 rounded-2xl overflow-hidden ${
           product.highlight ? "ring-2 ring-primary/20" : ""
         }`}>
-          <div className={`w-full h-40 flex flex-col items-center justify-center relative ${
+          <div className={`w-full h-44 flex flex-col items-center justify-center relative ${
             product.highlight
-              ? "bg-gradient-to-br from-primary/10 via-primary-light to-cream"
-              : "bg-gradient-to-br from-gray-50 via-primary-light/50 to-cream"
+              ? "bg-gradient-to-br from-primary/5 via-primary-light to-cream"
+              : "bg-gradient-to-br from-gray-50 via-primary-light/30 to-cream"
           }`}>
-            {/* AC unit icon */}
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="opacity-80">
-              <rect x="8" y="16" width="48" height="24" rx="4" stroke="#88a78b" strokeWidth="2" fill="white" />
-              <line x1="14" y1="34" x2="50" y2="34" stroke="#88a78b" strokeWidth="1.5" />
-              <line x1="14" y1="30" x2="50" y2="30" stroke="#88a78b" strokeWidth="1" opacity="0.4" />
-              <circle cx="46" cy="24" r="2" fill="#88a78b" opacity="0.6" />
-              {/* Air flow lines */}
-              <path d="M20 44 C20 48 24 48 24 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-              <path d="M32 44 C32 48 36 48 36 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
-              <path d="M44 44 C44 48 48 48 48 52" stroke="#88a78b" strokeWidth="1.5" strokeLinecap="round" opacity="0.4" />
+            {/* Wall line */}
+            <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-gray-100/80 to-transparent" />
+            {/* AC unit illustration */}
+            <svg width="160" height="80" viewBox="0 0 160 80" fill="none" className="mt-2">
+              {/* Wall mount bracket */}
+              <rect x="30" y="8" width="100" height="4" rx="2" fill="#d1d5db" />
+              {/* Main unit body */}
+              <rect x="20" y="12" width="120" height="40" rx="6" fill="white" stroke="#e5e7eb" strokeWidth="1.5" />
+              {/* Top accent line */}
+              <rect x="20" y="12" width="120" height="8" rx="6" fill={product.highlight ? "#88a78b" : "#e8efe9"} />
+              <rect x="20" y="18" width="120" height="4" fill={product.highlight ? "#88a78b" : "#e8efe9"} />
+              {/* Display/LED */}
+              <circle cx="130" cy="28" r="2" fill={product.highlight ? "#88a78b" : "#d1d5db"} />
+              {/* Vent lines */}
+              <line x1="32" y1="44" x2="128" y2="44" stroke="#f3f4f6" strokeWidth="1.5" />
+              <line x1="32" y1="47" x2="128" y2="47" stroke="#f3f4f6" strokeWidth="1.5" />
+              {/* Bottom flap */}
+              <path d="M25 52 Q80 58 135 52" stroke="#e5e7eb" strokeWidth="1.5" fill="white" />
+              {/* Air flow */}
+              <path d="M50 58 C50 64 54 66 54 72" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
+              <path d="M80 60 C80 66 84 68 84 74" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
+              <path d="M110 58 C110 64 114 66 114 72" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
             </svg>
-            <span className="text-xs font-semibold text-primary/60 mt-2 tracking-wide uppercase">{product.name}</span>
+            <span className="text-xs font-bold text-primary/70 mt-1 tracking-wide uppercase">{product.name}</span>
+            <span className="text-[10px] text-gray-400">{product.surface}</span>
           </div>
         </div>
 

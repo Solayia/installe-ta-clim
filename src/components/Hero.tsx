@@ -8,7 +8,7 @@ export default function Hero() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80')",
+            "url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80')",
         }}
       />
       {/* Overlay gradient for readability */}
@@ -105,18 +105,28 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* Mini stats floating card */}
-          <div className="mt-10 inline-flex bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 px-6 py-4 gap-8">
-            {[
-              { value: "24-72h", label: "Livraison" },
-              { value: "-40%", label: "vs devis classique" },
-              { value: "5 ans", label: "Garantie" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-lg font-bold text-primary">{stat.value}</div>
-                <div className="text-xs text-white/50">{stat.label}</div>
-              </div>
-            ))}
+          {/* Zone + stats */}
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 px-5 py-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              <span className="text-sm text-white/80 font-medium">
+                Toulouse &amp; alentours <span className="text-white/40">(31, 32, 65, 81, 82)</span>
+              </span>
+            </div>
+            <div className="inline-flex bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 px-6 py-3 gap-8">
+              {[
+                { value: "24-72h", label: "Livraison" },
+                { value: "-40%", label: "vs devis classique" },
+                { value: "5 ans", label: "Garantie" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-lg font-bold text-primary">{stat.value}</div>
+                  <div className="text-xs text-white/50">{stat.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
