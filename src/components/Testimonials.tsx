@@ -88,10 +88,10 @@ function getAvatarColor(name: string) {
 
 export default function Testimonials() {
   return (
-    <section className="py-20 lg:py-28 bg-white">
+    <section id="avis" className="py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="inline-block px-4 py-1.5 bg-cream text-dark text-sm font-semibold rounded-full mb-4 border border-gray-200">
             Avis clients vérifiés
           </span>
@@ -126,7 +126,7 @@ export default function Testimonials() {
 
         {/* Testimonials grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+          {testimonials.slice(0, 3).map((t, i) => (
             <div
               key={i}
               className="bg-cream rounded-2xl p-6 border border-gray-200 card-lift"

@@ -1,15 +1,10 @@
 import Hero from "@/components/Hero";
-import ReassuranceBar from "@/components/ReassuranceBar";
-import ProblemSection from "@/components/ProblemSection";
 import HowItWorks from "@/components/HowItWorks";
 import ProductHighlights from "@/components/ProductHighlights";
-import PriceCalculator from "@/components/PriceCalculator";
-import AidesSection from "@/components/AidesSection";
-import PedagogySection from "@/components/PedagogySection";
-import TrustSection from "@/components/TrustSection";
+import AidesBanner from "@/components/AidesBanner";
+import TrustBar from "@/components/TrustBar";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
-import CTABanner from "@/components/CTABanner";
 import DevisForm from "@/components/DevisForm";
 import { HomePageSchema } from "@/components/SchemaMarkup";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -19,28 +14,14 @@ export default function Home() {
     <>
       <HomePageSchema />
       <Hero />
-      <ReassuranceBar />
-      <ScrollReveal>
-        <ProblemSection />
-      </ScrollReveal>
+      <TrustBar />
       <ScrollReveal>
         <HowItWorks />
       </ScrollReveal>
       <ScrollReveal>
         <ProductHighlights />
       </ScrollReveal>
-      <ScrollReveal>
-        <PriceCalculator />
-      </ScrollReveal>
-      <ScrollReveal>
-        <AidesSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <PedagogySection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <TrustSection />
-      </ScrollReveal>
+      <AidesBanner />
       <ScrollReveal>
         <Testimonials />
       </ScrollReveal>
@@ -49,9 +30,6 @@ export default function Home() {
       </ScrollReveal>
       <ScrollReveal>
         <DevisForm />
-      </ScrollReveal>
-      <ScrollReveal direction="scale">
-        <CTABanner />
       </ScrollReveal>
     </>
   );

@@ -138,7 +138,7 @@ export default function DevisForm() {
   const progress = ((step - 1) / 4) * 100;
 
   return (
-    <section id="devis" className="py-20 lg:py-28 bg-dark relative overflow-hidden">
+    <section id="devis" className="py-16 lg:py-20 bg-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
