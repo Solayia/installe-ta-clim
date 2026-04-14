@@ -93,11 +93,11 @@ export default function ProblemSection() {
         {/* Transition to solution */}
         <div className="text-center mt-14">
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary-light rounded-2xl">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
             <span className="text-primary font-semibold">On a créé Installe ta Clim pour régler tout ça.</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </div>

@@ -173,7 +173,7 @@ function ArticleCard({ article }: { article: typeof articles[0] }) {
       <article className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg hover:shadow-dark/5 hover:-translate-y-1 transition-all duration-300">
         {/* Image placeholder */}
         <div className="bg-gradient-to-br from-primary-light to-cream h-48 flex items-center justify-center relative overflow-hidden">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="opacity-20 group-hover:opacity-30 transition-opacity">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="opacity-20 group-hover:opacity-30 transition-opacity">
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
           </svg>
           <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 text-primary text-xs font-semibold rounded-full backdrop-blur-sm">
@@ -258,7 +258,7 @@ export default function BlogPage() {
               <div className="grid lg:grid-cols-2 gap-0">
                 {/* Image */}
                 <div className="bg-gradient-to-br from-primary-light to-primary/10 h-64 lg:h-auto flex items-center justify-center relative">
-                  <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-15">
+                  <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-15">
                     <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                     <circle cx="12" cy="12" r="5" />
                   </svg>

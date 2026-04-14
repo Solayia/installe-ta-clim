@@ -3,9 +3,9 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 
 const climModels = [
-  { id: "essentiel", name: "Essentiel", realWidth: 77, realHeight: 29, color: "#e5e7eb", accent: "#88a78b" },
-  { id: "confort", name: "Confort+", realWidth: 80, realHeight: 30, color: "#e8efe9", accent: "#88a78b" },
-  { id: "premium", name: "Premium", realWidth: 89, realHeight: 32, color: "#ffffff", accent: "#88a78b" },
+  { id: "essentiel", name: "Essentiel", realWidth: 77, realHeight: 29, color: "#e5e7eb", accent: "#1B5DA8" },
+  { id: "confort", name: "Confort+", realWidth: 80, realHeight: 30, color: "#E8F1FA", accent: "#1B5DA8" },
+  { id: "premium", name: "Premium", realWidth: 89, realHeight: 32, color: "#ffffff", accent: "#1B5DA8" },
 ];
 
 const wallHeights = [

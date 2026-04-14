@@ -112,19 +112,19 @@ function ProductCard({ product }: { product: typeof products[0] }) {
               {/* Main unit body */}
               <rect x="20" y="12" width="120" height="40" rx="6" fill="white" stroke="#e5e7eb" strokeWidth="1.5" />
               {/* Top accent line */}
-              <rect x="20" y="12" width="120" height="8" rx="6" fill={product.highlight ? "#88a78b" : "#e8efe9"} />
-              <rect x="20" y="18" width="120" height="4" fill={product.highlight ? "#88a78b" : "#e8efe9"} />
+              <rect x="20" y="12" width="120" height="8" rx="6" fill={product.highlight ? "#1B5DA8" : "#E8F1FA"} />
+              <rect x="20" y="18" width="120" height="4" fill={product.highlight ? "#1B5DA8" : "#E8F1FA"} />
               {/* Display/LED */}
-              <circle cx="130" cy="28" r="2" fill={product.highlight ? "#88a78b" : "#d1d5db"} />
+              <circle cx="130" cy="28" r="2" fill={product.highlight ? "#1B5DA8" : "#d1d5db"} />
               {/* Vent lines */}
               <line x1="32" y1="44" x2="128" y2="44" stroke="#f3f4f6" strokeWidth="1.5" />
               <line x1="32" y1="47" x2="128" y2="47" stroke="#f3f4f6" strokeWidth="1.5" />
               {/* Bottom flap */}
               <path d="M25 52 Q80 58 135 52" stroke="#e5e7eb" strokeWidth="1.5" fill="white" />
               {/* Air flow */}
-              <path d="M50 58 C50 64 54 66 54 72" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
-              <path d="M80 60 C80 66 84 68 84 74" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
-              <path d="M110 58 C110 64 114 66 114 72" stroke="#88a78b" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
+              <path d="M50 58 C50 64 54 66 54 72" stroke="#1B5DA8" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
+              <path d="M80 60 C80 66 84 68 84 74" stroke="#1B5DA8" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
+              <path d="M110 58 C110 64 114 66 114 72" stroke="#1B5DA8" strokeWidth="1" strokeLinecap="round" opacity="0.3" strokeDasharray="2 2" />
             </svg>
             <span className="text-xs font-bold text-primary/70 mt-1 tracking-wide uppercase">{product.name}</span>
             <span className="text-[10px] text-gray-400">{product.surface}</span>
@@ -134,19 +134,19 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         {/* Specs row */}
         <div className="flex items-center justify-between text-sm mb-4 pb-4 border-b border-gray-100">
           <div className="flex items-center gap-1.5" title="Surface recommandée">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
             </svg>
             <span className="text-gray-600">{product.surface}</span>
           </div>
           <div className="flex items-center gap-1.5" title="Niveau sonore">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
             </svg>
             <span className="text-gray-600">{product.noise}</span>
           </div>
           <div className="flex items-center gap-1.5" title="Classe énergétique">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
             <span className="font-semibold text-primary">{product.efficiency}</span>
@@ -155,13 +155,13 @@ function ProductCard({ product }: { product: typeof products[0] }) {
 
         {/* Consumption & savings */}
         <div className="flex items-center gap-2 mb-1 text-sm">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
           <span className="text-gray-600">Conso : <strong className="text-dark">{product.consumption}</strong></span>
         </div>
         <div className="flex items-center gap-2 mb-5 text-sm">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
           </svg>
           <span className="text-gray-500 text-xs">{product.savings}</span>
@@ -171,7 +171,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         <ul className="space-y-2 mb-6">
           {product.benefits.map((b) => (
             <li key={b} className="flex items-start gap-2.5 text-sm text-gray-600">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               {b}
@@ -249,7 +249,7 @@ export default function ProductHighlights() {
         <div className="text-center mt-12 max-w-xl mx-auto">
           <div className="inline-flex items-start gap-3 bg-white rounded-2xl p-5 border border-gray-200 text-left">
             <div className="w-10 h-10 bg-primary-light rounded-xl flex items-center justify-center flex-shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
               </svg>
             </div>

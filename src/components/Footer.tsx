@@ -93,7 +93,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8">
             {["RGE QualiPAC", "Garantie 5 ans", "Paiement sécurisé", "Satisfait ou remboursé"].map((cert) => (
               <div key={cert} className="flex items-center gap-2 text-sm text-gray-400">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#96b399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6BB8E0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>

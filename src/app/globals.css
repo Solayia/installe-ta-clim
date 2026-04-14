@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Palette — sage green + warm cream */
-  --color-primary: #88a78b;
-  --color-primary-dark: #7a9a7d;
-  --color-primary-light: #e8efe9;
-  --color-primary-mid: #7d9d80;
-  --color-secondary: #D4622B;
-  --color-secondary-light: #FDF0EA;
-  --color-accent: #96b399;
-  --color-primary-hover: #96b399;
-  --color-cream: #F5F0E8;
-  --color-cream-dark: #EDE6DA;
-  --color-warm: #FAF7F2;
+  /* Palette — dual blue from logo */
+  --color-primary: #1B5DA8;
+  --color-primary-dark: #154A8A;
+  --color-primary-light: #E8F1FA;
+  --color-primary-mid: #1968B8;
+  --color-secondary: #6BB8E0;
+  --color-secondary-light: #EAF5FB;
+  --color-accent: #6BB8E0;
+  --color-primary-hover: #2370BE;
+  --color-cream: #F0F6FC;
+  --color-cream-dark: #DEEAF5;
+  --color-warm: #F5F9FE;
   --color-dark: #2c2c2c;
   --color-gray-50: #FAFAF8;
   --color-gray-100: #F3F2EF;
@@ -99,7 +99,7 @@ body {
   border-radius: inherit;
   opacity: 0;
   transition: opacity 0.3s;
-  box-shadow: 0 0 20px rgba(136, 167, 139, 0.4), 0 0 40px rgba(136, 167, 139, 0.2);
+  box-shadow: 0 0 20px rgba(27, 93, 168, 0.4), 0 0 40px rgba(27, 93, 168, 0.2);
 }
 .btn-glow:hover::after {
   opacity: 1;
@@ -127,7 +127,7 @@ body {
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #88a78b 0%, #5a8a5e 100%);
+  background: linear-gradient(135deg, #1B5DA8 0%, #6BB8E0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -135,7 +135,7 @@ body {
 
 /* Smooth counter */
 .counter-glow {
-  text-shadow: 0 0 30px rgba(136, 167, 139, 0.3);
+  text-shadow: 0 0 30px rgba(27, 93, 168, 0.3);
 }
 
 ::-webkit-scrollbar { width: 8px; }

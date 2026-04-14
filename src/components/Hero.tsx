@@ -12,7 +12,7 @@ export default function Hero() {
         }}
       />
       {/* Overlay gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1f]/85 via-[#1a2e1f]/65 to-[#1a2e1f]/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f3d]/88 via-[#0a1f3d]/65 to-[#0a1f3d]/35" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
         <div className="max-w-2xl">
@@ -27,7 +27,7 @@ export default function Hero() {
             <span className="text-primary relative inline-block">
               simplicité
               <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 12" fill="none">
-                <path d="M2 8C40 2 80 2 100 6C120 10 160 4 198 6" stroke="#88a78b" strokeWidth="3" strokeLinecap="round" />
+                <path d="M2 8C40 2 80 2 100 6C120 10 160 4 198 6" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" />
               </svg>
             </span>
             .
@@ -86,17 +86,17 @@ export default function Hero() {
                   </svg>
                 )}
                 {item.icon === "shield" && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                 )}
                 {item.icon === "clock" && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
                   </svg>
                 )}
                 {item.icon === "home" && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
                   </svg>
                 )}
@@ -108,7 +108,7 @@ export default function Hero() {
           {/* Zone + stats */}
           <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-3 sm:gap-4">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/15 px-4 py-2.5 sm:px-5 sm:py-3">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
               </svg>
               <span className="text-xs sm:text-sm text-white/80 font-medium">

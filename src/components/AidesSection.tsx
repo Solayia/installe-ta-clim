@@ -35,7 +35,7 @@ export default function AidesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-sm font-semibold rounded-full mb-4">
+          <span className="inline-block px-4 py-1.5 bg-primary-light text-primary text-sm font-semibold rounded-full mb-4">
             Aides financières 2026
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-dark">
@@ -57,7 +57,7 @@ export default function AidesSection() {
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
                 aide.color === "primary" ? "bg-primary-light" : "bg-secondary-light"
               }`}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={aide.color === "primary" ? "#88a78b" : "#D4622B"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={aide.color === "primary" ? "#1B5DA8" : "#6BB8E0"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="12" y1="1" x2="12" y2="23" />
                   <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
                 </svg>
@@ -87,7 +87,7 @@ export default function AidesSection() {
         <div className="bg-white rounded-3xl border border-gray-200 p-8 lg:p-10 max-w-3xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-6 text-center lg:text-left">
             <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center flex-shrink-0">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#88a78b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <path d="M9 12l2 2 4-4" />
               </svg>
