@@ -49,8 +49,8 @@ export default function Footer() {
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center text-white">
-                <FanIcon size={20} />
+              <div className="w-9 h-9 flex items-center justify-center">
+                <FanIcon size={32} />
               </div>
               <span className="text-base font-extrabold uppercase tracking-tight">Installe ta Clim</span>
             </div>

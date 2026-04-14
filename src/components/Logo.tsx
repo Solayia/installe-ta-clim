@@ -1,49 +1,78 @@
 import Link from "next/link";
 
 /**
- * Fan/turbine icon matching the new brand logo — 3 blades with dual blue gradient.
+ * Brand logo icon — 3-blade swirl/triskelion matching the official logo.
+ * Each blade has a light blue and dark blue crescent shape.
  */
 export function FanIcon({ size = 24, className = "" }: { size?: number; className?: string }) {
-  const id = `fan-grad-${size}`;
+  const id = `logo-${size}`;
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 40 40"
+      viewBox="0 0 100 100"
       fill="none"
       className={className}
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id={`${id}-a`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6BB8E0" />
-          <stop offset="100%" stopColor="#1B5DA8" />
+        <linearGradient id={`${id}-light`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#8DCBEA" />
+          <stop offset="100%" stopColor="#6BB8E0" />
         </linearGradient>
-        <linearGradient id={`${id}-b`} x1="1" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#6BB8E0" />
-          <stop offset="100%" stopColor="#1B5DA8" />
+        <linearGradient id={`${id}-dark`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#1B6FC0" />
+          <stop offset="100%" stopColor="#154A8A" />
         </linearGradient>
       </defs>
-      {/* Center hub */}
-      <circle cx="20" cy="20" r="3.5" fill={`url(#${id}-a)`} />
-      {/* Blade 1 - top */}
-      <path d="M20 16.5c-1.5 0-2.8-1-3.2-2.5C15.5 9.5 16.5 4 20 2c3.5 2 4.5 7.5 3.2 12-.4 1.5-1.7 2.5-3.2 2.5z" fill={`url(#${id}-a)`} />
-      {/* Blade 2 - bottom-left */}
-      <path d="M17 22c.7 1.3.4 2.8-.6 3.8C13.3 29 8.2 29.3 5.5 27c.5-3.8 4.3-6.8 8.5-6.8 1.3 0 2.4.6 3 1.8z" fill={`url(#${id}-b)`} />
-      {/* Blade 3 - bottom-right */}
-      <path d="M23 22c-.7 1.3-.4 2.8.6 3.8 3.1 3.2 8.2 3.3 10.9 1-.5-3.8-4.3-6.8-8.5-6.8-1.3 0-2.4.6-3 1.8z" fill={`url(#${id}-a)`} />
+
+      {/* Blade 1 — top, going right */}
+      {/* Light part */}
+      <path
+        d="M50 50 C46 38, 48 22, 58 12 C62 8, 66 10, 64 16 C60 26, 54 38, 50 50Z"
+        fill={`url(#${id}-light)`}
+      />
+      {/* Dark part */}
+      <path
+        d="M50 50 C56 36, 64 24, 72 18 C78 14, 80 18, 76 24 C70 32, 60 42, 50 50Z"
+        fill={`url(#${id}-dark)`}
+      />
+
+      {/* Blade 2 — bottom-left */}
+      {/* Light part */}
+      <path
+        d="M50 50 C38 54, 22 52, 12 42 C8 38, 10 34, 16 36 C26 40, 38 46, 50 50Z"
+        fill={`url(#${id}-light)`}
+      />
+      {/* Dark part */}
+      <path
+        d="M50 50 C36 44, 24 36, 18 28 C14 22, 18 20, 24 24 C32 30, 42 40, 50 50Z"
+        fill={`url(#${id}-dark)`}
+      />
+
+      {/* Blade 3 — bottom-right */}
+      {/* Light part */}
+      <path
+        d="M50 50 C54 62, 52 78, 42 88 C38 92, 34 90, 36 84 C40 74, 46 62, 50 50Z"
+        fill={`url(#${id}-light)`}
+      />
+      {/* Dark part */}
+      <path
+        d="M50 50 C44 64, 36 76, 28 82 C22 86, 20 82, 24 76 C30 68, 40 58, 50 50Z"
+        fill={`url(#${id}-dark)`}
+      />
     </svg>
   );
 }
 
 /**
- * Full brand logo: fan icon + "Installe ta Clim" wordmark
+ * Full brand logo: swirl icon + "Installe ta Clim" wordmark
  */
 export default function Logo({ showTagline = true }: { showTagline?: boolean }) {
   return (
     <Link href="/" className="flex items-center gap-2.5 group">
-      <div className="w-10 h-10 bg-gradient-to-br from-[#1B5DA8] to-[#6BB8E0] rounded-xl flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-md shadow-[#1B5DA8]/20">
-        <FanIcon size={22} />
+      <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
+        <FanIcon size={38} />
       </div>
       <div className="flex flex-col">
         <span className="text-lg font-extrabold text-dark leading-tight tracking-tight uppercase">
