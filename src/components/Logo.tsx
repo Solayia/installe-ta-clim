@@ -1,55 +1,70 @@
 import Link from "next/link";
 
 /**
- * Brand logo — 3-blade swirl with dual blue crescents.
- * Each blade = light blue crescent (outer) + dark blue crescent (inner), separated by white gap.
- * Blades are rotated 120° apart.
+ * Brand logo — 3-blade swirl with dual blue crescents (light + dark).
+ * Uses a single blade definition rotated 120° for perfect symmetry.
+ * Faithful reproduction of the official logo.
  */
 export function FanIcon({ size = 24, className = "" }: { size?: number; className?: string }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 200 200"
+      viewBox="-50 -50 100 100"
       fill="none"
       className={className}
       aria-hidden="true"
     >
-      {/* ===== BLADE 1 — pointing up-right ===== */}
-      {/* Light blue crescent (outer/left side) */}
-      <path
-        d="M96 96 C82 62, 78 28, 100 8 C108 0, 112 4, 108 14 C100 36, 96 60, 96 80Z"
-        fill="#7CC4EA"
-      />
-      {/* Dark blue crescent (inner/right side) */}
-      <path
-        d="M100 94 C104 60, 116 30, 138 14 C148 6, 152 12, 144 22 C128 42, 112 66, 104 86Z"
-        fill="#1B5DA8"
-      />
+      {/*
+        Each blade = 2 crescents:
+        - Light blue (outer): wider, more swept
+        - Dark blue (inner): tighter curve, partially behind
+        White gap between them created by spacing the paths.
 
-      {/* ===== BLADE 2 — pointing bottom-left ===== */}
-      {/* Light blue crescent (outer) */}
-      <path
-        d="M96 104 C62 108, 30 118, 10 98 C2 90, 6 86, 16 92 C36 104, 58 108, 78 106Z"
-        fill="#7CC4EA"
-      />
-      {/* Dark blue crescent (inner) */}
-      <path
-        d="M94 100 C64 92, 34 76, 20 54 C14 42, 20 40, 28 48 C44 66, 64 82, 84 94Z"
-        fill="#1B5DA8"
-      />
+        Blade points UP from center, then rotated 0°, 120°, 240°.
+      */}
 
-      {/* ===== BLADE 3 — pointing bottom-right ===== */}
-      {/* Light blue crescent (outer) */}
-      <path
-        d="M108 108 C120 140, 122 170, 104 188 C96 196, 92 192, 96 182 C102 162, 106 140, 106 120Z"
-        fill="#7CC4EA"
-      />
-      {/* Dark blue crescent (inner) */}
-      <path
-        d="M104 106 C96 136, 82 164, 60 178 C50 186, 46 180, 54 172 C70 156, 84 136, 96 116Z"
-        fill="#1B5DA8"
-      />
+      {/* === BLADE 1 (top-right, 0° rotation) === */}
+      <g transform="rotate(-30)">
+        {/* Light blue crescent — outer sweep */}
+        <path
+          d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z"
+          fill="#7CC4EA"
+        />
+        {/* Dark blue crescent — inner sweep */}
+        <path
+          d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z"
+          fill="#1660A7"
+        />
+      </g>
+
+      {/* === BLADE 2 (bottom-left, 120° rotation) === */}
+      <g transform="rotate(90)">
+        {/* Light blue crescent */}
+        <path
+          d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z"
+          fill="#7CC4EA"
+        />
+        {/* Dark blue crescent */}
+        <path
+          d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z"
+          fill="#1660A7"
+        />
+      </g>
+
+      {/* === BLADE 3 (bottom-right, 240° rotation) === */}
+      <g transform="rotate(210)">
+        {/* Light blue crescent */}
+        <path
+          d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z"
+          fill="#7CC4EA"
+        />
+        {/* Dark blue crescent */}
+        <path
+          d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z"
+          fill="#1660A7"
+        />
+      </g>
     </svg>
   );
 }
