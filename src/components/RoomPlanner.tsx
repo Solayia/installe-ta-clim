@@ -70,6 +70,9 @@ export default function RoomPlanner({ onCapture, onSkip }: RoomPlannerProps) {
   /* What's on the other side of the clim wall (for outdoor unit) */
   const [outsideWall, setOutsideWall] = useState("exterieur");
 
+  /* Distance to electrical panel */
+  const [distanceTableau, setDistanceTableau] = useState(5);
+
   /* Step: "edit" or "preview" */
   const [mode, setMode] = useState<"edit" | "preview">("edit");
 
@@ -308,7 +311,28 @@ export default function RoomPlanner({ onCapture, onSkip }: RoomPlannerProps) {
       ctx.fillText(outsideLabel, textX, textY - padY + 2);
     }
 
-  }, [width, length, elements, selectedModel, outsideWall]);
+    /* Electrical panel distance indicator (bottom-right corner) */
+    const panelIcon = "⚡";
+    const panelText = `Tableau élec. : ${distanceTableau} m`;
+    ctx.font = "bold 10px system-ui";
+    const panelMetrics = ctx.measureText(panelText);
+    const panelW = panelMetrics.width + 30;
+    const panelH = 22;
+    const panelX = cssW - panelW - 12;
+    const panelY = cssH - panelH - 8;
+    ctx.fillStyle = "#FEF9C3";
+    ctx.strokeStyle = "#D97706";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(panelX, panelY, panelW, panelH, 6);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#92400E";
+    ctx.font = "10px system-ui";
+    ctx.textAlign = "left";
+    ctx.fillText(`${panelIcon} ${panelText}`, panelX + 6, panelY + 15);
+
+  }, [width, length, elements, selectedModel, outsideWall, distanceTableau]);
 
   useEffect(() => {
     draw();
@@ -453,6 +477,37 @@ export default function RoomPlanner({ onCapture, onSkip }: RoomPlannerProps) {
                   <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
                 <span className="text-xs text-amber-700">Mur mitoyen : l&apos;unité extérieure devra être placée ailleurs. Notre installateur étudiera les alternatives.</span>
+              </div>
+            )}
+          </div>
+
+          {/* Distance to electrical panel */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 mb-1.5 block">
+              Distance au tableau électrique
+              <span className="text-gray-400 font-normal ml-1">(pour le raccordement)</span>
+            </label>
+            <div className="flex items-center gap-3">
+              <button onClick={() => setDistanceTableau(Math.max(1, distanceTableau - 1))} className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-colors">−</button>
+              <div className="flex-1 relative">
+                <input
+                  type="range"
+                  min={1}
+                  max={30}
+                  value={distanceTableau}
+                  onChange={(e) => setDistanceTableau(Number(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                />
+              </div>
+              <button onClick={() => setDistanceTableau(Math.min(30, distanceTableau + 1))} className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 font-bold hover:bg-gray-200 transition-colors">+</button>
+              <span className="text-sm font-bold text-dark min-w-[50px] text-center">{distanceTableau} m</span>
+            </div>
+            {distanceTableau > 15 && (
+              <div className="mt-2 flex items-start gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <span className="text-xs text-amber-700">Distance importante : un câblage supplémentaire peut être nécessaire. Notre installateur vérifiera la faisabilité.</span>
               </div>
             )}
           </div>
