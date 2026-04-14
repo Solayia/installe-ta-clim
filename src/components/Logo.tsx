@@ -1,65 +1,54 @@
 import Link from "next/link";
 
 /**
- * Brand logo icon — 3-blade swirl/triskelion matching the official logo.
- * Each blade has a light blue and dark blue crescent shape.
+ * Brand logo — 3-blade swirl with dual blue crescents.
+ * Each blade = light blue crescent (outer) + dark blue crescent (inner), separated by white gap.
+ * Blades are rotated 120° apart.
  */
 export function FanIcon({ size = 24, className = "" }: { size?: number; className?: string }) {
-  const id = `logo-${size}`;
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 100 100"
+      viewBox="0 0 200 200"
       fill="none"
       className={className}
       aria-hidden="true"
     >
-      <defs>
-        <linearGradient id={`${id}-light`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#8DCBEA" />
-          <stop offset="100%" stopColor="#6BB8E0" />
-        </linearGradient>
-        <linearGradient id={`${id}-dark`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#1B6FC0" />
-          <stop offset="100%" stopColor="#154A8A" />
-        </linearGradient>
-      </defs>
-
-      {/* Blade 1 — top, going right */}
-      {/* Light part */}
+      {/* ===== BLADE 1 — pointing up-right ===== */}
+      {/* Light blue crescent (outer/left side) */}
       <path
-        d="M50 50 C46 38, 48 22, 58 12 C62 8, 66 10, 64 16 C60 26, 54 38, 50 50Z"
-        fill={`url(#${id}-light)`}
+        d="M96 96 C82 62, 78 28, 100 8 C108 0, 112 4, 108 14 C100 36, 96 60, 96 80Z"
+        fill="#7CC4EA"
       />
-      {/* Dark part */}
+      {/* Dark blue crescent (inner/right side) */}
       <path
-        d="M50 50 C56 36, 64 24, 72 18 C78 14, 80 18, 76 24 C70 32, 60 42, 50 50Z"
-        fill={`url(#${id}-dark)`}
+        d="M100 94 C104 60, 116 30, 138 14 C148 6, 152 12, 144 22 C128 42, 112 66, 104 86Z"
+        fill="#1B5DA8"
       />
 
-      {/* Blade 2 — bottom-left */}
-      {/* Light part */}
+      {/* ===== BLADE 2 — pointing bottom-left ===== */}
+      {/* Light blue crescent (outer) */}
       <path
-        d="M50 50 C38 54, 22 52, 12 42 C8 38, 10 34, 16 36 C26 40, 38 46, 50 50Z"
-        fill={`url(#${id}-light)`}
+        d="M96 104 C62 108, 30 118, 10 98 C2 90, 6 86, 16 92 C36 104, 58 108, 78 106Z"
+        fill="#7CC4EA"
       />
-      {/* Dark part */}
+      {/* Dark blue crescent (inner) */}
       <path
-        d="M50 50 C36 44, 24 36, 18 28 C14 22, 18 20, 24 24 C32 30, 42 40, 50 50Z"
-        fill={`url(#${id}-dark)`}
+        d="M94 100 C64 92, 34 76, 20 54 C14 42, 20 40, 28 48 C44 66, 64 82, 84 94Z"
+        fill="#1B5DA8"
       />
 
-      {/* Blade 3 — bottom-right */}
-      {/* Light part */}
+      {/* ===== BLADE 3 — pointing bottom-right ===== */}
+      {/* Light blue crescent (outer) */}
       <path
-        d="M50 50 C54 62, 52 78, 42 88 C38 92, 34 90, 36 84 C40 74, 46 62, 50 50Z"
-        fill={`url(#${id}-light)`}
+        d="M108 108 C120 140, 122 170, 104 188 C96 196, 92 192, 96 182 C102 162, 106 140, 106 120Z"
+        fill="#7CC4EA"
       />
-      {/* Dark part */}
+      {/* Dark blue crescent (inner) */}
       <path
-        d="M50 50 C44 64, 36 76, 28 82 C22 86, 20 82, 24 76 C30 68, 40 58, 50 50Z"
-        fill={`url(#${id}-dark)`}
+        d="M104 106 C96 136, 82 164, 60 178 C50 186, 46 180, 54 172 C70 156, 84 136, 96 116Z"
+        fill="#1B5DA8"
       />
     </svg>
   );
@@ -72,7 +61,7 @@ export default function Logo({ showTagline = true }: { showTagline?: boolean }) 
   return (
     <Link href="/" className="flex items-center gap-2.5 group">
       <div className="w-10 h-10 flex items-center justify-center group-hover:scale-105 transition-transform">
-        <FanIcon size={38} />
+        <FanIcon size={40} />
       </div>
       <div className="flex flex-col">
         <span className="text-lg font-extrabold text-dark leading-tight tracking-tight uppercase">
