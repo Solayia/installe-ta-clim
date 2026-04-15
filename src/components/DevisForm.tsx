@@ -144,10 +144,10 @@ export default function DevisForm() {
 
   const canNext = (): boolean => {
     switch (step) {
-      case 0: return true;
-      case 1: return !!data.logement && data.nbPieces >= 1;
-      case 2: return data.rooms.every((r) => !!r.type && !!r.surface);
-      case 3: return !!data.installation;
+      case 0: return !!data.logement && data.nbPieces >= 1;
+      case 1: return data.rooms.every((r) => !!r.type && !!r.surface);
+      case 2: return !!data.installation;
+      case 3: return true; // Plan 2D is optional
       case 4: return !!data.nom && !!data.telephone && !!data.email;
       default: return false;
     }
@@ -219,10 +219,10 @@ export default function DevisForm() {
               />
             </div>
             <div className="flex justify-between mt-2 text-[10px] text-white/30 font-medium uppercase tracking-wider">
-              <span>Plan 2D</span>
               <span>Bien</span>
               <span>Pièces</span>
               <span>Installation</span>
+              <span>Plan 2D</span>
               <span>Contact</span>
             </div>
           </div>
@@ -231,54 +231,8 @@ export default function DevisForm() {
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
 
-          {/* ============ STEP 0 — Plan 2D ============ */}
-          {step === 0 && !showPlanner && (
-            <div className="p-5 sm:p-8 lg:p-10 text-center">
-              <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-5">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="12" y1="3" x2="12" y2="21" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-dark mb-2">Dessinez le plan de votre pièce</h3>
-              <p className="text-sm text-gray-500 mb-8 max-w-sm mx-auto">
-                Créez un plan 2D de votre pièce, placez portes et fenêtres, et positionnez la clim sur le mur de votre choix. Le plan sera joint à votre devis.
-              </p>
-              <div className="flex flex-col gap-3 items-center">
-                <button
-                  onClick={() => setShowPlanner(true)}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
-                  </svg>
-                  Créer mon plan
-                </button>
-                <button onClick={() => setStep(1)} className="text-sm text-gray-400 hover:text-gray-600 transition-colors py-2">
-                  Passer cette étape
-                </button>
-              </div>
-            </div>
-          )}
-
-          {step === 0 && showPlanner && (
-            <div className="p-4 sm:p-6">
-              <h3 className="text-base font-bold text-dark mb-3 text-center">Plan de votre pièce</h3>
-              <RoomPlanner
-                onCapture={(imageData) => {
-                  setData((prev) => ({ ...prev, planPhoto: imageData }));
-                  setShowPlanner(false);
-                  setStep(1);
-                }}
-                onSkip={() => {
-                  setShowPlanner(false);
-                  setStep(1);
-                }}
-              />
-            </div>
-          )}
-
-          {/* ============ STEP 1 — Type de bien + Nombre de pièces ============ */}
-          {step === 1 && (
+          {/* ============ STEP 0 — Type de bien + Nombre de pièces ============ */}
+          {step === 0 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre bien</h3>
               <p className="text-sm text-gray-400 mb-6">Pour adapter notre recommandation</p>
@@ -336,8 +290,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 2 — Détail de chaque pièce ============ */}
-          {step === 2 && (
+          {/* ============ STEP 1 — Détail de chaque pièce ============ */}
+          {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
                 {data.nbPieces === 1 ? "Décrivez votre pièce" : `Décrivez vos ${data.nbPieces} pièces`}
@@ -400,8 +354,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 3 — Type d'installation ============ */}
-          {step === 3 && (
+          {/* ============ STEP 2 — Type d'installation ============ */}
+          {step === 2 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
               <p className="text-sm text-gray-400 mb-6">Vous pouvez changer d&apos;avis plus tard</p>
@@ -491,6 +445,52 @@ export default function DevisForm() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* ============ STEP 3 — Plan 2D ============ */}
+          {step === 3 && !showPlanner && (
+            <div className="p-5 sm:p-8 lg:p-10 text-center">
+              <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="12" y1="3" x2="12" y2="21" />
+                </svg>
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-dark mb-2">Dessinez le plan de votre pièce</h3>
+              <p className="text-sm text-gray-500 mb-8 max-w-sm mx-auto">
+                Créez un plan 2D de votre pièce, placez portes et fenêtres, et positionnez la clim sur le mur de votre choix. Le plan sera joint à votre devis.
+              </p>
+              <div className="flex flex-col gap-3 items-center">
+                <button
+                  onClick={() => setShowPlanner(true)}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
+                  </svg>
+                  Créer mon plan
+                </button>
+                <button onClick={() => setStep(4)} className="text-sm text-gray-400 hover:text-gray-600 transition-colors py-2">
+                  Passer cette étape
+                </button>
+              </div>
+            </div>
+          )}
+
+          {step === 3 && showPlanner && (
+            <div className="p-4 sm:p-6">
+              <h3 className="text-base font-bold text-dark mb-3 text-center">Plan de votre pièce</h3>
+              <RoomPlanner
+                onCapture={(imageData) => {
+                  setData((prev) => ({ ...prev, planPhoto: imageData }));
+                  setShowPlanner(false);
+                  setStep(4);
+                }}
+                onSkip={() => {
+                  setShowPlanner(false);
+                  setStep(4);
+                }}
+              />
             </div>
           )}
 
@@ -646,18 +646,22 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* Navigation buttons */}
-          {!submitted && step > 0 && (
+          {/* Navigation buttons — hidden on step 3 (Plan 2D has its own buttons) and step 5 */}
+          {!submitted && step !== 3 && (
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
-              <button
-                onClick={prev}
-                className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Retour
-              </button>
+              {step > 0 ? (
+                <button
+                  onClick={prev}
+                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                  Retour
+                </button>
+              ) : (
+                <div />
+              )}
 
               {step < 4 ? (
                 <button
