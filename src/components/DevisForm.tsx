@@ -5,32 +5,75 @@ import RoomPlanner from "./RoomPlanner";
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5;
 
-const pieceTypes = [
-  { value: "chambre", label: "Chambre", icon: "bed", m2: "10-15 m²" },
-  { value: "bureau", label: "Bureau", icon: "desk", m2: "10-20 m²" },
-  { value: "salon", label: "Salon / Séjour", icon: "sofa", m2: "20-35 m²" },
-  { value: "openspace", label: "Grand espace", icon: "home", m2: "35-50 m²" },
-  { value: "multi", label: "Plusieurs pièces", icon: "grid", m2: "50+ m²" },
-];
+/* ------------------------------------------------------------------ */
+/*  Data & constants                                                   */
+/* ------------------------------------------------------------------ */
 
 const logementTypes = [
-  { value: "appartement", label: "Appartement" },
-  { value: "maison", label: "Maison" },
-  { value: "commerce", label: "Local commercial" },
+  { value: "appartement", label: "Appartement", icon: "building" },
+  { value: "maison", label: "Maison", icon: "home" },
+  { value: "commerce", label: "Local commercial", icon: "shop" },
 ];
 
-const surfaces = [
-  { value: "15", label: "Moins de 15 m²" },
-  { value: "25", label: "15 à 25 m²" },
-  { value: "35", label: "25 à 35 m²" },
-  { value: "50", label: "35 à 50 m²" },
-  { value: "50+", label: "Plus de 50 m²" },
+const pieceTypes = [
+  { value: "chambre", label: "Chambre", icon: "bed" },
+  { value: "bureau", label: "Bureau", icon: "desk" },
+  { value: "salon", label: "Salon / Séjour", icon: "sofa" },
+  { value: "cuisine", label: "Cuisine", icon: "kitchen" },
+  { value: "openspace", label: "Grand espace", icon: "home" },
+  { value: "autre", label: "Autre", icon: "grid" },
 ];
+
+const surfaceOptions = [
+  { value: "10", label: "< 10 m²" },
+  { value: "15", label: "10-15 m²" },
+  { value: "20", label: "15-20 m²" },
+  { value: "25", label: "20-25 m²" },
+  { value: "30", label: "25-30 m²" },
+  { value: "35", label: "30-35 m²" },
+  { value: "40", label: "35-40 m²" },
+  { value: "50", label: "40-50 m²" },
+  { value: "50+", label: "> 50 m²" },
+];
+
+interface RoomConfig {
+  type: string;
+  surface: string;
+}
+
+interface FormData {
+  logement: string;
+  nbPieces: number;
+  rooms: RoomConfig[];
+  installation: "diy" | "pro";
+  nom: string;
+  telephone: string;
+  email: string;
+  ville: string;
+  message: string;
+  planPhoto: string | null;
+}
+
+const initialData: FormData = {
+  logement: "",
+  nbPieces: 1,
+  rooms: [{ type: "", surface: "" }],
+  installation: "pro",
+  nom: "",
+  telephone: "",
+  email: "",
+  ville: "",
+  message: "",
+  planPhoto: null,
+};
 
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; aides: string; efficiency: string } {
-  const s = parseInt(data.surface);
-  if (isNaN(s) || s > 50 || data.piece === "multi") {
-    return { model: "Sur-mesure (multi-split)", priceDiy: "Sur devis", priceInstalled: "Sur devis", aides: "Jusqu'à 5 000 €", efficiency: "A+++" };
+  if (data.nbPieces > 1) {
+    return { model: "Multi-split sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", aides: "Jusqu'à 5 000 €", efficiency: "A+++" };
+  }
+  const s = parseInt(data.rooms[0]?.surface || "0");
+  if (isNaN(s) || s > 50) {
+    return { model: "Sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", aides: "Jusqu'à 5 000 €", efficiency: "A+++" };
   }
   if (s <= 20) {
     return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "1 499 €", aides: "~1 200 €", efficiency: "A+" };
@@ -41,68 +84,37 @@ function getEstimation(data: FormData): { model: string; priceDiy: string; price
   return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "2 399 €", aides: "~2 000 €", efficiency: "A+++" };
 }
 
-interface FormData {
-  piece: string;
-  logement: string;
-  surface: string;
-  installation: "diy" | "pro";
-  nom: string;
-  telephone: string;
-  email: string;
-  ville: string;
-  message: string;
-  arPhoto: string | null;
-}
+/* ------------------------------------------------------------------ */
+/*  Icons                                                              */
+/* ------------------------------------------------------------------ */
 
-const initialData: FormData = {
-  piece: "",
-  logement: "",
-  surface: "",
-  installation: "pro",
-  nom: "",
-  telephone: "",
-  email: "",
-  ville: "",
-  message: "",
-  arPhoto: null,
-};
-
-function PieceIcon({ type }: { type: string }) {
+function TypeIcon({ type }: { type: string }) {
+  const props = { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   switch (type) {
-    case "bed":
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 4v16"/><path d="M2 8h18a2 2 0 012 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/>
-        </svg>
-      );
-    case "desk":
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="7" width="20" height="3" rx="1"/><path d="M4 10v7"/><path d="M20 10v7"/><path d="M12 10v7"/>
-        </svg>
-      );
-    case "sofa":
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20 9V6a2 2 0 00-2-2H6a2 2 0 00-2 2v3"/><path d="M2 11v5a2 2 0 002 2h16a2 2 0 002-2v-5a2 2 0 00-4 0v2H6v-2a2 2 0 00-4 0z"/><path d="M4 18v2"/><path d="M20 18v2"/>
-        </svg>
-      );
+    case "building":
+      return <svg {...props}><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M8 10h.01M16 10h.01M12 10h.01M8 14h.01M16 14h.01M12 14h.01"/></svg>;
     case "home":
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-        </svg>
-      );
+      return <svg {...props}><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>;
+    case "shop":
+      return <svg {...props}><path d="M3 9l1-4h16l1 4"/><path d="M3 9v11a1 1 0 001 1h16a1 1 0 001-1V9"/><path d="M9 21V12h6v9"/></svg>;
+    case "bed":
+      return <svg {...props}><path d="M2 4v16"/><path d="M2 8h18a2 2 0 012 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>;
+    case "desk":
+      return <svg {...props}><rect x="2" y="7" width="20" height="3" rx="1"/><path d="M4 10v7M20 10v7M12 10v7"/></svg>;
+    case "sofa":
+      return <svg {...props}><path d="M20 9V6a2 2 0 00-2-2H6a2 2 0 00-2 2v3"/><path d="M2 11v5a2 2 0 002 2h16a2 2 0 002-2v-5a2 2 0 00-4 0v2H6v-2a2 2 0 00-4 0z"/></svg>;
+    case "kitchen":
+      return <svg {...props}><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><circle cx="8" cy="7" r="1"/><circle cx="16" cy="7" r="1"/></svg>;
     case "grid":
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-        </svg>
-      );
+      return <svg {...props}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>;
     default:
       return null;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Main form component                                                */
+/* ------------------------------------------------------------------ */
 
 export default function DevisForm() {
   const [step, setStep] = useState<Step>(0);
@@ -110,34 +122,40 @@ export default function DevisForm() {
   const [submitted, setSubmitted] = useState(false);
   const [showPlanner, setShowPlanner] = useState(false);
 
-  const update = (field: keyof FormData, value: string) => {
+  const update = <K extends keyof FormData>(field: K, value: FormData[K]) => {
     setData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateRoom = (index: number, field: keyof RoomConfig, value: string) => {
+    setData((prev) => {
+      const rooms = [...prev.rooms];
+      rooms[index] = { ...rooms[index], [field]: value };
+      return { ...prev, rooms };
+    });
+  };
+
+  const setNbPieces = (n: number) => {
+    const clamped = Math.max(1, Math.min(6, n));
+    const rooms = [...data.rooms];
+    while (rooms.length < clamped) rooms.push({ type: "", surface: "" });
+    while (rooms.length > clamped) rooms.pop();
+    setData((prev) => ({ ...prev, nbPieces: clamped, rooms }));
   };
 
   const canNext = (): boolean => {
     switch (step) {
-      case 0: return true; // AR is optional
-      case 1: return !!data.piece;
-      case 2: return !!data.logement && !!data.surface;
+      case 0: return true;
+      case 1: return !!data.logement && data.nbPieces >= 1;
+      case 2: return data.rooms.every((r) => !!r.type && !!r.surface);
       case 3: return !!data.installation;
       case 4: return !!data.nom && !!data.telephone && !!data.email;
       default: return false;
     }
   };
 
-  const next = () => {
-    if (canNext() && step < 5) setStep((step + 1) as Step);
-  };
-
-  const prev = () => {
-    if (step > 0) setStep((step - 1) as Step);
-  };
-
-  const submit = () => {
-    // In production: send data to API / email / CRM
-    setSubmitted(true);
-    setStep(5);
-  };
+  const next = () => { if (canNext() && step < 5) setStep((step + 1) as Step); };
+  const prev = () => { if (step > 0) setStep((step - 1) as Step); };
+  const submit = () => { setSubmitted(true); setStep(5); };
 
   const estimation = getEstimation(data);
   const progress = (step / 5) * 100;
@@ -189,11 +207,7 @@ export default function DevisForm() {
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   ) : (
-                    s === 0 ? (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="12" y1="3" x2="12" y2="21" />
-                      </svg>
-                    ) : s
+                    s + 1
                   )}
                 </div>
               ))}
@@ -206,8 +220,8 @@ export default function DevisForm() {
             </div>
             <div className="flex justify-between mt-2 text-[10px] text-white/30 font-medium uppercase tracking-wider">
               <span>Plan 2D</span>
-              <span>Pièce</span>
-              <span>Logement</span>
+              <span>Bien</span>
+              <span>Pièces</span>
               <span>Installation</span>
               <span>Contact</span>
             </div>
@@ -216,7 +230,8 @@ export default function DevisForm() {
 
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
-          {/* Step 0 — Plan 2D de la pièce */}
+
+          {/* ============ STEP 0 — Plan 2D ============ */}
           {step === 0 && !showPlanner && (
             <div className="p-5 sm:p-8 lg:p-10 text-center">
               <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-5">
@@ -245,13 +260,12 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* Step 0 — Planner inline */}
           {step === 0 && showPlanner && (
             <div className="p-4 sm:p-6">
               <h3 className="text-base font-bold text-dark mb-3 text-center">Plan de votre pièce</h3>
               <RoomPlanner
                 onCapture={(imageData) => {
-                  setData((prev) => ({ ...prev, arPhoto: imageData }));
+                  setData((prev) => ({ ...prev, planPhoto: imageData }));
                   setShowPlanner(false);
                   setStep(1);
                 }}
@@ -263,82 +277,130 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* Step 1 — Pièce */}
+          {/* ============ STEP 1 — Type de bien + Nombre de pièces ============ */}
           {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
-              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Quelle pièce voulez-vous climatiser ?</h3>
-              <p className="text-sm text-gray-400 mb-6">Choisissez le type de pièce principal</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                {pieceTypes.map((p) => (
-                  <button
-                    key={p.value}
-                    onClick={() => update("piece", p.value)}
-                    className={`flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-5 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 ${
-                      data.piece === p.value
-                        ? "border-primary bg-primary-light shadow-sm"
-                        : "border-gray-200 hover:border-gray-300 bg-gray-50"
-                    }`}
-                  >
-                    <div className={`${data.piece === p.value ? "text-primary" : "text-gray-400"}`}>
-                      <PieceIcon type={p.icon} />
-                    </div>
-                    <span className={`text-sm font-semibold ${data.piece === p.value ? "text-primary" : "text-dark"}`}>
-                      {p.label}
-                    </span>
-                    <span className="text-[11px] text-gray-400">{p.m2}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Step 2 — Logement + Surface */}
-          {step === 2 && (
-            <div className="p-5 sm:p-8 lg:p-10">
-              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre logement</h3>
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre bien</h3>
               <p className="text-sm text-gray-400 mb-6">Pour adapter notre recommandation</p>
 
+              {/* Type de logement */}
               <div className="mb-6">
-                <label className="text-sm font-semibold text-dark mb-3 block">Type de logement</label>
+                <label className="text-sm font-semibold text-dark mb-3 block">Type de bien</label>
                 <div className="grid grid-cols-3 gap-3">
                   {logementTypes.map((l) => (
                     <button
                       key={l.value}
                       onClick={() => update("logement", l.value)}
-                      className={`p-4 rounded-xl border-2 text-sm font-medium transition-all ${
+                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-sm font-medium transition-all ${
                         data.logement === l.value
                           ? "border-primary bg-primary-light text-primary"
                           : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
+                      <div className={data.logement === l.value ? "text-primary" : "text-gray-400"}>
+                        <TypeIcon type={l.icon} />
+                      </div>
                       {l.label}
                     </button>
                   ))}
                 </div>
               </div>
 
+              {/* Nombre de pièces */}
               <div>
-                <label className="text-sm font-semibold text-dark mb-3 block">Surface de la pièce</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {surfaces.map((s) => (
-                    <button
-                      key={s.value}
-                      onClick={() => update("surface", s.value)}
-                      className={`p-4 rounded-xl border-2 text-sm font-medium transition-all ${
-                        data.surface === s.value
-                          ? "border-primary bg-primary-light text-primary"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      }`}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
+                <label className="text-sm font-semibold text-dark mb-3 block">Combien de pièces à climatiser ?</label>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setNbPieces(data.nbPieces - 1)}
+                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
+                  >
+                    −
+                  </button>
+                  <div className="flex-1 text-center">
+                    <span className="text-3xl font-extrabold text-primary">{data.nbPieces}</span>
+                    <span className="text-sm text-gray-400 ml-2">pièce{data.nbPieces > 1 ? "s" : ""}</span>
+                  </div>
+                  <button
+                    onClick={() => setNbPieces(data.nbPieces + 1)}
+                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
+                  >
+                    +
+                  </button>
                 </div>
+                {data.nbPieces > 1 && (
+                  <p className="text-xs text-gray-400 text-center mt-2">
+                    {data.nbPieces >= 3 ? "Un système multi-split sera recommandé" : "Vous pourrez détailler chaque pièce à l'étape suivante"}
+                  </p>
+                )}
               </div>
             </div>
           )}
 
-          {/* Step 3 — Type d'installation */}
+          {/* ============ STEP 2 — Détail de chaque pièce ============ */}
+          {step === 2 && (
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
+                {data.nbPieces === 1 ? "Décrivez votre pièce" : `Décrivez vos ${data.nbPieces} pièces`}
+              </h3>
+              <p className="text-sm text-gray-400 mb-6">Pour chaque pièce, indiquez le type et la surface</p>
+
+              <div className="space-y-6">
+                {data.rooms.map((room, i) => (
+                  <div key={i} className={`${data.nbPieces > 1 ? "bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100" : ""}`}>
+                    {data.nbPieces > 1 && (
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="w-7 h-7 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">
+                          {i + 1}
+                        </div>
+                        <span className="text-sm font-semibold text-dark">Pièce {i + 1}</span>
+                      </div>
+                    )}
+
+                    {/* Type de pièce */}
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Type de pièce</label>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      {pieceTypes.map((p) => (
+                        <button
+                          key={p.value}
+                          onClick={() => updateRoom(i, "type", p.value)}
+                          className={`flex flex-col items-center gap-1 p-2.5 sm:p-3 rounded-xl border-2 transition-all ${
+                            room.type === p.value
+                              ? "border-primary bg-primary-light text-primary"
+                              : "border-gray-200 text-gray-500 hover:border-gray-300"
+                          }`}
+                        >
+                          <div className={`${room.type === p.value ? "text-primary" : "text-gray-400"}`}>
+                            <TypeIcon type={p.icon} />
+                          </div>
+                          <span className="text-xs font-semibold">{p.label}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Surface */}
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Surface</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {surfaceOptions.map((s) => (
+                        <button
+                          key={s.value}
+                          onClick={() => updateRoom(i, "surface", s.value)}
+                          className={`py-2.5 rounded-xl border-2 text-xs font-medium transition-all ${
+                            room.surface === s.value
+                              ? "border-primary bg-primary-light text-primary"
+                              : "border-gray-200 text-gray-600 hover:border-gray-300"
+                          }`}
+                        >
+                          {s.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ============ STEP 3 — Type d'installation ============ */}
           {step === 3 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
@@ -405,36 +467,34 @@ export default function DevisForm() {
               </div>
 
               {/* Mini estimation preview */}
-              {data.surface && (
-                <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-xs text-gray-400 uppercase font-medium">Estimation préliminaire</span>
-                      <div className="text-sm font-semibold text-dark mt-0.5">Modèle {estimation.model} — Classe {estimation.efficiency}</div>
+              <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs text-gray-400 uppercase font-medium">Estimation préliminaire</span>
+                    <div className="text-sm font-semibold text-dark mt-0.5">Modèle {estimation.model} — Classe {estimation.efficiency}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xl font-extrabold text-primary">
+                      {data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}
                     </div>
-                    <div className="text-right">
-                      <div className="text-xl font-extrabold text-primary">
-                        {data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}
-                      </div>
-                      <div className="text-[11px] text-gray-400">
-                        {data.installation === "diy" ? "prêt à poser" : "fourni + installé"}
-                      </div>
+                    <div className="text-[11px] text-gray-400">
+                      {data.installation === "diy" ? "prêt à poser" : "fourni + installé"}
                     </div>
                   </div>
-                  {data.installation === "pro" && (
-                    <div className="mt-3 pt-3 border-t border-gray-200 flex items-center gap-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span className="text-sm text-green-600 font-medium">Aides estimées : {estimation.aides}</span>
-                    </div>
-                  )}
                 </div>
-              )}
+                {data.installation === "pro" && (
+                  <div className="mt-3 pt-3 border-t border-gray-200 flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span className="text-sm text-green-600 font-medium">Aides estimées : {estimation.aides}</span>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
-          {/* Step 4 — Coordonnées */}
+          {/* ============ STEP 4 — Coordonnées ============ */}
           {step === 4 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Vos coordonnées</h3>
@@ -499,19 +559,25 @@ export default function DevisForm() {
               {/* Recap */}
               <div className="mt-6 bg-cream rounded-2xl p-5 border border-gray-200">
                 <h4 className="text-sm font-bold text-dark mb-3">Récapitulatif de votre projet</h4>
-                {data.arPhoto && (
+                {data.planPhoto && (
                   <div className="mb-3">
                     <span className="text-xs text-gray-400 block mb-1.5">Plan de votre pièce</span>
-                    <img src={data.arPhoto} alt="Plan 2D de la pièce" className="w-full h-32 object-cover rounded-xl border border-gray-200" />
+                    <img src={data.planPhoto} alt="Plan 2D de la pièce" className="w-full h-32 object-cover rounded-xl border border-gray-200" />
                   </div>
                 )}
                 <div className="grid grid-cols-2 gap-y-2 text-sm">
-                  <span className="text-gray-400">Pièce</span>
-                  <span className="text-dark font-medium">{pieceTypes.find((p) => p.value === data.piece)?.label}</span>
-                  <span className="text-gray-400">Logement</span>
+                  <span className="text-gray-400">Type de bien</span>
                   <span className="text-dark font-medium">{logementTypes.find((l) => l.value === data.logement)?.label}</span>
-                  <span className="text-gray-400">Surface</span>
-                  <span className="text-dark font-medium">{surfaces.find((s) => s.value === data.surface)?.label}</span>
+                  <span className="text-gray-400">Pièces à climatiser</span>
+                  <span className="text-dark font-medium">{data.nbPieces} pièce{data.nbPieces > 1 ? "s" : ""}</span>
+                  {data.rooms.map((room, i) => (
+                    <span key={i} className="contents">
+                      <span className="text-gray-400">{data.nbPieces > 1 ? `Pièce ${i + 1}` : "Pièce"}</span>
+                      <span className="text-dark font-medium">
+                        {pieceTypes.find((p) => p.value === room.type)?.label} — {surfaceOptions.find((s) => s.value === room.surface)?.label}
+                      </span>
+                    </span>
+                  ))}
                   <span className="text-gray-400">Installation</span>
                   <span className="text-dark font-medium">{data.installation === "pro" ? "Par un professionnel" : "Prêt à poser (DIY)"}</span>
                   <span className="text-gray-400">Modèle estimé</span>
@@ -529,7 +595,7 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* Step 5 — Confirmation */}
+          {/* ============ STEP 5 — Confirmation ============ */}
           {step === 5 && submitted && (
             <div className="p-5 sm:p-8 lg:p-12 text-center">
               <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -542,15 +608,13 @@ export default function DevisForm() {
                 Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> avec votre devis détaillé personnalisé.
               </p>
 
-              {/* AR Photo */}
-              {data.arPhoto && (
+              {data.planPhoto && (
                 <div className="mt-6 max-w-sm mx-auto">
-                  <img src={data.arPhoto} alt="Plan de votre pièce" className="w-full h-40 object-cover rounded-2xl border border-gray-200 shadow-sm" />
+                  <img src={data.planPhoto} alt="Plan de votre pièce" className="w-full h-40 object-cover rounded-2xl border border-gray-200 shadow-sm" />
                   <p className="text-xs text-gray-400 mt-2">Plan 2D joint à votre demande de devis</p>
                 </div>
               )}
 
-              {/* Estimation card */}
               <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                 <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre estimation</div>
                 <div className="text-3xl font-extrabold text-primary">
@@ -559,6 +623,9 @@ export default function DevisForm() {
                 <div className="text-sm text-gray-500 mt-1">
                   Modèle {estimation.model} — {data.installation === "pro" ? "Fourni + installé" : "Pack prêt à poser"}
                 </div>
+                {data.nbPieces > 1 && (
+                  <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>
+                )}
                 {data.installation === "pro" && (
                   <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-green-600 font-medium">
                     Aides estimées : {estimation.aides}
@@ -582,19 +649,15 @@ export default function DevisForm() {
           {/* Navigation buttons */}
           {!submitted && step > 0 && (
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
-              {step > 1 && step !== 0 ? (
-                <button
-                  onClick={prev}
-                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                  </svg>
-                  Retour
-                </button>
-              ) : (
-                <div />
-              )}
+              <button
+                onClick={prev}
+                className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Retour
+              </button>
 
               {step < 4 ? (
                 <button
