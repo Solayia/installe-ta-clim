@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="80" viewBox="0 0 300 80" fill="none">
+  <!-- Fan icon -->
+  <g transform="translate(40, 40)">
+    <!-- BLADE 1 -->
+    <g transform="rotate(-30)">
+      <path d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z" fill="#7CC4EA"/>
+      <path d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z" fill="#1660A7"/>
+    </g>
+    <!-- BLADE 2 -->
+    <g transform="rotate(90)">
+      <path d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z" fill="#7CC4EA"/>
+      <path d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z" fill="#1660A7"/>
+    </g>
+    <!-- BLADE 3 -->
+    <g transform="rotate(210)">
+      <path d="M-2,-4 C-8,-20 -6,-38 8,-48 C12,-50 14,-46 10,-40 C2,-28 -2,-16 -2,-4Z" fill="#7CC4EA"/>
+      <path d="M2,-4 C10,-18 22,-32 36,-40 C42,-42 42,-36 36,-30 C24,-18 12,-8 2,-4Z" fill="#1660A7"/>
+    </g>
+  </g>
+  <!-- Wordmark -->
+  <text x="75" y="38" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="800" fill="#1a1a2e" letter-spacing="0.5" text-transform="uppercase">INSTALLE TA CLIM</text>
+  <text x="75" y="54" font-family="Arial, Helvetica, sans-serif" font-size="9" fill="#9CA3AF" letter-spacing="3" text-transform="uppercase">LA CLIM, SIMPLEMENT</text>
+</svg>
