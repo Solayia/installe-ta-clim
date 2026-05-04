@@ -122,28 +122,15 @@ export default function DevisForm() {
   const [submitted, setSubmitted] = useState(false);
   const [showPlanner, setShowPlanner] = useState(false);
 
-  /* REC-001: Listen for #devis-pro / #devis-diy hash to pre-select installation mode */
+  /* REC-001: Listen for #pro / #diy hash to pre-select installation mode */
   useEffect(() => {
-    const handleHash = () => {
-      const hash = window.location.hash;
-      if (hash === "#devis-pro" || hash === "#devis-diy") {
-        const mode = hash === "#devis-pro" ? "pro" : "diy";
-        setData((prev) => ({ ...prev, installation: mode }));
-        // Scroll to the form section
-        const el = document.getElementById("devis");
-        if (el) {
-          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
-        }
-        // Clean the hash to avoid re-triggering
-        window.history.replaceState(null, "", window.location.pathname);
-      }
-    };
-
-    // Check on mount
-    handleHash();
-    // Listen for hash changes (e.g. clicking CTA while already on the page)
-    window.addEventListener("hashchange", handleHash);
-    return () => window.removeEventListener("hashchange", handleHash);
+    const hash = window.location.hash;
+    if (hash === "#pro" || hash === "#diy") {
+      const mode = hash === "#pro" ? "pro" : "diy";
+      setData((prev) => ({ ...prev, installation: mode }));
+      // Clean the hash
+      window.history.replaceState(null, "", window.location.pathname);
+    }
   }, []);
 
   const update = <K extends keyof FormData>(field: K, value: FormData[K]) => {
