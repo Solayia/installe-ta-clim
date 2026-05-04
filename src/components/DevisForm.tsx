@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RoomPlanner from "./RoomPlanner";
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5;
@@ -121,6 +121,30 @@ export default function DevisForm() {
   const [data, setData] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
   const [showPlanner, setShowPlanner] = useState(false);
+
+  /* REC-001: Listen for #devis-pro / #devis-diy hash to pre-select installation mode */
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash === "#devis-pro" || hash === "#devis-diy") {
+        const mode = hash === "#devis-pro" ? "pro" : "diy";
+        setData((prev) => ({ ...prev, installation: mode }));
+        // Scroll to the form section
+        const el = document.getElementById("devis");
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+        }
+        // Clean the hash to avoid re-triggering
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+    };
+
+    // Check on mount
+    handleHash();
+    // Listen for hash changes (e.g. clicking CTA while already on the page)
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   const update = <K extends keyof FormData>(field: K, value: FormData[K]) => {
     setData((prev) => ({ ...prev, [field]: value }));
