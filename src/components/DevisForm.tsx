@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import RoomPlanner from "./RoomPlanner";
 
-type Step = 0 | 1 | 2 | 3 | 4 | 5;
+type Step = 0 | 1 | 2 | 3 | 4;
 
 /* ------------------------------------------------------------------ */
 /*  Data & constants                                                   */
@@ -45,26 +44,26 @@ interface FormData {
   logement: string;
   nbPieces: number;
   rooms: RoomConfig[];
+  distanceTableau: number;
   installation: "diy" | "pro";
   nom: string;
   telephone: string;
   email: string;
   ville: string;
   message: string;
-  planPhoto: string | null;
 }
 
 const initialData: FormData = {
   logement: "",
   nbPieces: 1,
   rooms: [{ type: "", surface: "" }],
+  distanceTableau: 0,
   installation: "pro",
   nom: "",
   telephone: "",
   email: "",
   ville: "",
   message: "",
-  planPhoto: null,
 };
 
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; aides: string; efficiency: string } {
@@ -120,7 +119,6 @@ export default function DevisForm() {
   const [step, setStep] = useState<Step>(0);
   const [data, setData] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
-  const [showPlanner, setShowPlanner] = useState(false);
 
   /* REC-001: Listen for #pro / #diy hash to pre-select installation mode */
   useEffect(() => {
@@ -153,28 +151,25 @@ export default function DevisForm() {
     setData((prev) => ({ ...prev, nbPieces: clamped, rooms }));
   };
 
+  /* REC-008: All fields required before moving to the next step */
   const canNext = (): boolean => {
     switch (step) {
       case 0: return !!data.logement && data.nbPieces >= 1;
-      case 1: return data.rooms.every((r) => !!r.type && !!r.surface);
+      case 1: return data.rooms.every((r) => !!r.type && !!r.surface) && data.distanceTableau >= 1;
       case 2: return !!data.installation;
-      case 3: return true; // Plan 2D is optional
-      case 4: return !!data.nom && !!data.telephone && !!data.email;
+      case 3: return !!data.nom && !!data.telephone && !!data.email && !!data.ville;
       default: return false;
     }
   };
 
-  const next = () => { if (canNext() && step < 5) setStep((step + 1) as Step); };
+  const next = () => { if (canNext() && step < 4) setStep((step + 1) as Step); };
   const prev = () => { if (step > 0) setStep((step - 1) as Step); };
-  const submit = () => { setSubmitted(true); setStep(5); };
+  const submit = () => { setSubmitted(true); setStep(4); };
 
   const estimation = getEstimation(data);
-  const progress = (step / 5) * 100;
+  const progress = (step / 4) * 100;
 
   return (
-    <>
-    {/* (Plan 2D is now inline in Step 0) */}
-
     <section id="devis" className="py-16 lg:py-20 bg-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -198,11 +193,11 @@ export default function DevisForm() {
           )}
         </div>
 
-        {/* Progress bar */}
+        {/* Progress bar — REC-009: 4 steps instead of 5 (Plan 2D removed) */}
         {!submitted && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              {[0, 1, 2, 3, 4].map((s) => (
+              {[0, 1, 2, 3].map((s) => (
                 <div
                   key={s}
                   className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs font-bold transition-all duration-500 ${
@@ -233,7 +228,6 @@ export default function DevisForm() {
               <span>Bien</span>
               <span>Pièces</span>
               <span>Installation</span>
-              <span>Plan 2D</span>
               <span>Contact</span>
             </div>
           </div>
@@ -301,7 +295,7 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 1 — Détail de chaque pièce ============ */}
+          {/* ============ STEP 1 — Détail de chaque pièce + Distance tableau élec ============ */}
           {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
@@ -361,6 +355,54 @@ export default function DevisForm() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* REC-008: Distance au tableau électrique — obligatoire */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <label className="text-sm font-semibold text-dark mb-1 block">
+                  Distance au tableau électrique *
+                </label>
+                <p className="text-xs text-gray-400 mb-4">
+                  Distance approximative entre l&apos;emplacement de la clim et votre tableau électrique
+                </p>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => update("distanceTableau", Math.max(1, data.distanceTableau - 1))}
+                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
+                  >
+                    −
+                  </button>
+                  <div className="flex-1">
+                    <input
+                      type="range"
+                      min="1"
+                      max="30"
+                      value={data.distanceTableau || 1}
+                      onChange={(e) => update("distanceTableau", Number(e.target.value))}
+                      className="w-full accent-primary"
+                    />
+                  </div>
+                  <button
+                    onClick={() => update("distanceTableau", Math.min(30, data.distanceTableau + 1))}
+                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
+                  >
+                    +
+                  </button>
+                  <span className="text-lg font-bold text-primary min-w-[55px] text-center">
+                    {data.distanceTableau > 0 ? `${data.distanceTableau} m` : "—"}
+                  </span>
+                </div>
+                {data.distanceTableau > 15 && (
+                  <div className="mt-3 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    <span className="text-xs text-amber-700">Distance importante : un câblage supplémentaire peut être nécessaire. Notre installateur vérifiera la faisabilité.</span>
+                  </div>
+                )}
+                {data.distanceTableau === 0 && (
+                  <p className="text-xs text-red-400 mt-2">* Veuillez indiquer la distance (déplacez le curseur)</p>
+                )}
               </div>
             </div>
           )}
@@ -459,54 +501,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 3 — Plan 2D ============ */}
-          {step === 3 && !showPlanner && (
-            <div className="p-5 sm:p-8 lg:p-10 text-center">
-              <div className="w-16 h-16 bg-primary-light rounded-2xl flex items-center justify-center mx-auto mb-5">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="12" y1="3" x2="12" y2="21" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-dark mb-2">Dessinez le plan de votre pièce</h3>
-              <p className="text-sm text-gray-500 mb-8 max-w-sm mx-auto">
-                Créez un plan 2D de votre pièce, placez portes et fenêtres, et positionnez la clim sur le mur de votre choix. Le plan sera joint à votre devis.
-              </p>
-              <div className="flex flex-col gap-3 items-center">
-                <button
-                  onClick={() => setShowPlanner(true)}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-white font-bold text-sm rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
-                  </svg>
-                  Créer mon plan
-                </button>
-                <button onClick={() => setStep(4)} className="text-sm text-gray-400 hover:text-gray-600 transition-colors py-2">
-                  Passer cette étape
-                </button>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && showPlanner && (
-            <div className="p-4 sm:p-6">
-              <h3 className="text-base font-bold text-dark mb-3 text-center">Plan de votre pièce</h3>
-              <RoomPlanner
-                onCapture={(imageData) => {
-                  setData((prev) => ({ ...prev, planPhoto: imageData }));
-                  setShowPlanner(false);
-                  setStep(4);
-                }}
-                onSkip={() => {
-                  setShowPlanner(false);
-                  setStep(4);
-                }}
-              />
-            </div>
-          )}
-
-          {/* ============ STEP 4 — Coordonnées ============ */}
-          {step === 4 && (
+          {/* ============ STEP 3 — Coordonnées (REC-008: ville obligatoire) ============ */}
+          {step === 3 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Vos coordonnées</h3>
               <p className="text-sm text-gray-400 mb-6">Pour recevoir votre devis détaillé sous 48h</p>
@@ -545,7 +541,7 @@ export default function DevisForm() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Ville / Code postal</label>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Ville / Code postal *</label>
                     <input
                       type="text"
                       value={data.ville}
@@ -570,12 +566,6 @@ export default function DevisForm() {
               {/* Recap */}
               <div className="mt-6 bg-cream rounded-2xl p-5 border border-gray-200">
                 <h4 className="text-sm font-bold text-dark mb-3">Récapitulatif de votre projet</h4>
-                {data.planPhoto && (
-                  <div className="mb-3">
-                    <span className="text-xs text-gray-400 block mb-1.5">Plan de votre pièce</span>
-                    <img src={data.planPhoto} alt="Plan 2D de la pièce" className="w-full h-32 object-cover rounded-xl border border-gray-200" />
-                  </div>
-                )}
                 <div className="grid grid-cols-2 gap-y-2 text-sm">
                   <span className="text-gray-400">Type de bien</span>
                   <span className="text-dark font-medium">{logementTypes.find((l) => l.value === data.logement)?.label}</span>
@@ -589,6 +579,8 @@ export default function DevisForm() {
                       </span>
                     </span>
                   ))}
+                  <span className="text-gray-400">Distance tableau élec.</span>
+                  <span className="text-dark font-medium">{data.distanceTableau} m</span>
                   <span className="text-gray-400">Installation</span>
                   <span className="text-dark font-medium">{data.installation === "pro" ? "Par un professionnel" : "Prêt à poser (DIY)"}</span>
                   <span className="text-gray-400">Modèle estimé</span>
@@ -606,8 +598,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 5 — Confirmation ============ */}
-          {step === 5 && submitted && (
+          {/* ============ STEP 4 — Confirmation ============ */}
+          {step === 4 && submitted && (
             <div className="p-5 sm:p-8 lg:p-12 text-center">
               <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -618,13 +610,6 @@ export default function DevisForm() {
               <p className="text-gray-500 mt-3 max-w-md mx-auto">
                 Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> avec votre devis détaillé personnalisé.
               </p>
-
-              {data.planPhoto && (
-                <div className="mt-6 max-w-sm mx-auto">
-                  <img src={data.planPhoto} alt="Plan de votre pièce" className="w-full h-40 object-cover rounded-2xl border border-gray-200 shadow-sm" />
-                  <p className="text-xs text-gray-400 mt-2">Plan 2D joint à votre demande de devis</p>
-                </div>
-              )}
 
               <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                 <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre estimation</div>
@@ -657,8 +642,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* Navigation buttons — hidden on step 3 (Plan 2D has its own buttons) and step 5 */}
-          {!submitted && step !== 3 && (
+          {/* Navigation buttons */}
+          {!submitted && (
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
               {step > 0 ? (
                 <button
@@ -674,7 +659,7 @@ export default function DevisForm() {
                 <div />
               )}
 
-              {step < 4 ? (
+              {step < 3 ? (
                 <button
                   onClick={next}
                   disabled={!canNext()}
@@ -724,6 +709,5 @@ export default function DevisForm() {
         )}
       </div>
     </section>
-    </>
   );
 }
