@@ -1,21 +1,19 @@
 export default function Hero() {
   return (
     <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] flex items-center">
-      {/* Background image — modern living room */}
+      {/* REC-014: Background image — modern interior with visible AC unit (Pexels, libre de droit) */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1631545806609-53e4efa5a8e5?auto=format&fit=crop&w=1920&q=80')",
+            "url('https://images.pexels.com/photos/7587827/pexels-photo-7587827.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80')",
         }}
       />
-      {/* Overlay gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f3d]/90 via-[#0a1f3d]/75 to-[#0a1f3d]/50" />
+      {/* Overlay gradient — lighter on right to show the AC unit in the photo */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f3d]/90 via-[#0a1f3d]/70 to-[#0a1f3d]/30" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
-        <div className="flex items-center gap-8 lg:gap-16">
-          {/* Left: text content */}
-          <div className="max-w-2xl flex-1">
+        <div className="max-w-2xl">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full border border-white/20 text-sm font-medium text-white mb-6">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse-soft" />
@@ -114,69 +112,6 @@ export default function Hero() {
                 </span>
               </div>
             </div>
-          </div>
-
-          {/* REC-014: Right — AC unit visual, visible on lg+ */}
-          <div className="hidden lg:flex flex-col items-center flex-shrink-0">
-            <div className="relative">
-              {/* Glow effect behind the AC */}
-              <div className="absolute -inset-8 bg-primary/20 rounded-full blur-3xl" />
-              {/* Wall-mounted split AC illustration */}
-              <svg width="340" height="200" viewBox="0 0 340 200" fill="none" className="relative drop-shadow-2xl">
-                {/* Wall texture */}
-                <rect x="20" y="0" width="300" height="200" rx="12" fill="white" fillOpacity="0.08" stroke="white" strokeOpacity="0.12" strokeWidth="1" />
-
-                {/* Wall mount bracket */}
-                <rect x="70" y="38" width="200" height="6" rx="3" fill="#94a3b8" fillOpacity="0.6" />
-
-                {/* Main AC unit body */}
-                <rect x="50" y="44" width="240" height="80" rx="12" fill="white" />
-                <rect x="50" y="44" width="240" height="80" rx="12" stroke="#e2e8f0" strokeWidth="1.5" />
-
-                {/* Top accent bar — brand color */}
-                <rect x="50" y="44" width="240" height="16" rx="12" fill="#1B5DA8" />
-                <rect x="50" y="56" width="240" height="6" fill="#1B5DA8" />
-
-                {/* LED indicator */}
-                <circle cx="270" cy="72" r="3" fill="#1B5DA8" />
-                <circle cx="270" cy="72" r="6" fill="#1B5DA8" fillOpacity="0.2" />
-
-                {/* Brand name on unit */}
-                <text x="170" y="82" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="system-ui" fontWeight="600" letterSpacing="2">HEIWA</text>
-
-                {/* Vent lines */}
-                <line x1="70" y1="96" x2="270" y2="96" stroke="#f1f5f9" strokeWidth="1.5" />
-                <line x1="70" y1="100" x2="270" y2="100" stroke="#f1f5f9" strokeWidth="1.5" />
-                <line x1="70" y1="104" x2="270" y2="104" stroke="#f1f5f9" strokeWidth="1.5" />
-
-                {/* Bottom flap (air direction) */}
-                <path d="M60 124 Q170 134 280 124" stroke="#e2e8f0" strokeWidth="2" fill="white" />
-
-                {/* Air flow particles */}
-                <g opacity="0.4">
-                  <path d="M100 134 C100 148 106 154 106 168" stroke="#1B5DA8" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 4" />
-                  <path d="M140 136 C140 150 146 156 146 172" stroke="#1B5DA8" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 4" />
-                  <path d="M170 138 C170 152 176 158 176 174" stroke="#1B5DA8" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 4" />
-                  <path d="M200 136 C200 150 206 156 206 172" stroke="#1B5DA8" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 4" />
-                  <path d="M240 134 C240 148 246 154 246 168" stroke="#1B5DA8" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 4" />
-                </g>
-
-                {/* Temperature display badge */}
-                <rect x="125" y="148" width="90" height="36" rx="18" fill="white" fillOpacity="0.15" stroke="white" strokeOpacity="0.25" strokeWidth="1" />
-                <text x="155" y="171" fill="white" fontSize="16" fontFamily="system-ui" fontWeight="800">22°C</text>
-                <circle cx="190" cy="163" r="6" fill="#22c55e" fillOpacity="0.8" />
-                <path d="M187 163l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-
-              {/* Floating badges around AC */}
-              <div className="absolute -top-4 -right-4 bg-white/15 backdrop-blur-sm rounded-xl border border-white/20 px-3 py-1.5 text-xs font-semibold text-white">
-                Classe A+
-              </div>
-              <div className="absolute -bottom-2 -left-4 bg-white/15 backdrop-blur-sm rounded-xl border border-white/20 px-3 py-1.5 text-xs font-semibold text-white">
-                24 dB — Silencieuse
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
