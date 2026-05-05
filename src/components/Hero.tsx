@@ -1,12 +1,12 @@
 export default function Hero() {
   return (
     <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] flex items-center">
-      {/* REC-014: Background image — modern interior with visible AC unit (Pexels, libre de droit) */}
+      {/* REC-014: Background image — interior with wall-mounted AC on the right (Pexels #7060814, libre de droit) */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('https://images.pexels.com/photos/7587827/pexels-photo-7587827.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80')",
+            "url('https://images.pexels.com/photos/7060814/pexels-photo-7060814.jpeg?auto=compress&cs=tinysrgb&w=1920&q=80')",
         }}
       />
       {/* Overlay gradient — lighter on right to show the AC unit in the photo */}
