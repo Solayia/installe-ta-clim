@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const sections = [
   { id: "comment-ca-marche", label: "Comment ça marche" },
@@ -12,6 +13,7 @@ const sections = [
 ];
 
 export default function StickyNav() {
+  const pathname = usePathname();
   const [active, setActive] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -37,7 +39,8 @@ export default function StickyNav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!visible) return null;
+  // Only show on homepage
+  if (!visible || pathname !== "/") return null;
 
   return (
     <nav className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm animate-slide-down">

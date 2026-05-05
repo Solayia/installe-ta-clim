@@ -1,11 +1,32 @@
 import Link from "next/link";
 
+/* Surface ranges per product for the dropdown — REC-027 */
+const surfaceRanges: Record<string, { value: string; label: string }[]> = {
+  "Essentiel": [
+    { value: "10", label: "< 10 m² — 2.5 kW" },
+    { value: "15", label: "10-15 m² — 2.5 kW" },
+    { value: "20", label: "15-20 m² — 3.5 kW" },
+  ],
+  "Confort+": [
+    { value: "20", label: "15-20 m² — 3.5 kW" },
+    { value: "25", label: "20-25 m² — 3.5 kW" },
+    { value: "30", label: "25-30 m² — 5 kW" },
+    { value: "35", label: "30-35 m² — 5 kW" },
+  ],
+  "Premium": [
+    { value: "35", label: "30-35 m² — 5 kW" },
+    { value: "40", label: "35-40 m² — 6 kW" },
+    { value: "50", label: "40-50 m² — 7 kW" },
+    { value: "50+", label: "> 50 m² — 8 kW+" },
+  ],
+};
+
 const products = [
   {
-    tier: "Entrée de gamme",
-    badge: null,
+    tier: "Notre recommandation",
+    badge: "Le plus choisi",
     name: "Essentiel",
-    brand: "Marque fiable",
+    brand: "Heiwa",
     tagline: "L'air frais sans se ruiner",
     priceFrom: "699",
     priceInstalledFrom: "1 499",
@@ -21,11 +42,11 @@ const products = [
       "Télécommande incluse",
       "Garantie 5 ans",
     ],
-    highlight: false,
+    highlight: true,
   },
   {
-    tier: "Notre recommandation",
-    badge: "Le plus choisi",
+    tier: "Polyvalent",
+    badge: null,
     name: "Confort+",
     brand: "Marque premium",
     tagline: "Le meilleur rapport qualité-prix",
@@ -43,7 +64,7 @@ const products = [
       "WiFi intégré + appli smartphone",
       "Filtre anti-bactérien & déshumidification",
     ],
-    highlight: true,
+    highlight: false,
   },
   {
     tier: "Haut de gamme",
@@ -90,8 +111,11 @@ function ProductCard({ product }: { product: typeof products[0] }) {
         {/* Tier */}
         <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{product.tier}</span>
 
-        {/* Name + tagline */}
-        <h3 className="text-2xl font-extrabold text-dark mt-2">{product.name}</h3>
+        {/* Brand + Name + tagline */}
+        <div className="flex items-baseline gap-2 mt-2">
+          <h3 className="text-2xl font-extrabold text-dark">{product.name}</h3>
+          <span className="text-sm font-semibold text-primary">{product.brand}</span>
+        </div>
         <p className="text-sm text-gray-500 mt-1">{product.tagline}</p>
 
         {/* Product visual */}
