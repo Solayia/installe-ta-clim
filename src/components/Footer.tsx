@@ -24,7 +24,7 @@ const footerSections = [
     title: "À propos",
     links: [
       { label: "Notre démarche", href: "/#comment-ca-marche" },
-      { label: "Certifié RGE QualiPAC", href: "/#faq" },
+      { label: "Nos engagements", href: "/#faq" },
       { label: "Avis clients", href: "/#faq" },
       { label: "Contact", href: "/devis" },
     ],
@@ -91,7 +91,7 @@ export default function Footer() {
         {/* Certifications */}
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mb-8">
-            {["RGE QualiPAC", "Garantie 5 ans", "Paiement sécurisé", "Satisfait ou remboursé"].map((cert) => (
+            {["Installateur qualifié", "Garantie 5 ans", "Paiement sécurisé", "Satisfait ou remboursé"].map((cert) => (
               <div key={cert} className="flex items-center gap-2 text-sm text-gray-400">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6BB8E0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />

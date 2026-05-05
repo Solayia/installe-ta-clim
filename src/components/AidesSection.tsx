@@ -3,8 +3,8 @@ export default function AidesSection() {
     {
       name: "MaPrimeRénov'",
       amount: "Jusqu'à 5 000 EUR",
-      desc: "Aide de l'État pour l'installation d'une PAC air-air par un professionnel RGE. Montant selon revenus du foyer.",
-      eligible: "Installation par un pro RGE",
+      desc: "Aide de l'État pour l'installation d'une PAC air-air par un professionnel qualifié. Montant selon revenus du foyer.",
+      eligible: "Installation par un pro qualifié",
       color: "primary",
     },
     {
@@ -17,7 +17,7 @@ export default function AidesSection() {
     {
       name: "TVA réduite 10%",
       amount: "-10% sur la facture",
-      desc: "TVA à taux réduit automatiquement appliquée quand l'installation est réalisée par un artisan qualifié RGE.",
+      desc: "TVA à taux réduit automatiquement appliquée quand l'installation est réalisée par un artisan qualifié.",
       eligible: "Installation pro uniquement",
       color: "primary",
     },
@@ -94,7 +94,7 @@ export default function AidesSection() {
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-bold text-dark">On gère les démarches pour vous</h3>
-              <p className="text-sm text-gray-500 mt-1">Nos installateurs certifiés RGE vous accompagnent dans le montage de vos dossiers d&apos;aides. Vous n&apos;avez rien à faire — on maximise vos économies.</p>
+              <p className="text-sm text-gray-500 mt-1">Nos installateurs qualifiés vous accompagnent dans le montage de vos dossiers d&apos;aides. Vous n&apos;avez rien à faire — on maximise vos économies.</p>
             </div>
             <a
               href="/devis"

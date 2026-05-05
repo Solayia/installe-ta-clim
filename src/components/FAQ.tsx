@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     question: "Est-ce que les produits sont fiables ?",
-    answer: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont certifiés RGE QualiPAC. Chaque installation est garantie minimum 5 ans. On ne sacrifie jamais la qualité pour le prix — c'est pour ça qu'on ne propose que 3 modèles : les meilleurs dans chaque gamme.",
+    answer: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont qualifiés et expérimentés. Chaque installation est garantie minimum 5 ans. On ne sacrifie jamais la qualité pour le prix — c'est pour ça qu'on ne propose que 3 modèles : les meilleurs dans chaque gamme.",
   },
 ];
 

@@ -1,6 +1,6 @@
 export default function TrustBar() {
   const items = [
-    { label: "Certifié RGE QualiPAC", sub: "Installateurs qualifiés" },
+    { label: "Installateurs qualifiés", sub: "Professionnels certifiés" },
     { label: "Garantie 5 à 7 ans", sub: "Pièces et main d'oeuvre" },
     { label: "Paiement sécurisé", sub: "CB, virement, 3x sans frais" },
     { label: "Satisfait ou remboursé", sub: "Retour sous 30 jours" },

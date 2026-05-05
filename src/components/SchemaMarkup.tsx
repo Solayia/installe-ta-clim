@@ -6,7 +6,7 @@ export function HomePageSchema() {
         "@type": "LocalBusiness",
         name: "Installe ta Clim",
         description:
-          "Achetez votre climatisation et installez-la vous-même ou faites installer par nos experts certifiés RGE. Devis gratuit en 2 minutes.",
+          "Achetez votre climatisation et installez-la vous-même ou faites installer par nos experts qualifiés. Devis gratuit en 2 minutes.",
         url: "https://installetaclim.fr",
         telephone: "+33100000000",
         address: {
@@ -119,7 +119,7 @@ export function HomePageSchema() {
             name: "Les produits sont-ils de qualité ?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont certifiés RGE QualiPAC. Chaque installation est garantie minimum 5 ans.",
+              text: "Absolument. On ne travaille qu'avec des marques reconnues et nos installateurs sont qualifiés et expérimentés. Chaque installation est garantie minimum 5 ans.",
             },
           },
         ],

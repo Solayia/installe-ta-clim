@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Installe ta Clim | Votre climatisation, simplement",
   description:
-    "Achetez votre climatisation et installez-la vous-même ou faites installer par nos experts certifiés RGE. Devis gratuit en 2 minutes, sans engagement.",
+    "Achetez votre climatisation et installez-la vous-même ou faites installer par nos experts qualifiés. Devis gratuit en 2 minutes, sans engagement.",
   keywords:
     "climatisation, clim, installation climatisation, prêt à poser, devis climatisation, clim maison, split, pompe à chaleur",
   openGraph: {

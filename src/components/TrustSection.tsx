@@ -16,7 +16,7 @@ export default function TrustSection() {
         </svg>
       ),
       title: "Certifications reconnues",
-      text: "RGE QualiPAC, assurance décennale, habilitation fluides frigorigènes. Tout est en règle, tout est vérifiable.",
+      text: "Assurance décennale, habilitation fluides frigorigènes. Tout est en règle, tout est vérifiable.",
     },
     {
       icon: (
@@ -93,7 +93,7 @@ export default function TrustSection() {
         <div className="mt-14 bg-white rounded-2xl p-6 border border-gray-200 max-w-3xl mx-auto">
           <div className="flex flex-wrap items-center justify-center gap-8">
             {[
-              { label: "RGE QualiPAC", sub: "Certification" },
+              { label: "Installateur qualifié", sub: "Certification" },
               { label: "Assurance décennale", sub: "Protection" },
               { label: "Fluides frigorigènes", sub: "Habilitation" },
               { label: "Garantie 5-7 ans", sub: "Couverture" },
