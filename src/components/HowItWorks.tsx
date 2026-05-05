@@ -185,12 +185,12 @@ export default function HowItWorks() {
                 <div>
                   <h4 className="font-bold text-dark">Pas sûr de votre choix ?</h4>
                   <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                    Pas de stress. Appelez-nous ou remplissez le formulaire : un conseiller vous aide à choisir la bonne option en 5 minutes. Le soir après le boulot, ça marche aussi.
+                    Pas de stress. Remplissez le formulaire : un conseiller vous aide à choisir la bonne option. Le soir après le boulot, ça marche aussi.
                   </p>
-                  <Link href="tel:+33100000000" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
+                  <Link href="/devis" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
                     activeTab === "diy" ? "text-primary" : "text-secondary"
                   }`}>
-                    Parler à un conseiller
+                    Nous contacter
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
