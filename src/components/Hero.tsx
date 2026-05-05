@@ -73,45 +73,6 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Trust indicators */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-              {[
-                { icon: "clock", text: "Estimation en 2 min" },
-                { icon: "home", text: "Sans déplacement" },
-                { icon: "check", text: "Sans engagement" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-2 text-sm text-white/70">
-                  {item.icon === "clock" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-                    </svg>
-                  )}
-                  {item.icon === "home" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                    </svg>
-                  )}
-                  {item.icon === "check" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                  {item.text}
-                </div>
-              ))}
-            </div>
-
-            {/* Zone info */}
-            <div className="mt-8 sm:mt-10">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/15 px-4 py-2.5 sm:px-5 sm:py-3">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                </svg>
-                <span className="text-xs sm:text-sm text-white/80 font-medium">
-                  Installation : Toulouse &amp; alentours <span className="text-white/40">(31, 32, 65, 81, 82)</span> — Livraison : toute la France
-                </span>
-              </div>
-            </div>
         </div>
       </div>
     </section>
