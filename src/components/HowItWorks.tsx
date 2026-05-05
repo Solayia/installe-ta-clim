@@ -187,7 +187,7 @@ export default function HowItWorks() {
                   <p className="text-sm text-gray-600 mt-1 leading-relaxed">
                     Pas de stress. Remplissez le formulaire : un conseiller vous aide à choisir la bonne option. Le soir après le boulot, ça marche aussi.
                   </p>
-                  <Link href="/devis" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
+                  <Link href="/contact" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
                     activeTab === "diy" ? "text-primary" : "text-secondary"
                   }`}>
                     Nous contacter

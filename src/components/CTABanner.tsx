@@ -29,7 +29,7 @@ export default function CTABanner() {
             Obtenir mon devis gratuit
           </Link>
           <Link
-            href="/devis"
+            href="/contact"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/10 text-white font-bold text-base rounded-2xl border-2 border-white/30 hover:bg-white/20 transition-all duration-300 hover:-translate-y-0.5"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
