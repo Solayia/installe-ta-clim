@@ -40,7 +40,7 @@ const paths = {
       "Estimation sous 48h",
       "Installateur qualifié",
       "Garantie 5 ans",
-      "Éligible aides de l'État",
+      "Pose garantie",
     ],
   },
 };

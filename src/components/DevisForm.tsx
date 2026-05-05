@@ -435,9 +435,9 @@ export default function DevisForm() {
                       </span>
                       <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Recommandé</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">On s&apos;occupe de tout. Installateur qualifié, éligible aux aides de l&apos;État.</p>
+                    <p className="text-sm text-gray-500 mt-1">On s&apos;occupe de tout. Installateur qualifié, pose soignée et garantie.</p>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {["Pro qualifié", "Éligible aides", "Garantie 5 ans"].map((t) => (
+                      {["Pro qualifié", "Pose soignée", "Garantie 5 ans"].map((t) => (
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>

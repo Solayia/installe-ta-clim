@@ -107,7 +107,7 @@ export default function PriceCalculator() {
                         {inst.label}
                       </div>
                       <div className="text-xs text-gray-400">
-                        {inst.value === "diy" ? "Le plus économique" : "Tout inclus + éligible aides"}
+                        {inst.value === "diy" ? "Le plus économique" : "Tout inclus + garanti"}
                       </div>
                     </div>
                   </button>
