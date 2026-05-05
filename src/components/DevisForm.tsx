@@ -66,21 +66,21 @@ const initialData: FormData = {
   message: "",
 };
 
-function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; aides: string; efficiency: string } {
+function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; efficiency: string } {
   if (data.nbPieces > 1) {
-    return { model: "Multi-split sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", aides: "Jusqu'à 5 000 €", efficiency: "A+++" };
+    return { model: "Multi-split sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", efficiency: "A+++" };
   }
   const s = parseInt(data.rooms[0]?.surface || "0");
   if (isNaN(s) || s > 50) {
-    return { model: "Sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", aides: "Jusqu'à 5 000 €", efficiency: "A+++" };
+    return { model: "Sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", efficiency: "A+++" };
   }
   if (s <= 20) {
-    return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "1 499 €", aides: "~1 200 €", efficiency: "A+" };
+    return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "1 499 €", efficiency: "A+" };
   }
   if (s <= 35) {
-    return { model: "Confort+", priceDiy: "999 €", priceInstalled: "1 899 €", aides: "~1 500 €", efficiency: "A++" };
+    return { model: "Confort+", priceDiy: "999 €", priceInstalled: "1 899 €", efficiency: "A++" };
   }
-  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "2 399 €", aides: "~2 000 €", efficiency: "A+++" };
+  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "2 399 €", efficiency: "A+++" };
 }
 
 /* ------------------------------------------------------------------ */
@@ -489,14 +489,6 @@ export default function DevisForm() {
                     </div>
                   </div>
                 </div>
-                {data.installation === "pro" && (
-                  <div className="mt-3 pt-3 border-t border-gray-200 flex items-center gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span className="text-sm text-green-600 font-medium">Aides estimées : {estimation.aides}</span>
-                  </div>
-                )}
               </div>
             </div>
           )}
@@ -621,11 +613,6 @@ export default function DevisForm() {
                 </div>
                 {data.nbPieces > 1 && (
                   <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>
-                )}
-                {data.installation === "pro" && (
-                  <div className="mt-3 pt-3 border-t border-gray-200 text-sm text-green-600 font-medium">
-                    Aides estimées : {estimation.aides}
-                  </div>
                 )}
               </div>
 

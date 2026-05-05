@@ -77,15 +77,6 @@ const articles = [
     slug: "entretenir-climatisation-guide",
   },
   {
-    title: "Aides financières 2026 : ce à quoi vous avez droit",
-    excerpt:
-      "MaPrimeRénov', CEE, TVA réduite... On fait le point sur les aides disponibles pour votre projet climatisation.",
-    category: "Économies",
-    readTime: "6 min",
-    date: "5 mars 2026",
-    slug: "aides-financieres-climatisation-2026",
-  },
-  {
     title: "Quelle puissance de clim pour quelle surface ?",
     excerpt:
       "20 m², 35 m², 50 m²... On vous donne la règle simple pour ne jamais vous tromper de puissance.",

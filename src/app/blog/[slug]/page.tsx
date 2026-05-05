@@ -45,7 +45,6 @@ const articles: Record<string, { title: string; excerpt: string; category: strin
       "En achat seul (prêt à poser), comptez entre 699 EUR pour un modèle entrée de gamme et 1 499 EUR pour un modèle haut de gamme. C'est le prix du matériel complet, livré chez vous.",
       "Pour une installation par un professionnel certifié, ajoutez entre 800 et 900 EUR. Nos tarifs fourni + installé vont de 1 499 EUR à 2 399 EUR selon le modèle.",
       "Côté consommation, une climatisation moderne consomme entre 15 et 20 EUR par mois en été, pour un usage normal (6 à 8h par jour). En mode chauffage l'hiver, c'est souvent plus économique qu'un radiateur électrique.",
-      "Les aides financières peuvent réduire significativement la facture : MaPrimeRénov', les CEE (Certificats d'Économie d'Énergie), et la TVA à taux réduit pour les installations par un professionnel qualifié.",
       "Sur 10 ans, une clim réversible peut vous faire économiser plusieurs milliers d'euros par rapport à un chauffage électrique classique, tout en vous offrant la fraîcheur en été.",
     ],
   },

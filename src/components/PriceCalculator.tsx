@@ -21,7 +21,6 @@ export default function PriceCalculator() {
 
   const selected = surfaces.find((s) => s.value === surface)!;
   const price = installation === "diy" ? selected.priceDiy : selected.priceInstalled;
-  const aides = installation === "pro" ? 1500 : 0;
 
   return (
     <section id="simulateur" className="py-20 lg:py-28 bg-cream">
@@ -144,14 +143,6 @@ export default function PriceCalculator() {
                     Modèle {selected.model} — Classe {selected.efficiency}
                     {installation === "diy" ? " — Pack prêt à poser" : " — Fourni + installé"}
                   </div>
-                  {installation === "pro" && (
-                    <div className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 text-sm font-semibold rounded-lg">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      Éligible à ~{aides.toLocaleString("fr-FR")} EUR d&apos;aides
-                    </div>
-                  )}
                 </div>
                 <div className="flex flex-col gap-3">
                   <Link
