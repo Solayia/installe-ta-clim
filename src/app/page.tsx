@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import ProductHighlights from "@/components/ProductHighlights";
-import TrustBar from "@/components/TrustBar";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTABanner from "@/components/CTABanner";
@@ -13,7 +12,6 @@ export default function Home() {
     <>
       <HomePageSchema />
       <Hero />
-      <TrustBar />
       <ScrollReveal>
         <HowItWorks />
       </ScrollReveal>
