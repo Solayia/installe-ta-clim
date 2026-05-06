@@ -154,10 +154,10 @@ export default function DevisForm() {
   /* REC-008: All fields required before moving to the next step */
   const canNext = (): boolean => {
     switch (step) {
-      case 0: return !!data.logement && data.nbPieces >= 1;
-      case 1: return data.rooms.every((r) => !!r.type && !!r.surface) && data.distanceTableau >= 1;
-      case 2: return !!data.installation;
-      case 3: return !!data.nom && !!data.telephone && !!data.email && !!data.ville;
+      case 0: return !!data.nom && !!data.telephone && !!data.email && !!data.ville;
+      case 1: return !!data.logement && data.nbPieces >= 1;
+      case 2: return data.rooms.every((r) => !!r.type && !!r.surface) && data.distanceTableau >= 1;
+      case 3: return !!data.installation;
       default: return false;
     }
   };
@@ -225,10 +225,10 @@ export default function DevisForm() {
               />
             </div>
             <div className="flex justify-between mt-2 text-[10px] text-white/30 font-medium uppercase tracking-wider">
+              <span>Contact</span>
               <span>Bien</span>
               <span>Pièces</span>
               <span>Installation</span>
-              <span>Contact</span>
             </div>
           </div>
         )}
@@ -236,8 +236,72 @@ export default function DevisForm() {
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
 
-          {/* ============ STEP 0 — Type de bien + Nombre de pièces ============ */}
+          {/* ============ STEP 0 — Coordonnées (capture lead en premier) ============ */}
           {step === 0 && (
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Commençons par vous connaître</h3>
+              <p className="text-sm text-gray-400 mb-6">Pour vous recontacter avec votre estimation personnalisée</p>
+              <div className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Nom complet *</label>
+                    <input
+                      type="text"
+                      value={data.nom}
+                      onChange={(e) => update("nom", e.target.value)}
+                      placeholder="Jean Dupont"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Téléphone *</label>
+                    <input
+                      type="tel"
+                      value={data.telephone}
+                      onChange={(e) => update("telephone", e.target.value)}
+                      placeholder="06 12 34 56 78"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                    />
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Email *</label>
+                    <input
+                      type="email"
+                      value={data.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      placeholder="jean@exemple.fr"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Ville / Code postal *</label>
+                    <input
+                      type="text"
+                      value={data.ville}
+                      onChange={(e) => update("ville", e.target.value)}
+                      placeholder="31000 Toulouse"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Message (optionnel)</label>
+                  <textarea
+                    value={data.message}
+                    onChange={(e) => update("message", e.target.value)}
+                    placeholder="Précisions sur votre projet, contraintes particulières..."
+                    rows={3}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ============ STEP 1 — Type de bien + Nombre de pièces ============ */}
+          {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre bien</h3>
               <p className="text-sm text-gray-400 mb-6">Pour adapter notre recommandation</p>
@@ -295,8 +359,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 1 — Détail de chaque pièce + Distance tableau élec ============ */}
-          {step === 1 && (
+          {/* ============ STEP 2 — Détail de chaque pièce + Distance tableau élec ============ */}
+          {step === 2 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
                 {data.nbPieces === 1 ? "Décrivez votre pièce" : `Décrivez vos ${data.nbPieces} pièces`}
@@ -407,8 +471,8 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 2 — Type d'installation ============ */}
-          {step === 2 && (
+          {/* ============ STEP 3 — Type d'installation ============ */}
+          {step === 3 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
               <p className="text-sm text-gray-400 mb-6">Vous pouvez changer d&apos;avis plus tard</p>
@@ -490,75 +554,19 @@ export default function DevisForm() {
                   </div>
                 </div>
               </div>
-            </div>
-          )}
 
-          {/* ============ STEP 3 — Coordonnées (REC-008: ville obligatoire) ============ */}
-          {step === 3 && (
-            <div className="p-5 sm:p-8 lg:p-10">
-              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Vos coordonnées</h3>
-              <p className="text-sm text-gray-400 mb-6">Pour recevoir votre devis détaillé sous 48h</p>
-              <div className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Nom complet *</label>
-                    <input
-                      type="text"
-                      value={data.nom}
-                      onChange={(e) => update("nom", e.target.value)}
-                      placeholder="Jean Dupont"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Téléphone *</label>
-                    <input
-                      type="tel"
-                      value={data.telephone}
-                      onChange={(e) => update("telephone", e.target.value)}
-                      placeholder="06 12 34 56 78"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Email *</label>
-                    <input
-                      type="email"
-                      value={data.email}
-                      onChange={(e) => update("email", e.target.value)}
-                      placeholder="jean@exemple.fr"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600 mb-1.5 block">Ville / Code postal *</label>
-                    <input
-                      type="text"
-                      value={data.ville}
-                      onChange={(e) => update("ville", e.target.value)}
-                      placeholder="31000 Toulouse"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-600 mb-1.5 block">Message (optionnel)</label>
-                  <textarea
-                    value={data.message}
-                    onChange={(e) => update("message", e.target.value)}
-                    placeholder="Précisions sur votre projet, contraintes particulières..."
-                    rows={3}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* Recap */}
+              {/* Recap complet */}
               <div className="mt-6 bg-cream rounded-2xl p-5 border border-gray-200">
                 <h4 className="text-sm font-bold text-dark mb-3">Récapitulatif de votre projet</h4>
                 <div className="grid grid-cols-2 gap-y-2 text-sm">
+                  <span className="text-gray-400">Contact</span>
+                  <span className="text-dark font-medium">{data.nom}</span>
+                  <span className="text-gray-400">Téléphone</span>
+                  <span className="text-dark font-medium">{data.telephone}</span>
+                  <span className="text-gray-400">Email</span>
+                  <span className="text-dark font-medium">{data.email}</span>
+                  <span className="text-gray-400">Ville</span>
+                  <span className="text-dark font-medium">{data.ville}</span>
                   <span className="text-gray-400">Type de bien</span>
                   <span className="text-dark font-medium">{logementTypes.find((l) => l.value === data.logement)?.label}</span>
                   <span className="text-gray-400">Pièces à climatiser</span>
@@ -589,6 +597,7 @@ export default function DevisForm() {
               </p>
             </div>
           )}
+
 
           {/* ============ STEP 4 — Confirmation ============ */}
           {step === 4 && submitted && (
