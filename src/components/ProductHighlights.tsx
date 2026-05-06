@@ -1,6 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
-/* Surface ranges per product for the dropdown — REC-027 */
+/* Surface ranges per product for the dropdown */
 const surfaceRanges: Record<string, { value: string; label: string }[]> = {
   "Essentiel": [
     { value: "10", label: "< 10 m² — 2.5 kW" },
@@ -91,6 +94,9 @@ const products = [
 ];
 
 function ProductCard({ product }: { product: typeof products[0] }) {
+  const ranges = surfaceRanges[product.name] || [];
+  const [selectedSurface, setSelectedSurface] = useState(ranges[0]?.value || "");
+
   return (
     <div className={`relative bg-white rounded-3xl overflow-hidden card-lift ${
       product.highlight
@@ -176,6 +182,27 @@ function ProductCard({ product }: { product: typeof products[0] }) {
             <span className="font-semibold text-primary">{product.efficiency}</span>
           </div>
         </div>
+
+        {/* Surface / puissance selector */}
+        {ranges.length > 0 && (
+          <div className="mb-4">
+            <label className="text-xs font-semibold text-gray-500 mb-1.5 block flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              </svg>
+              Votre surface
+            </label>
+            <select
+              value={selectedSurface}
+              onChange={(e) => setSelectedSurface(e.target.value)}
+              className="w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm text-dark font-medium focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all cursor-pointer"
+            >
+              {ranges.map((r) => (
+                <option key={r.value} value={r.value}>{r.label}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Consumption & savings */}
         <div className="flex items-center gap-2 mb-1 text-sm">
