@@ -68,19 +68,20 @@ const initialData: FormData = {
 
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; efficiency: string } {
   if (data.nbPieces > 1) {
-    return { model: "Multi-split sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", efficiency: "A+++" };
+    const diyMulti: Record<number, string> = { 2: "1 599 €", 3: "2 299 €", 4: "2 999 €", 5: "3 599 €", 6: "3 999 €" };
+    return { model: "Multi-split sur-mesure", priceDiy: diyMulti[data.nbPieces] || "3 999 €", priceInstalled: "Sur devis", efficiency: "A+++" };
   }
   const s = parseInt(data.rooms[0]?.surface || "0");
   if (isNaN(s) || s > 50) {
-    return { model: "Sur-mesure", priceDiy: "Sur devis", priceInstalled: "Sur devis", efficiency: "A+++" };
+    return { model: "Sur-mesure", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
   }
   if (s <= 20) {
-    return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "1 499 €", efficiency: "A+" };
+    return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "Sur devis", efficiency: "A+" };
   }
   if (s <= 35) {
-    return { model: "Confort+", priceDiy: "999 €", priceInstalled: "1 899 €", efficiency: "A++" };
+    return { model: "Confort+", priceDiy: "999 €", priceInstalled: "Sur devis", efficiency: "A++" };
   }
-  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "2 399 €", efficiency: "A+++" };
+  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
 }
 
 /* ------------------------------------------------------------------ */
