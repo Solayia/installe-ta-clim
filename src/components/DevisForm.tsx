@@ -811,16 +811,24 @@ export default function DevisForm() {
                     <p className="text-sm text-gray-500 mt-1">On s&apos;occupe de tout. Installateur qualifié, pose soignée et garantie.</p>
                     <div className="mt-2 flex items-center gap-1.5 text-xs text-amber-600 font-medium">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                      Toulouse et alentours uniquement
+                      Haute-Garonne (31) et dép. voisins (81, 82, 65)
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {["Pro qualifié", "Pose soignée", "Garantie 5 ans"].map((t) => (
+                      {["Pro qualifié", "Pose soignée", "Garantie 5 ans", "Visio expert"].map((t) => (
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
-                    <div className="mt-3 text-lg font-extrabold text-primary">{estimation.priceInstalled}</div>
+                    <div className="mt-3 text-sm font-extrabold text-primary">{estimation.priceInstalled} <span className="text-xs font-medium text-gray-400">— sur devis</span></div>
                   </div>
                 </button>
+              </div>
+
+              {/* REC-090 : Bascule vers DIY */}
+              <div className="mt-4 text-center">
+                <a href="/catalogue" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-hover font-medium transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
+                  Vous préférez installer vous-même ? Voir le catalogue →
+                </a>
               </div>
 
               {/* Recap */}
@@ -940,28 +948,74 @@ export default function DevisForm() {
                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                   </div>
-                  <h3 className="text-2xl font-extrabold text-dark">Demande de rendez-vous envoyée !</h3>
+                  <h3 className="text-2xl font-extrabold text-dark">Votre demande est envoyée !</h3>
                   <p className="text-gray-500 mt-3 max-w-md mx-auto">
-                    Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> pour planifier votre rendez-vous visio et établir votre devis personnalisé.
+                    Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous contacte sous <strong className="text-primary">48h</strong> pour planifier votre visio et valider votre projet.
                   </p>
+
+                  {/* Prix */}
                   <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                     <div className="text-xs text-gray-400 uppercase font-medium mb-2">Installation professionnelle</div>
-                    <div className="text-2xl font-extrabold text-primary">{estimation.priceInstalled}</div>
+                    <div className="text-xl font-extrabold text-primary">{estimation.priceInstalled} <span className="text-sm font-medium text-gray-400">— sur devis</span></div>
                     <div className="text-sm text-gray-500 mt-1">Modèle {estimation.model} — Fourni + installé</div>
                     <div className="flex items-center justify-center gap-1.5 mt-3 text-xs text-amber-600 font-medium">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
-                      Toulouse et alentours
+                      Haute-Garonne (31) et dép. voisins (81, 82, 65)
                     </div>
                   </div>
-                  <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200 max-w-sm mx-auto">
-                    <div className="text-sm font-semibold text-dark mb-2">Prochaine étape</div>
-                    <div className="flex items-start gap-3 text-left">
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                      </div>
-                      <p className="text-sm text-gray-600">Un conseiller vous appelle pour un <strong className="text-dark">rendez-vous visio</strong> afin d&apos;évaluer votre installation et vous proposer le meilleur devis.</p>
+
+                  {/* REC-051/053 : Timeline parcours pro formalisé */}
+                  <div className="mt-6 max-w-md mx-auto">
+                    <div className="text-sm font-semibold text-dark mb-4">Votre parcours</div>
+                    <div className="space-y-0 text-left">
+                      {[
+                        { icon: "visio", label: "Visio avec un expert", desc: "Vérification du logement, validation du projet, devis définitif", active: true },
+                        { icon: "doc", label: "Devis définitif", desc: "Proposition détaillée envoyée après la visio" },
+                        { icon: "pay", label: "Acompte 30%", desc: "Paiement sécurisé, créneau d'installation bloqué" },
+                        { icon: "install", label: "Installation", desc: "Un installateur qualifié intervient chez vous" },
+                        { icon: "done", label: "Paiement du solde", desc: "Règlement à la réception des travaux" },
+                      ].map((s, i, arr) => (
+                        <div key={i} className="flex gap-3">
+                          <div className="flex flex-col items-center">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold ${
+                              s.active ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
+                            }`}>
+                              {i + 1}
+                            </div>
+                            {i < arr.length - 1 && <div className="w-0.5 flex-1 min-h-[16px] bg-gray-200 mt-1" />}
+                          </div>
+                          <div className="pb-4">
+                            <div className={`text-sm font-semibold ${s.active ? "text-primary" : "text-dark"}`}>{s.label}</div>
+                            <div className="text-xs text-gray-400 mt-0.5">{s.desc}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
+
+                  {/* REC-069 : Lien Google Agenda (placeholder) */}
+                  <div className="mt-6">
+                    <a
+                      href="https://calendar.google.com/calendar/appointments/schedules/PLACEHOLDER"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      Choisir un créneau visio
+                    </a>
+                    <p className="mt-2 text-xs text-gray-400">Ou attendez qu&apos;un conseiller vous contacte sous 48h</p>
+                  </div>
+
+                  {/* REC-090 : Bascule vers DIY */}
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <p className="text-sm text-gray-500 mb-3">Vous préférez installer vous-même ?</p>
+                    <a href="/catalogue" className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold text-sm rounded-xl hover:bg-primary-light transition-all">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
+                      Voir le catalogue DIY
+                    </a>
+                  </div>
+
                   <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
                     {["Sans engagement", "Devis gratuit", "Réponse sous 48h"].map((item) => (
                       <div key={item} className="flex items-center gap-2">

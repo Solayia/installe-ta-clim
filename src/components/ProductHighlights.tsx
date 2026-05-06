@@ -242,7 +242,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
           <div className="border-t border-gray-100 pt-2.5 flex items-center justify-between">
             <div>
               <span className="text-[10px] font-medium text-gray-400 uppercase block">Fourni + installé</span>
-              <span className="text-[10px] text-gray-300">à partir de</span>
+              <span className="text-[10px] text-gray-300">à partir de — sur devis</span>
             </div>
             <span className="text-xl font-extrabold text-primary">{product.priceInstalledFrom} <span className="text-sm font-medium text-gray-400">EUR</span></span>
           </div>

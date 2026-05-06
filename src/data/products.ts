@@ -22,8 +22,10 @@ export interface CatalogProduct {
   efficiency: string;
   consumption: string;
   savings: string;
+  features: string[];       // 2-3 caractéristiques différenciantes (REC-080)
   benefits: string[];
   highlight: boolean;
+  image?: string;            // URL photo fournisseur (REC-083) — undefined = SVG par défaut
   variants: PowerVariant[];
 }
 
@@ -42,6 +44,7 @@ export const catalogProducts: CatalogProduct[] = [
     efficiency: "A+",
     consumption: "~15 €/mois en été",
     savings: "Économique à l'achat et à l'usage",
+    features: ["Froid seul", "Télécommande infrarouge", "Installation simplifiée"],
     benefits: [
       "Idéal pour une chambre ou un bureau",
       "Silencieuse en mode nuit",
@@ -69,6 +72,7 @@ export const catalogProducts: CatalogProduct[] = [
     efficiency: "A++",
     consumption: "~18 €/mois en été",
     savings: "Jusqu'à 50% vs chauffage électrique en hiver",
+    features: ["Réversible chaud/froid", "WiFi + appli smartphone", "Filtre anti-bactérien"],
     benefits: [
       "Parfait pour un salon ou pièce de vie",
       "Ultra-silencieuse, même en journée",
@@ -97,6 +101,7 @@ export const catalogProducts: CatalogProduct[] = [
     efficiency: "A+++",
     consumption: "~20 €/mois en été",
     savings: "La plus économe au m² sur le long terme",
+    features: ["Réversible chaud/froid", "Purificateur d'air intégré", "Connectivité domotique"],
     benefits: [
       "Grandes pièces et espaces ouverts",
       "La plus silencieuse du marché",

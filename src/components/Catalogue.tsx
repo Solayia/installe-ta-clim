@@ -71,11 +71,24 @@ function ProductCard({
         </div>
         <p className="text-sm text-gray-500 mt-1">{product.tagline}</p>
 
-        {/* Illustration AC unit */}
+        {/* Illustration — photo fournisseur ou SVG par défaut (REC-083) */}
         <div className={`my-5 rounded-2xl overflow-hidden p-6 flex items-center justify-center ${
           isRecommended ? "bg-gradient-to-br from-primary/5 via-primary-light to-cream" : "bg-gradient-to-br from-gray-50 via-primary-light/30 to-cream"
         }`}>
-          <ACUnitSVG highlight={isRecommended || product.highlight} />
+          {product.image ? (
+            <img src={product.image} alt={`Climatisation ${product.name}`} className="w-full h-40 object-contain" />
+          ) : (
+            <ACUnitSVG highlight={isRecommended || product.highlight} />
+          )}
+        </div>
+
+        {/* REC-080 : Features différenciantes */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {product.features.map((f, i) => (
+            <span key={i} className="text-[11px] font-medium bg-primary-light text-primary px-2.5 py-1 rounded-lg">
+              {f}
+            </span>
+          ))}
         </div>
 
         {/* ⚡ Puissance + m² sur même ligne (REC-079) */}
@@ -152,8 +165,8 @@ function ProductCard({
           ))}
         </ul>
 
-        {/* Prix DIY */}
-        <div className="bg-cream rounded-2xl p-4 mb-5">
+        {/* Prix DIY + installé (REC-082) */}
+        <div className="bg-cream rounded-2xl p-4 mb-5 space-y-3">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide block">
@@ -163,6 +176,17 @@ function ProductCard({
             </div>
             <span className="text-2xl font-extrabold text-primary">
               {formatPrice(product.priceDiy)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+            <div>
+              <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide block">
+                Fourni + installé
+              </span>
+              <span className="text-[11px] text-gray-300">à partir de — sur devis</span>
+            </div>
+            <span className="text-lg font-bold text-dark">
+              {formatPrice(product.priceInstalled)}
             </span>
           </div>
         </div>

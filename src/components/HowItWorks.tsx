@@ -25,25 +25,44 @@ const paths = {
   },
   installed: {
     title: "On s'occupe de tout",
-    subtitle: "Clé en main — Toulouse et alentours",
-    description: "Vous n'avez rien à faire. Décrivez votre projet, recevez une estimation, validez en visio, et on planifie l'installation chez vous.",
+    subtitle: "Clé en main — Haute-Garonne (31) et départements voisins (81, 82, 65)",
+    description: "Vous n'avez rien à faire. Décrivez votre projet, recevez une estimation, validez en visio avec un expert, et on planifie l'installation chez vous.",
     steps: [
-      { num: "1", title: "Je décris mon projet", desc: "Formulaire en 2 minutes : surface, type de logement, préférences." },
-      { num: "2", title: "Je reçois une estimation", desc: "Proposition claire et détaillée sous 48h, sans jargon." },
-      { num: "3", title: "Je valide en visio", desc: "15 min pour confirmer les détails techniques, le soir si besoin." },
-      { num: "4", title: "Je confirme et je verse l'acompte", desc: "Paiement sécurisé. On bloque votre créneau." },
-      { num: "5", title: "L'installation est planifiée", desc: "Un installateur qualifié intervient à la date choisie." },
+      { num: "1", title: "Je décris mon projet", desc: "Formulaire en 2 minutes : surface, type de logement, nombre de pièces." },
+      { num: "2", title: "Je reçois une estimation", desc: "Proposition claire et détaillée sous 48h. Un conseiller vous contacte pour répondre à vos questions." },
+      { num: "3", title: "Je valide en visio avec un expert", desc: "15 min pour vérifier votre logement, valider le projet et établir le devis définitif. Choisissez votre créneau, le soir si besoin." },
+      { num: "4", title: "Je confirme et verse l'acompte (30%)", desc: "Paiement sécurisé. Votre créneau d'installation est bloqué." },
+      { num: "5", title: "Installation + paiement du solde", desc: "Un installateur qualifié intervient à la date choisie. Solde à réception des travaux." },
     ],
-    cta: "On s'occupe de tout",
+    cta: "Demander une estimation",
     ctaHref: "/devis#pro",
     benefits: [
       "Estimation sous 48h",
+      "Visio expert — pas de visite",
       "Installateur qualifié",
       "Garantie 5 ans",
-      "Pose soignée",
     ],
   },
 };
+
+/* Données comparatif REC-074 */
+const comparison = [
+  {
+    label: "Obtenir un devis",
+    others: "Visite à domicile obligatoire",
+    itc: "Visio de 15 min, le soir si besoin",
+  },
+  {
+    label: "Délai de réponse",
+    others: "7 à 15 jours",
+    itc: "Estimation sous 48h",
+  },
+  {
+    label: "Transparence prix",
+    others: "Prix communiqués après visite",
+    itc: "Prix affichés en ligne",
+  },
+];
 
 export default function HowItWorks() {
   const [activeTab, setActiveTab] = useState<"diy" | "installed">("installed");
@@ -150,7 +169,7 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          {/* Right: Benefits only — takes 2/5, épuré */}
+          {/* Right: Benefits only — takes 2/5 */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-200">
               <h4 className="font-bold text-dark mb-5 text-lg">Ce que vous y gagnez</h4>
@@ -169,6 +188,57 @@ export default function HowItWorks() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* REC-074 : Comparatif "Autres installateurs vs Installe Ta Clim" */}
+        <div className="mt-14">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-extrabold text-dark">
+              Pourquoi choisir Installe ta Clim ?
+            </h3>
+            <p className="text-gray-500 mt-2">
+              Ce qui nous différencie des installateurs traditionnels.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto bg-cream rounded-3xl border border-gray-200 overflow-hidden">
+            {/* Header row */}
+            <div className="grid grid-cols-3 text-center text-sm font-bold border-b border-gray-200">
+              <div className="p-4 text-gray-400" />
+              <div className="p-4 text-gray-500 bg-gray-50">
+                Autres installateurs
+              </div>
+              <div className="p-4 text-primary bg-primary-light">
+                Installe ta Clim
+              </div>
+            </div>
+
+            {/* Rows */}
+            {comparison.map((row, i) => (
+              <div
+                key={i}
+                className={`grid grid-cols-3 items-center text-sm ${
+                  i < comparison.length - 1 ? "border-b border-gray-100" : ""
+                }`}
+              >
+                <div className="p-4 font-semibold text-dark">
+                  {row.label}
+                </div>
+                <div className="p-4 text-gray-400 bg-gray-50 flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                  <span>{row.others}</span>
+                </div>
+                <div className="p-4 bg-primary-light flex items-center gap-2 text-dark font-medium">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span>{row.itc}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
