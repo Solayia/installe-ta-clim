@@ -6,26 +6,26 @@ import Link from "next/link";
 const paths = {
   diy: {
     title: "J'installe moi-même",
-    subtitle: "Partout en France",
-    description: "La solution la plus économique. Choisissez votre modèle, recevez tout le matériel chez vous, et installez à votre rythme avec nos guides.",
+    subtitle: "Pack livré chez vous — Partout en France",
+    description: "La solution la plus économique. Choisissez votre modèle, recevez tout le matériel chez vous, et installez à votre rythme.",
     steps: [
-      { num: "1", title: "Je choisis mon modèle", desc: "3 modèles sélectionnés — on vous aide à trouver le bon en 2 minutes." },
+      { num: "1", title: "Je choisis mon modèle", desc: "3 gammes sélectionnées — on vous aide à trouver la bonne en 2 minutes." },
       { num: "2", title: "Je commande en ligne", desc: "Paiement sécurisé, CB ou 3x sans frais." },
-      { num: "3", title: "Je reçois tout chez moi", desc: "Livraison avec tout le matériel, les accessoires et les guides." },
-      { num: "4", title: "J'installe à mon rythme", desc: "Tutoriels vidéo pas à pas + hotline technique gratuite." },
+      { num: "3", title: "Je reçois tout chez moi", desc: "Livraison rapide avec tout le matériel et les accessoires." },
+      { num: "4", title: "J'installe à mon rythme", desc: "Hotline technique gratuite si vous avez la moindre question." },
     ],
     cta: "J'installe moi-même",
     ctaHref: "/devis#diy",
     benefits: [
       "Jusqu'à 40% d'économie",
-      "Tutoriels vidéo inclus",
-      "Support technique gratuit",
+      "Hotline technique gratuite",
       "Retour sous 30 jours",
+      "Livraison rapide",
     ],
   },
   installed: {
-    title: "Je fais installer",
-    subtitle: "Toulouse et alentours",
+    title: "On s'occupe de tout",
+    subtitle: "Clé en main — Toulouse et alentours",
     description: "Vous n'avez rien à faire. Décrivez votre projet, recevez une estimation, validez en visio, et on planifie l'installation chez vous.",
     steps: [
       { num: "1", title: "Je décris mon projet", desc: "Formulaire en 2 minutes : surface, type de logement, préférences." },
@@ -34,7 +34,7 @@ const paths = {
       { num: "4", title: "Je confirme et je verse l'acompte", desc: "Paiement sécurisé. On bloque votre créneau." },
       { num: "5", title: "L'installation est planifiée", desc: "Un installateur qualifié intervient à la date choisie." },
     ],
-    cta: "Je fais installer",
+    cta: "On s'occupe de tout",
     ctaHref: "/devis#pro",
     benefits: [
       "Estimation sous 48h",
@@ -51,7 +51,7 @@ export default function HowItWorks() {
 
   return (
     <section id="comment-ca-marche" className="py-16 lg:py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="inline-block px-4 py-1.5 bg-primary-light text-primary text-sm font-semibold rounded-full mb-4">
@@ -72,7 +72,7 @@ export default function HowItWorks() {
           <div className="inline-flex bg-cream rounded-2xl p-1.5 shadow-sm border border-gray-200">
             <button
               onClick={() => setActiveTab("diy")}
-              className={`flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+              className={`flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                 activeTab === "diy"
                   ? "bg-primary text-white shadow-md"
                   : "text-gray-500 hover:text-gray-700"
@@ -81,11 +81,12 @@ export default function HowItWorks() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
               </svg>
-              J&apos;installe moi-même
+              <span className="hidden sm:inline">J&apos;installe moi-même</span>
+              <span className="sm:hidden">DIY</span>
             </button>
             <button
               onClick={() => setActiveTab("installed")}
-              className={`flex items-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+              className={`flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                 activeTab === "installed"
                   ? "bg-secondary text-white shadow-md"
                   : "text-gray-500 hover:text-gray-700"
@@ -94,15 +95,15 @@ export default function HowItWorks() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
               </svg>
-              Je fais installer
+              On s&apos;occupe de tout
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="grid lg:grid-cols-2 gap-10 items-start">
-          {/* Left: Steps */}
-          <div className="bg-cream rounded-3xl p-8 lg:p-10 border border-gray-200">
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
+          {/* Left: Steps — takes 3/5 */}
+          <div className="lg:col-span-3 bg-cream rounded-3xl p-6 sm:p-8 lg:p-10 border border-gray-200">
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-dark">{current.title}</h3>
               <p className="text-sm text-gray-400 mt-1 font-medium">{current.subtitle}</p>
@@ -149,12 +150,11 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          {/* Right: Benefits + question card + stat */}
-          <div className="space-y-6">
-            {/* Benefits */}
-            <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
+          {/* Right: Benefits only — takes 2/5, épuré */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-200">
               <h4 className="font-bold text-dark mb-5 text-lg">Ce que vous y gagnez</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-3">
                 {current.benefits.map((benefit) => (
                   <div key={benefit} className="flex items-center gap-3 p-3.5 rounded-xl bg-gray-50">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
@@ -169,36 +169,6 @@ export default function HowItWorks() {
                 ))}
               </div>
             </div>
-
-            {/* Reassurance */}
-            <div className={`rounded-3xl p-8 ${
-              activeTab === "diy" ? "bg-primary-light" : "bg-secondary-light"
-            }`}>
-              <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  activeTab === "diy" ? "bg-primary text-white" : "bg-secondary text-white"
-                }`}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-bold text-dark">Pas sûr de votre choix ?</h4>
-                  <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                    Pas de stress. Remplissez le formulaire : un conseiller vous aide à choisir la bonne option. Le soir après le boulot, ça marche aussi.
-                  </p>
-                  <Link href="/contact" className={`inline-flex items-center gap-1 text-sm font-semibold mt-3 ${
-                    activeTab === "diy" ? "text-primary" : "text-secondary"
-                  }`}>
-                    Nous contacter
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

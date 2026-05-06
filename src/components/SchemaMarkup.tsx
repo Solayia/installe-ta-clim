@@ -87,7 +87,7 @@ export function HomePageSchema() {
             name: "C'est compliqué d'installer une clim soi-même ?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Pas du tout. Nos packs prêt à poser sont conçus pour être installés sans connaissances particulières. Vous recevez un guide pas à pas, des tutoriels vidéo, et notre équipe est joignable par téléphone.",
+              text: "Pas du tout. Nos packs prêt à poser sont conçus pour être installés sans connaissances particulières. Tout est bien repéré dans le pack et notre équipe est joignable par téléphone.",
             },
           },
           {

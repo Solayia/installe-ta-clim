@@ -14,7 +14,7 @@ const testimonials = [
     name: "Thomas Rougier",
     location: "Albi (81)",
     rating: 5,
-    text: "Pack prêt à poser commandé un lundi, reçu le mercredi. J'ai installé avec ma femme en un week-end. Les tutos vidéo sont super clairs, même pour un débutant.",
+    text: "Pack prêt à poser commandé un lundi, reçu le mercredi. J'ai installé avec ma femme en un week-end. Tout est bien repéré et la hotline répond vite si on bloque.",
     type: "Pack prêt à poser",
     date: "Février 2026",
     detail: "Essentiel — Chambre 18 m²",

@@ -14,12 +14,6 @@ export default function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
         <div className="max-w-2xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full border border-white/20 text-sm font-medium text-white mb-6">
-              <span className="w-2 h-2 bg-primary rounded-full animate-pulse-soft" />
-              Estimation gratuite, sans engagement
-            </div>
-
             {/* REC-013: Wording englobant les 2 offres */}
             <h1 className="text-3xl sm:text-5xl lg:text-[3.75rem] font-extrabold text-white leading-[1.1] tracking-tight">
               Votre climatisation,{" "}
@@ -49,7 +43,7 @@ export default function Hero() {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
                   </svg>
-                  Je fais installer
+                  On s&apos;occupe de tout
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
@@ -71,34 +65,6 @@ export default function Hero() {
                 </span>
                 <span className="text-xs font-normal text-white/70 mt-1">Partout en France</span>
               </a>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-              {[
-                { icon: "clock", text: "Estimation en 2 min" },
-                { icon: "home", text: "Sans déplacement" },
-                { icon: "check", text: "Sans engagement" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-2 text-sm text-white/70">
-                  {item.icon === "clock" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-                    </svg>
-                  )}
-                  {item.icon === "home" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-                    </svg>
-                  )}
-                  {item.icon === "check" && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                  {item.text}
-                </div>
-              ))}
             </div>
 
             {/* Zone info */}

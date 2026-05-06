@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: "Est-ce que je peux installer moi-même ?",
-    answer: "Oui ! Nos packs prêt à poser sont conçus pour ça. Vous recevez tout le matériel, un guide d'installation pas à pas, des tutoriels vidéo, et notre hotline technique est gratuite si vous bloquez. La plupart de nos clients installent leur clim en un week-end.",
+    answer: "Oui ! Nos packs prêt à poser sont conçus pour ça. Vous recevez tout le matériel nécessaire et notre hotline technique est gratuite si vous bloquez. La plupart de nos clients installent leur clim en un week-end.",
   },
   {
     question: "Intervenez-vous dans ma zone ?",

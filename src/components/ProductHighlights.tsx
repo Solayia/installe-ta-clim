@@ -100,7 +100,7 @@ function ProductCard({ product }: { product: typeof products[0] }) {
   return (
     <div className={`relative bg-white rounded-3xl overflow-hidden card-lift ${
       product.highlight
-        ? "border-2 border-primary shadow-xl shadow-primary/10 scale-[1.02] lg:scale-105"
+        ? "border-2 border-primary shadow-xl shadow-primary/10"
         : "border border-gray-200"
     }`}>
       {/* Badge */}
@@ -305,8 +305,8 @@ export default function ProductHighlights() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-semibold text-dark">Multi-split ou config sur-mesure ?</p>
-              <p className="text-xs text-gray-400 mt-1">Contactez-nous pour un devis personnalisé. On s&apos;adapte à tous les projets, toutes les surfaces.</p>
+              <p className="text-sm font-semibold text-dark">Besoin de climatiser plusieurs pièces ?</p>
+              <p className="text-xs text-gray-400 mt-1">Contactez-nous pour un devis personnalisé. On vous recommande la meilleure configuration pour chaque pièce.</p>
             </div>
           </div>
         </div>

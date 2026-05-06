@@ -785,9 +785,9 @@ export default function DevisForm() {
                       <span className={`font-bold ${data.installation === "diy" ? "text-primary" : "text-dark"}`}>J&apos;installe moi-même</span>
                       <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Populaire</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Guide d&apos;installation + hotline technique gratuite.</p>
+                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Hotline technique gratuite si vous bloquez.</p>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {["Livraison rapide", "Guide inclus", "Hotline gratuite", "Retour 30 jours"].map((t) => (
+                      {["Livraison rapide", "Hotline gratuite", "Retour 30 jours", "Paiement 3x"].map((t) => (
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
