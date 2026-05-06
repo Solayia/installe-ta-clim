@@ -191,21 +191,23 @@ function ProductCard({
           </div>
         </div>
 
-        {/* CTA Commander */}
-        <Link
-          href={`/devis?product=${product.id}#diy`}
-          className="block w-full text-center px-5 py-3.5 font-bold rounded-xl bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5"
-        >
-          Commander ce pack
-        </Link>
-
-        {/* Mention pro */}
-        <Link
-          href="/devis#pro"
-          className="block text-center text-xs text-gray-400 hover:text-primary mt-3 transition-colors"
-        >
-          Installation pro disponible →
-        </Link>
+        {/* REC-088 : Double choix — payer DIY ou basculer pro */}
+        <div className="space-y-2.5">
+          <Link
+            href={`/devis?product=${product.id}#diy`}
+            className="flex items-center justify-center gap-2 w-full px-5 py-3.5 font-bold rounded-xl bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all duration-200 hover:-translate-y-0.5"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Commander ce pack
+          </Link>
+          <Link
+            href={`/devis?product=${product.id}#pro`}
+            className="flex items-center justify-center gap-2 w-full px-5 py-3 font-semibold rounded-xl border-2 border-gray-200 text-dark hover:border-primary hover:text-primary transition-all duration-200 text-sm"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Je fais installer — visio gratuite
+          </Link>
+        </div>
       </div>
 
       {/* Filtered overlay */}

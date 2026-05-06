@@ -16,7 +16,6 @@ const footerSections = [
     links: [
       { label: "Blog", href: "/blog" },
       { label: "Comment ça marche", href: "/#comment-ca-marche" },
-      { label: "FAQ", href: "/#faq" },
       { label: "Guide climatisation", href: "/blog" },
     ],
   },
@@ -24,8 +23,8 @@ const footerSections = [
     title: "À propos",
     links: [
       { label: "Notre démarche", href: "/#comment-ca-marche" },
-      { label: "Nos engagements", href: "/#faq" },
-      { label: "Avis clients", href: "/#faq" },
+      { label: "Nos engagements", href: "/#comment-ca-marche" },
+      { label: "Avis clients", href: "/#avis" },
       { label: "Contact", href: "/devis" },
     ],
   },

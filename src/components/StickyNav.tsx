@@ -7,7 +7,6 @@ const sections = [
   { id: "comment-ca-marche", label: "Comment ça marche" },
   { id: "nos-clims", label: "Nos clims" },
   { id: "avis", label: "Avis" },
-  { id: "faq", label: "FAQ" },
   { id: "devis", label: "Devis gratuit", href: "/devis" },
 ];
 
