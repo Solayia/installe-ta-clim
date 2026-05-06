@@ -14,19 +14,19 @@ export default function CTABanner() {
           Prêt à passer au frais ?
         </h2>
         <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto leading-relaxed">
-          Visualisez la clim chez vous en réalité augmentée, obtenez votre devis en 2 minutes. Gratuit et sans engagement.
+          Décrivez votre projet en 2 minutes et recevez une estimation claire sous 48h. Gratuit et sans engagement.
         </p>
 
-        {/* Dual CTA */}
+        {/* Dual CTA — harmonisé avec le header */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/devis"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-primary font-bold text-base rounded-2xl hover:bg-cream shadow-lg shadow-dark/10 transition-all duration-300 hover:-translate-y-0.5 btn-glow"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" /><circle cx="12" cy="13" r="4" />
+            Devis gratuit
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-            Obtenir mon devis gratuit
           </Link>
           <Link
             href="/contact"
@@ -43,8 +43,7 @@ export default function CTABanner() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-white/60">
           {[
             "Sans engagement",
-            "Réponse sous 24h",
-            "Réalité augmentée",
+            "Réponse sous 48h",
             "100% gratuit",
           ].map((item) => (
             <div key={item} className="flex items-center gap-2">
