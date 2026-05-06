@@ -8,10 +8,41 @@ type Step = 0 | 1 | 2 | 3 | 4;
 /*  Data & constants                                                   */
 /* ------------------------------------------------------------------ */
 
+const statutOptions = [
+  { value: "proprietaire", label: "Propriétaire" },
+  { value: "locataire", label: "Locataire" },
+];
+
 const logementTypes = [
   { value: "appartement", label: "Appartement", icon: "building" },
   { value: "maison", label: "Maison", icon: "home" },
   { value: "commerce", label: "Local commercial", icon: "shop" },
+];
+
+const etageOptions = [
+  { value: "rdc", label: "RDC" },
+  { value: "1", label: "1er" },
+  { value: "2", label: "2ème" },
+  { value: "3", label: "3ème" },
+  { value: "4", label: "4ème" },
+  { value: "5+", label: "5ème +" },
+];
+
+const hauteurPlafondOptions = [
+  { value: "standard", label: "Standard (≤ 2,50 m)" },
+  { value: "haute", label: "Haute (2,50 – 3 m)" },
+  { value: "tres-haute", label: "Très haute (> 3 m)" },
+];
+
+const niveauxOptions = [
+  { value: "plain-pied", label: "Plain-pied" },
+  { value: "etage", label: "Avec étage(s)" },
+];
+
+const nbEtagesOptions = [
+  { value: "1", label: "R+1" },
+  { value: "2", label: "R+2" },
+  { value: "3", label: "R+3 ou +" },
 ];
 
 const pieceTypes = [
@@ -35,16 +66,39 @@ const surfaceOptions = [
   { value: "50+", label: "> 50 m²" },
 ];
 
+const distanceTableauOptions = [
+  { value: "moins5", label: "< 5 m" },
+  { value: "5-10", label: "5 – 10 m" },
+  { value: "10-15", label: "10 – 15 m" },
+  { value: "plus15", label: "> 15 m" },
+];
+
+const derriereMurOptions = [
+  { value: "exterieur", label: "Extérieur" },
+  { value: "piece-voisine", label: "Pièce voisine" },
+  { value: "couloir", label: "Couloir / Communs" },
+  { value: "ne-sais-pas", label: "Je ne sais pas" },
+];
+
 interface RoomConfig {
   type: string;
   surface: string;
+  distanceTableau: string;
+  derriereMur: string;
 }
 
 interface FormData {
   logement: string;
+  statut: string;
+  /* Appartement — REC-035 */
+  etage: string;
+  ascenseur: string;
+  /* Maison / Local — REC-036 */
+  hauteurPlafond: string;
+  niveaux: string;
+  nbEtages: string;
   nbPieces: number;
   rooms: RoomConfig[];
-  distanceTableau: number;
   installation: "diy" | "pro";
   nom: string;
   telephone: string;
@@ -55,9 +109,14 @@ interface FormData {
 
 const initialData: FormData = {
   logement: "",
+  statut: "",
+  etage: "",
+  ascenseur: "",
+  hauteurPlafond: "",
+  niveaux: "",
+  nbEtages: "",
   nbPieces: 1,
-  rooms: [{ type: "", surface: "" }],
-  distanceTableau: 0,
+  rooms: [{ type: "", surface: "", distanceTableau: "", derriereMur: "" }],
   installation: "diy",
   nom: "",
   telephone: "",
@@ -85,10 +144,10 @@ function formatPrice(n: number): string {
 
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; efficiency: string } {
   if (data.nbPieces > 1) {
-    /* Multi-split : somme du prix de chaque pièce selon sa surface */
+    /* Plusieurs pièces : somme du prix de chaque pièce selon sa surface */
     const total = data.rooms.reduce((sum, room) => sum + getRoomDiyPrice(room.surface), 0);
     return {
-      model: "Multi-split sur-mesure",
+      model: "Configuration sur-mesure",
       priceDiy: total > 0 ? formatPrice(total) : "—",
       priceInstalled: "Sur devis",
       efficiency: "A+++",
@@ -136,6 +195,37 @@ function TypeIcon({ type }: { type: string }) {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Small reusable sub-components                                      */
+/* ------------------------------------------------------------------ */
+
+function OptionGrid({ options, value, onChange, cols = 3 }: {
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
+  cols?: number;
+}) {
+  const colClass = cols === 2 ? "grid-cols-2" : cols === 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3";
+  return (
+    <div className={`grid ${colClass} gap-2`}>
+      {options.map((o) => (
+        <button
+          key={o.value}
+          onClick={() => onChange(o.value)}
+          type="button"
+          className={`py-2.5 px-2 rounded-xl border-2 text-xs sm:text-sm font-medium transition-all ${
+            value === o.value
+              ? "border-primary bg-primary-light text-primary"
+              : "border-gray-200 text-gray-600 hover:border-gray-300"
+          }`}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Main form component                                                */
 /* ------------------------------------------------------------------ */
 
@@ -159,6 +249,19 @@ export default function DevisForm() {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
+  /* When logement type changes, reset conditional sub-fields */
+  const handleLogementChange = (value: string) => {
+    setData((prev) => ({
+      ...prev,
+      logement: value,
+      etage: "",
+      ascenseur: "",
+      hauteurPlafond: "",
+      niveaux: "",
+      nbEtages: "",
+    }));
+  };
+
   const updateRoom = (index: number, field: keyof RoomConfig, value: string) => {
     setData((prev) => {
       const rooms = [...prev.rooms];
@@ -170,19 +273,34 @@ export default function DevisForm() {
   const setNbPieces = (n: number) => {
     const clamped = Math.max(1, Math.min(6, n));
     const rooms = [...data.rooms];
-    while (rooms.length < clamped) rooms.push({ type: "", surface: "" });
+    while (rooms.length < clamped) rooms.push({ type: "", surface: "", distanceTableau: "", derriereMur: "" });
     while (rooms.length > clamped) rooms.pop();
     setData((prev) => ({ ...prev, nbPieces: clamped, rooms }));
   };
 
-  /* REC-008: All fields required before moving to the next step */
+  /* Validation — all required fields before moving to the next step */
   const canNext = (): boolean => {
     switch (step) {
-      case 0: return !!data.nom && !!data.telephone && !!data.email && !!data.ville;
-      case 1: return !!data.logement && data.nbPieces >= 1;
-      case 2: return data.rooms.every((r) => !!r.type && !!r.surface) && data.distanceTableau >= 1;
-      case 3: return !!data.installation;
-      default: return false;
+      case 0:
+        return !!data.nom && !!data.telephone && !!data.email && !!data.ville;
+      case 1: {
+        let valid = !!data.statut && !!data.logement && data.nbPieces >= 1;
+        if (data.logement === "appartement") {
+          valid = valid && !!data.etage && !!data.ascenseur;
+        } else if (data.logement === "maison" || data.logement === "commerce") {
+          valid = valid && !!data.hauteurPlafond && !!data.niveaux;
+          if (data.niveaux === "etage") {
+            valid = valid && !!data.nbEtages;
+          }
+        }
+        return valid;
+      }
+      case 2:
+        return data.rooms.every((r) => !!r.type && !!r.surface && !!r.distanceTableau && !!r.derriereMur);
+      case 3:
+        return !!data.installation;
+      default:
+        return false;
     }
   };
 
@@ -192,6 +310,10 @@ export default function DevisForm() {
 
   const estimation = getEstimation(data);
   const progress = (step / 4) * 100;
+
+  /* Helper labels */
+  const logementLabel = logementTypes.find((l) => l.value === data.logement)?.label ?? "";
+  const hasLongDistance = data.rooms.some((r) => r.distanceTableau === "plus15");
 
   return (
     <section id="devis" className="py-16 lg:py-20 bg-dark relative overflow-hidden">
@@ -217,7 +339,7 @@ export default function DevisForm() {
           )}
         </div>
 
-        {/* Progress bar — REC-009: 4 steps instead of 5 (Plan 2D removed) */}
+        {/* Progress bar */}
         {!submitted && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
@@ -250,7 +372,7 @@ export default function DevisForm() {
             </div>
             <div className="flex justify-between mt-2 text-[10px] text-white/30 font-medium uppercase tracking-wider">
               <span>Contact</span>
-              <span>Bien</span>
+              <span>Logement</span>
               <span>Pièces</span>
               <span>Installation</span>
             </div>
@@ -324,20 +446,52 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 1 — Type de bien + Nombre de pièces ============ */}
+          {/* ============ STEP 1 — Votre logement (REC-034 / 035 / 036 / 037) ============ */}
           {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
-              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Parlez-nous de votre bien</h3>
-              <p className="text-sm text-gray-400 mb-6">Pour adapter notre recommandation</p>
+              {/* REC-037: wording orienté utilisateur */}
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Décrivez votre logement</h3>
+              <p className="text-sm text-gray-400 mb-6">Ces informations nous aident à dimensionner votre climatisation</p>
 
-              {/* Type de logement */}
+              {/* REC-034: Propriétaire ou locataire — obligatoire */}
               <div className="mb-6">
-                <label className="text-sm font-semibold text-dark mb-3 block">Type de bien</label>
+                <label className="text-sm font-semibold text-dark mb-3 block">Vous êtes *</label>
+                <div className="grid grid-cols-2 gap-3">
+                  {statutOptions.map((s) => (
+                    <button
+                      key={s.value}
+                      type="button"
+                      onClick={() => update("statut", s.value)}
+                      className={`flex items-center justify-center gap-2.5 p-4 rounded-xl border-2 text-sm font-medium transition-all ${
+                        data.statut === s.value
+                          ? "border-primary bg-primary-light text-primary"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      }`}
+                    >
+                      {s.value === "proprietaire" ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                        </svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        </svg>
+                      )}
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Type de logement — REC-037: wording amélioré */}
+              <div className="mb-6">
+                <label className="text-sm font-semibold text-dark mb-3 block">Quel type de logement ? *</label>
                 <div className="grid grid-cols-3 gap-3">
                   {logementTypes.map((l) => (
                     <button
                       key={l.value}
-                      onClick={() => update("logement", l.value)}
+                      type="button"
+                      onClick={() => handleLogementChange(l.value)}
                       className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-sm font-medium transition-all ${
                         data.logement === l.value
                           ? "border-primary bg-primary-light text-primary"
@@ -353,11 +507,79 @@ export default function DevisForm() {
                 </div>
               </div>
 
-              {/* Nombre de pièces */}
+              {/* REC-035: Sous-questions Appartement (conditionnelles) */}
+              {data.logement === "appartement" && (
+                <div className="mb-6 bg-blue-50/50 rounded-2xl p-4 sm:p-5 border border-blue-100 space-y-5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="text-primary"><TypeIcon type="building" /></div>
+                    <span className="text-sm font-semibold text-dark">Détails de l&apos;appartement</span>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">À quel étage se situe votre logement ? *</label>
+                    <OptionGrid options={etageOptions} value={data.etage} onChange={(v) => update("etage", v)} cols={3} />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Y a-t-il un ascenseur ? *</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: "oui", label: "Oui" },
+                        { value: "non", label: "Non" },
+                      ].map((o) => (
+                        <button
+                          key={o.value}
+                          type="button"
+                          onClick={() => update("ascenseur", o.value)}
+                          className={`py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
+                            data.ascenseur === o.value
+                              ? "border-primary bg-primary-light text-primary"
+                              : "border-gray-200 text-gray-600 hover:border-gray-300"
+                          }`}
+                        >
+                          {o.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* REC-036: Sous-questions Maison / Local commercial (conditionnelles) */}
+              {(data.logement === "maison" || data.logement === "commerce") && (
+                <div className="mb-6 bg-green-50/50 rounded-2xl p-4 sm:p-5 border border-green-100 space-y-5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="text-primary"><TypeIcon type={data.logement === "maison" ? "home" : "shop"} /></div>
+                    <span className="text-sm font-semibold text-dark">
+                      Détails {data.logement === "maison" ? "de la maison" : "du local"}
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Hauteur sous plafond *</label>
+                    <OptionGrid options={hauteurPlafondOptions} value={data.hauteurPlafond} onChange={(v) => update("hauteurPlafond", v)} cols={3} />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Configuration du logement *</label>
+                    <OptionGrid options={niveauxOptions} value={data.niveaux} onChange={(v) => update("niveaux", v)} cols={2} />
+                  </div>
+
+                  {data.niveaux === "etage" && (
+                    <div>
+                      <label className="text-xs font-semibold text-gray-500 mb-2 block">Combien d&apos;étages ? *</label>
+                      <OptionGrid options={nbEtagesOptions} value={data.nbEtages} onChange={(v) => update("nbEtages", v)} cols={3} />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Nombre de pièces — REC-037: wording amélioré */}
               <div>
-                <label className="text-sm font-semibold text-dark mb-3 block">Combien de pièces à climatiser ?</label>
+                <label className="text-sm font-semibold text-dark mb-3 block">Combien de pièces souhaitez-vous climatiser ? *</label>
                 <div className="flex items-center gap-4">
                   <button
+                    type="button"
                     onClick={() => setNbPieces(data.nbPieces - 1)}
                     className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
                   >
@@ -368,6 +590,7 @@ export default function DevisForm() {
                     <span className="text-sm text-gray-400 ml-2">pièce{data.nbPieces > 1 ? "s" : ""}</span>
                   </div>
                   <button
+                    type="button"
                     onClick={() => setNbPieces(data.nbPieces + 1)}
                     className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
                   >
@@ -376,20 +599,23 @@ export default function DevisForm() {
                 </div>
                 {data.nbPieces > 1 && (
                   <p className="text-xs text-gray-400 text-center mt-2">
-                    {data.nbPieces >= 3 ? "Un système multi-split sera recommandé" : "Vous pourrez détailler chaque pièce à l'étape suivante"}
+                    {data.nbPieces >= 3 ? "Une unité par pièce sera recommandée" : "Vous pourrez détailler chaque pièce à l'étape suivante"}
                   </p>
                 )}
               </div>
             </div>
           )}
 
-          {/* ============ STEP 2 — Détail de chaque pièce + Distance tableau élec ============ */}
+          {/* ============ STEP 2 — Détail de chaque pièce (REC-038 / 039) ============ */}
           {step === 2 && (
             <div className="p-5 sm:p-8 lg:p-10">
+              {/* REC-039: wording explicite */}
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
-                {data.nbPieces === 1 ? "Décrivez votre pièce" : `Décrivez vos ${data.nbPieces} pièces`}
+                {data.nbPieces === 1 ? "Configurez votre pièce" : `Configurez vos ${data.nbPieces} pièces`}
               </h3>
-              <p className="text-sm text-gray-400 mb-6">Pour chaque pièce, indiquez le type et la surface</p>
+              <p className="text-sm text-gray-400 mb-6">
+                Pour chaque pièce, précisez le type, la surface, la distance au tableau électrique et ce qu&apos;il y a derrière le mur
+              </p>
 
               <div className="space-y-6">
                 {data.rooms.map((room, i) => (
@@ -403,12 +629,13 @@ export default function DevisForm() {
                       </div>
                     )}
 
-                    {/* Type de pièce */}
-                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Type de pièce</label>
+                    {/* Type de pièce — REC-039 */}
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Quelle pièce ? *</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {pieceTypes.map((p) => (
                         <button
                           key={p.value}
+                          type="button"
                           onClick={() => updateRoom(i, "type", p.value)}
                           className={`flex flex-col items-center gap-1 p-2.5 sm:p-3 rounded-xl border-2 transition-all ${
                             room.type === p.value
@@ -424,12 +651,13 @@ export default function DevisForm() {
                       ))}
                     </div>
 
-                    {/* Surface */}
-                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Surface</label>
-                    <div className="grid grid-cols-3 gap-2">
+                    {/* Surface — REC-039 */}
+                    <label className="text-xs font-semibold text-gray-500 mb-2 block">Quelle surface ? *</label>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
                       {surfaceOptions.map((s) => (
                         <button
                           key={s.value}
+                          type="button"
                           onClick={() => updateRoom(i, "surface", s.value)}
                           className={`py-2.5 rounded-xl border-2 text-xs font-medium transition-all ${
                             room.surface === s.value
@@ -441,56 +669,44 @@ export default function DevisForm() {
                         </button>
                       ))}
                     </div>
-                  </div>
-                ))}
-              </div>
 
-              {/* REC-008: Distance au tableau électrique — obligatoire */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <label className="text-sm font-semibold text-dark mb-1 block">
-                  Distance au tableau électrique *
-                </label>
-                <p className="text-xs text-gray-400 mb-4">
-                  Distance approximative entre l&apos;emplacement de la clim et votre tableau électrique
-                </p>
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => update("distanceTableau", Math.max(1, data.distanceTableau - 1))}
-                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
-                  >
-                    −
-                  </button>
-                  <div className="flex-1">
-                    <input
-                      type="range"
-                      min="1"
-                      max="30"
-                      value={data.distanceTableau || 1}
-                      onChange={(e) => update("distanceTableau", Number(e.target.value))}
-                      className="w-full accent-primary"
+                    {/* REC-038: Distance au tableau électrique (par pièce) */}
+                    <label className="text-xs font-semibold text-gray-500 mb-1 block">
+                      Distance au tableau électrique *
+                    </label>
+                    <p className="text-[11px] text-gray-400 mb-2">
+                      Entre l&apos;emplacement prévu de la clim et votre tableau électrique
+                    </p>
+                    <OptionGrid
+                      options={distanceTableauOptions}
+                      value={room.distanceTableau}
+                      onChange={(v) => updateRoom(i, "distanceTableau", v)}
+                      cols={4}
+                    />
+                    {room.distanceTableau === "plus15" && (
+                      <div className="mt-2 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-2.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
+                        <span className="text-[11px] text-amber-700">Distance importante : un câblage supplémentaire peut être nécessaire.</span>
+                      </div>
+                    )}
+
+                    {/* REC-038: Ce qu'il y a derrière le mur (par pièce) */}
+                    <label className="text-xs font-semibold text-gray-500 mb-1 block mt-4">
+                      Que se trouve-t-il derrière le mur ? *
+                    </label>
+                    <p className="text-[11px] text-gray-400 mb-2">
+                      Le mur où sera posée l&apos;unité intérieure — cela détermine le passage des liaisons frigorifiques
+                    </p>
+                    <OptionGrid
+                      options={derriereMurOptions}
+                      value={room.derriereMur}
+                      onChange={(v) => updateRoom(i, "derriereMur", v)}
+                      cols={2}
                     />
                   </div>
-                  <button
-                    onClick={() => update("distanceTableau", Math.min(30, data.distanceTableau + 1))}
-                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
-                  >
-                    +
-                  </button>
-                  <span className="text-lg font-bold text-primary min-w-[55px] text-center">
-                    {data.distanceTableau > 0 ? `${data.distanceTableau} m` : "—"}
-                  </span>
-                </div>
-                {data.distanceTableau > 15 && (
-                  <div className="mt-3 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
-                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
-                    <span className="text-xs text-amber-700">Distance importante : un câblage supplémentaire peut être nécessaire. Notre installateur vérifiera la faisabilité.</span>
-                  </div>
-                )}
-                {data.distanceTableau === 0 && (
-                  <p className="text-xs text-red-400 mt-2">* Veuillez indiquer la distance (déplacez le curseur)</p>
-                )}
+                ))}
               </div>
             </div>
           )}
@@ -503,6 +719,7 @@ export default function DevisForm() {
               <div className="space-y-4">
                 {/* DIY — en premier, poussé */}
                 <button
+                  type="button"
                   onClick={() => update("installation", "diy")}
                   className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
                     data.installation === "diy"
@@ -526,9 +743,9 @@ export default function DevisForm() {
                       </span>
                       <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Populaire</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Tutos vidéo + hotline technique gratuite.</p>
+                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Guide d&apos;installation + hotline technique gratuite.</p>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {["Livraison rapide", "Tutos vidéo", "Hotline gratuite", "Retour 30 jours"].map((t) => (
+                      {["Livraison rapide", "Guide inclus", "Hotline gratuite", "Retour 30 jours"].map((t) => (
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
@@ -540,6 +757,7 @@ export default function DevisForm() {
 
                 {/* Pro — en second, sur devis */}
                 <button
+                  type="button"
                   onClick={() => update("installation", "pro")}
                   className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
                     data.installation === "pro"
@@ -587,20 +805,53 @@ export default function DevisForm() {
                   <span className="text-dark font-medium">{data.email}</span>
                   <span className="text-gray-400">Ville</span>
                   <span className="text-dark font-medium">{data.ville}</span>
-                  <span className="text-gray-400">Type de bien</span>
-                  <span className="text-dark font-medium">{logementTypes.find((l) => l.value === data.logement)?.label}</span>
+
+                  {/* REC-034: Statut */}
+                  <span className="text-gray-400">Statut</span>
+                  <span className="text-dark font-medium">{statutOptions.find((s) => s.value === data.statut)?.label}</span>
+
+                  <span className="text-gray-400">Type de logement</span>
+                  <span className="text-dark font-medium">{logementLabel}</span>
+
+                  {/* REC-035: Détails appartement */}
+                  {data.logement === "appartement" && (
+                    <>
+                      <span className="text-gray-400">Étage</span>
+                      <span className="text-dark font-medium">{etageOptions.find((e) => e.value === data.etage)?.label}</span>
+                      <span className="text-gray-400">Ascenseur</span>
+                      <span className="text-dark font-medium">{data.ascenseur === "oui" ? "Oui" : "Non"}</span>
+                    </>
+                  )}
+
+                  {/* REC-036: Détails maison/local */}
+                  {(data.logement === "maison" || data.logement === "commerce") && (
+                    <>
+                      <span className="text-gray-400">Hauteur plafond</span>
+                      <span className="text-dark font-medium">{hauteurPlafondOptions.find((h) => h.value === data.hauteurPlafond)?.label}</span>
+                      <span className="text-gray-400">Configuration</span>
+                      <span className="text-dark font-medium">
+                        {data.niveaux === "plain-pied" ? "Plain-pied" : `Avec étage(s) — ${nbEtagesOptions.find((e) => e.value === data.nbEtages)?.label ?? ""}`}
+                      </span>
+                    </>
+                  )}
+
                   <span className="text-gray-400">Pièces à climatiser</span>
                   <span className="text-dark font-medium">{data.nbPieces} pièce{data.nbPieces > 1 ? "s" : ""}</span>
+
+                  {/* REC-038: Détails par pièce */}
                   {data.rooms.map((room, i) => (
                     <span key={i} className="contents">
                       <span className="text-gray-400">{data.nbPieces > 1 ? `Pièce ${i + 1}` : "Pièce"}</span>
                       <span className="text-dark font-medium">
                         {pieceTypes.find((p) => p.value === room.type)?.label} — {surfaceOptions.find((s) => s.value === room.surface)?.label}
                       </span>
+                      <span className="text-gray-400 text-xs pl-2">↳ Tableau élec.</span>
+                      <span className="text-dark font-medium text-xs">{distanceTableauOptions.find((d) => d.value === room.distanceTableau)?.label}</span>
+                      <span className="text-gray-400 text-xs pl-2">↳ Derrière le mur</span>
+                      <span className="text-dark font-medium text-xs">{derriereMurOptions.find((d) => d.value === room.derriereMur)?.label}</span>
                     </span>
                   ))}
-                  <span className="text-gray-400">Distance tableau élec.</span>
-                  <span className="text-dark font-medium">{data.distanceTableau} m</span>
+
                   <span className="text-gray-400">Formule</span>
                   <span className="text-dark font-medium">{data.installation === "pro" ? "Avec installation pro" : "Pack prêt à poser"}</span>
                   <span className="text-gray-400">Modèle estimé</span>
@@ -608,6 +859,16 @@ export default function DevisForm() {
                   <span className="text-gray-400">Budget</span>
                   <span className="text-primary font-bold">{data.installation === "diy" ? estimation.priceDiy : "Sur devis"}</span>
                 </div>
+
+                {/* Avertissement distance longue */}
+                {hasLongDistance && (
+                  <div className="mt-4 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    <span className="text-xs text-amber-700">Une ou plusieurs pièces ont une distance importante au tableau électrique. Un câblage supplémentaire pourrait être nécessaire — notre installateur vérifiera la faisabilité.</span>
+                  </div>
+                )}
               </div>
 
               <p className="mt-4 text-xs text-gray-400 leading-relaxed">
@@ -674,6 +935,7 @@ export default function DevisForm() {
                   <div className="mt-8 pt-6 border-t border-gray-200">
                     <p className="text-sm text-gray-500 mb-3">Si vous préférez, on s&apos;occupe de tout</p>
                     <button
+                      type="button"
                       onClick={() => update("installation", "pro")}
                       className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold text-sm rounded-xl hover:bg-primary-light transition-all"
                     >
@@ -746,6 +1008,7 @@ export default function DevisForm() {
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
               {step > 0 ? (
                 <button
+                  type="button"
                   onClick={prev}
                   className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
                 >
@@ -760,6 +1023,7 @@ export default function DevisForm() {
 
               {step < 3 ? (
                 <button
+                  type="button"
                   onClick={next}
                   disabled={!canNext()}
                   className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${
@@ -775,6 +1039,7 @@ export default function DevisForm() {
                 </button>
               ) : (
                 <button
+                  type="button"
                   onClick={submit}
                   disabled={!canNext()}
                   className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${
