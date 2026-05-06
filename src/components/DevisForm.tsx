@@ -58,7 +58,7 @@ const initialData: FormData = {
   nbPieces: 1,
   rooms: [{ type: "", surface: "" }],
   distanceTableau: 0,
-  installation: "pro",
+  installation: "diy",
   nom: "",
   telephone: "",
   email: "",
@@ -475,8 +475,46 @@ export default function DevisForm() {
           {step === 3 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
-              <p className="text-sm text-gray-400 mb-6">Vous pouvez changer d&apos;avis plus tard</p>
+              <p className="text-sm text-gray-400 mb-6">Choisissez la formule qui vous convient</p>
               <div className="space-y-4">
+                {/* DIY — en premier, poussé */}
+                <button
+                  onClick={() => update("installation", "diy")}
+                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
+                    data.installation === "diy"
+                      ? "border-primary bg-primary-light"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    data.installation === "diy" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
+                  }`}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                      <line x1="12" y1="22.08" x2="12" y2="12" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`font-bold ${data.installation === "diy" ? "text-primary" : "text-dark"}`}>
+                        J&apos;installe moi-même
+                      </span>
+                      <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Populaire</span>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Tutos vidéo + hotline technique gratuite.</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {["Livraison rapide", "Tutos vidéo", "Hotline gratuite", "Retour 30 jours"].map((t) => (
+                        <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
+                      ))}
+                    </div>
+                    <div className="mt-3 text-lg font-extrabold text-primary">
+                      {estimation.priceDiy}
+                    </div>
+                  </div>
+                </button>
+
+                {/* Pro — en second, sur devis */}
                 <button
                   onClick={() => update("installation", "pro")}
                   className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
@@ -493,66 +531,24 @@ export default function DevisForm() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className={`font-bold ${data.installation === "pro" ? "text-primary" : "text-dark"}`}>
-                        Installation par un professionnel
-                      </span>
-                      <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Recommandé</span>
-                    </div>
+                    <span className={`font-bold ${data.installation === "pro" ? "text-primary" : "text-dark"}`}>
+                      Installation par un professionnel
+                    </span>
                     <p className="text-sm text-gray-500 mt-1">On s&apos;occupe de tout. Installateur qualifié, pose soignée et garantie.</p>
+                    <div className="mt-2 flex items-center gap-1.5 text-xs text-amber-600 font-medium">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                      </svg>
+                      Toulouse et alentours uniquement
+                    </div>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {["Pro qualifié", "Pose soignée", "Garantie 5 ans"].map((t) => (
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
+                    <div className="mt-3 text-lg font-extrabold text-primary">Sur devis</div>
                   </div>
                 </button>
-
-                <button
-                  onClick={() => update("installation", "diy")}
-                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
-                    data.installation === "diy"
-                      ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    data.installation === "diy" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
-                  }`}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <span className={`font-bold ${data.installation === "diy" ? "text-primary" : "text-dark"}`}>
-                      J&apos;installe moi-même
-                    </span>
-                    <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Tutos vidéo + hotline technique gratuite.</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {["Tutos vidéo", "Hotline gratuite", "Retour 30 jours"].map((t) => (
-                        <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </button>
-              </div>
-
-              {/* Mini estimation preview */}
-              <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xs text-gray-400 uppercase font-medium">Estimation préliminaire</span>
-                    <div className="text-sm font-semibold text-dark mt-0.5">Modèle {estimation.model} — Classe {estimation.efficiency}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl font-extrabold text-primary">
-                      {data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}
-                    </div>
-                    <div className="text-[11px] text-gray-400">
-                      {data.installation === "diy" ? "prêt à poser" : "fourni + installé"}
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Recap complet */}
@@ -581,12 +577,12 @@ export default function DevisForm() {
                   ))}
                   <span className="text-gray-400">Distance tableau élec.</span>
                   <span className="text-dark font-medium">{data.distanceTableau} m</span>
-                  <span className="text-gray-400">Installation</span>
-                  <span className="text-dark font-medium">{data.installation === "pro" ? "Par un professionnel" : "Prêt à poser (DIY)"}</span>
+                  <span className="text-gray-400">Formule</span>
+                  <span className="text-dark font-medium">{data.installation === "pro" ? "Avec installation pro" : "Pack prêt à poser"}</span>
                   <span className="text-gray-400">Modèle estimé</span>
-                  <span className="text-primary font-bold">{estimation.model}</span>
-                  <span className="text-gray-400">Budget estimé</span>
-                  <span className="text-primary font-bold">{data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}</span>
+                  <span className="text-primary font-bold">{estimation.model} — {estimation.efficiency}</span>
+                  <span className="text-gray-400">Budget</span>
+                  <span className="text-primary font-bold">{data.installation === "diy" ? estimation.priceDiy : "Sur devis"}</span>
                 </div>
               </div>
 
@@ -599,42 +595,125 @@ export default function DevisForm() {
           )}
 
 
-          {/* ============ STEP 4 — Confirmation ============ */}
+          {/* ============ STEP 4 — Confirmation DIY (paiement) ou Pro (visio) ============ */}
           {step === 4 && submitted && (
-            <div className="p-5 sm:p-8 lg:p-12 text-center">
-              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-extrabold text-dark">Demande envoyée !</h3>
-              <p className="text-gray-500 mt-3 max-w-md mx-auto">
-                Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> avec votre devis détaillé personnalisé.
-              </p>
-
-              <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
-                <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre estimation</div>
-                <div className="text-3xl font-extrabold text-primary">
-                  {data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}
-                </div>
-                <div className="text-sm text-gray-500 mt-1">
-                  Modèle {estimation.model} — {data.installation === "pro" ? "Fourni + installé" : "Pack prêt à poser"}
-                </div>
-                {data.nbPieces > 1 && (
-                  <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>
-                )}
-              </div>
-
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
-                {["Sans engagement", "Réponse sous 48h", "100% gratuit"].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <div className="p-5 sm:p-8 lg:p-12">
+              {data.installation === "diy" ? (
+                /* ---- DIY : Paiement Stripe ---- */
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    {item}
                   </div>
-                ))}
-              </div>
+                  <h3 className="text-2xl font-extrabold text-dark">Votre commande est prête !</h3>
+                  <p className="text-gray-500 mt-3 max-w-md mx-auto">
+                    Merci <strong className="text-dark">{data.nom}</strong>. Finalisez votre paiement pour recevoir votre pack <strong className="text-primary">{estimation.model}</strong>.
+                  </p>
+
+                  {/* Résumé commande */}
+                  <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
+                    <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre commande</div>
+                    <div className="text-3xl font-extrabold text-primary">{estimation.priceDiy}</div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      Pack prêt à poser — Modèle {estimation.model}
+                    </div>
+                    {data.nbPieces > 1 && (
+                      <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>
+                    )}
+                  </div>
+
+                  {/* Bouton paiement Stripe */}
+                  <button
+                    className="mt-6 inline-flex items-center gap-3 px-8 py-4 bg-[#635BFF] text-white font-bold text-base rounded-xl hover:bg-[#5249E6] shadow-lg shadow-[#635BFF]/25 hover:-translate-y-0.5 transition-all duration-200"
+                    onClick={() => {/* Stripe Checkout sera intégré ici */}}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                    Payer par carte — {estimation.priceDiy}
+                  </button>
+                  <p className="mt-3 text-xs text-gray-400">Paiement sécurisé par Stripe — Livraison sous 5 jours ouvrés</p>
+
+                  <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
+                    {["Paiement sécurisé", "Retour 30 jours", "Hotline gratuite"].map((item) => (
+                      <div key={item} className="flex items-center gap-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Option basculer vers pro / visio */}
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <p className="text-sm text-gray-500 mb-3">Si vous préférez, on s&apos;occupe de tout</p>
+                    <button
+                      onClick={() => update("installation", "pro")}
+                      className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold text-sm rounded-xl hover:bg-primary-light transition-all"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                      </svg>
+                      Demander un rendez-vous visio
+                    </button>
+                    <p className="mt-2 text-xs text-gray-400">Installation pro — Toulouse et alentours</p>
+                  </div>
+                </div>
+              ) : (
+                /* ---- PRO : Rendez-vous visio ---- */
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-dark">Demande de rendez-vous envoyée !</h3>
+                  <p className="text-gray-500 mt-3 max-w-md mx-auto">
+                    Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> pour planifier votre rendez-vous visio et établir votre devis personnalisé.
+                  </p>
+
+                  <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
+                    <div className="text-xs text-gray-400 uppercase font-medium mb-2">Installation professionnelle</div>
+                    <div className="text-2xl font-extrabold text-primary">Sur devis</div>
+                    <div className="text-sm text-gray-500 mt-1">
+                      Modèle {estimation.model} — Fourni + installé
+                    </div>
+                    <div className="flex items-center justify-center gap-1.5 mt-3 text-xs text-amber-600 font-medium">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                      </svg>
+                      Toulouse et alentours
+                    </div>
+                  </div>
+
+                  <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200 max-w-sm mx-auto">
+                    <div className="text-sm font-semibold text-dark mb-2">Prochaine étape</div>
+                    <div className="flex items-start gap-3 text-left">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Un conseiller vous appelle pour un <strong className="text-dark">rendez-vous visio</strong> afin d&apos;évaluer votre installation et vous proposer le meilleur devis.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
+                    {["Sans engagement", "Devis gratuit", "Réponse sous 48h"].map((item) => (
+                      <div key={item} className="flex items-center gap-2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -680,10 +759,21 @@ export default function DevisForm() {
                       : "bg-gray-200 text-gray-400 cursor-not-allowed"
                   }`}
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4z" />
-                  </svg>
-                  Recevoir mon devis gratuit
+                  {data.installation === "diy" ? (
+                    <>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+                      </svg>
+                      Commander — {estimation.priceDiy}
+                    </>
+                  ) : (
+                    <>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                      </svg>
+                      Prendre rendez-vous visio
+                    </>
+                  )}
                 </button>
               )}
             </div>
