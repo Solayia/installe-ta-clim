@@ -5,10 +5,10 @@ const footerSections = [
   {
     title: "Nos services",
     links: [
-      { label: "Nos climatisations", href: "/#nos-clims" },
+      { label: "Nos climatisations", href: "/catalogue" },
       { label: "Installation complète", href: "/#comment-ca-marche" },
       { label: "Devis gratuit", href: "/devis" },
-      { label: "Prêt à poser", href: "/#nos-clims" },
+      { label: "Prêt à poser", href: "/catalogue" },
     ],
   },
   {

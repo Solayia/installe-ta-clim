@@ -15,7 +15,7 @@ const paths = {
       { num: "4", title: "J'installe à mon rythme", desc: "Hotline technique gratuite si vous avez la moindre question." },
     ],
     cta: "J'installe moi-même",
-    ctaHref: "/devis#diy",
+    ctaHref: "/catalogue",
     benefits: [
       "Jusqu'à 40% d'économie",
       "Hotline technique gratuite",

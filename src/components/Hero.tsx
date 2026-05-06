@@ -51,7 +51,7 @@ export default function Hero() {
                 <span className="text-xs font-normal text-white/70 mt-1">Toulouse et alentours</span>
               </a>
               <a
-                href="/devis#diy"
+                href="/catalogue"
                 className="group inline-flex flex-col items-center justify-center px-7 py-4 bg-white/15 backdrop-blur-sm text-white font-bold text-base rounded-2xl border border-white/25 hover:bg-white/25 shadow-lg transition-all duration-300 hover:-translate-y-0.5"
               >
                 <span className="flex items-center gap-3">

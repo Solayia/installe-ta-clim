@@ -303,12 +303,18 @@ export default function DevisForm() {
   const [data, setData] = useState<FormData>(initialData);
   const [submitted, setSubmitted] = useState(false);
 
-  /* REC-001: Listen for #pro / #diy hash to pre-select installation mode */
+  /* REC-001: Listen for #pro / #diy hash + ?product= to pre-select */
   useEffect(() => {
     const hash = window.location.hash;
+    const params = new URLSearchParams(window.location.search);
+    const productParam = params.get("product");
     if (hash === "#pro" || hash === "#diy") {
       const mode = hash === "#pro" ? "pro" : "diy";
-      setData((prev) => ({ ...prev, installation: mode }));
+      setData((prev) => ({
+        ...prev,
+        installation: mode,
+        ...(productParam ? { selectedProduct: productParam } : {}),
+      }));
       window.history.replaceState(null, "", window.location.pathname);
     }
   }, []);
