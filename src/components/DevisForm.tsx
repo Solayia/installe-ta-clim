@@ -66,10 +66,33 @@ const initialData: FormData = {
   message: "",
 };
 
+/* Prix DIY par pièce selon sa surface */
+function getRoomDiyPrice(surface: string): number {
+  const s = parseInt(surface || "0");
+  if (isNaN(s) || s === 0) return 0;
+  if (s <= 20) return 699;
+  if (s <= 35) return 999;
+  return 1499;
+}
+
+function formatPrice(n: number): string {
+  const str = n.toString();
+  if (str.length > 3) {
+    return str.slice(0, -3) + " " + str.slice(-3) + " €";
+  }
+  return str + " €";
+}
+
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; efficiency: string } {
   if (data.nbPieces > 1) {
-    const diyMulti: Record<number, string> = { 2: "1 599 €", 3: "2 299 €", 4: "2 999 €", 5: "3 599 €", 6: "3 999 €" };
-    return { model: "Multi-split sur-mesure", priceDiy: diyMulti[data.nbPieces] || "3 999 €", priceInstalled: "Sur devis", efficiency: "A+++" };
+    /* Multi-split : somme du prix de chaque pièce selon sa surface */
+    const total = data.rooms.reduce((sum, room) => sum + getRoomDiyPrice(room.surface), 0);
+    return {
+      model: "Multi-split sur-mesure",
+      priceDiy: total > 0 ? formatPrice(total) : "—",
+      priceInstalled: "Sur devis",
+      efficiency: "A+++",
+    };
   }
   const s = parseInt(data.rooms[0]?.surface || "0");
   if (isNaN(s) || s > 50) {
