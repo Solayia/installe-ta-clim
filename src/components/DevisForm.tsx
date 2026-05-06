@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-type Step = 0 | 1 | 2 | 3 | 4;
+type Step = 0 | 1 | 2 | 3 | 4 | 5;
 
 /* ------------------------------------------------------------------ */
 /*  Data & constants                                                   */
@@ -80,6 +80,69 @@ const derriereMurOptions = [
   { value: "ne-sais-pas", label: "Je ne sais pas" },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  REC-048 / 049 / 050 — Catalogue produits & recommandations         */
+/* ------------------------------------------------------------------ */
+
+interface Product {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  priceDiyUnit: number;
+  priceInstalledFrom: number;
+  efficiency: string;
+  maxSurface: number;
+}
+
+const products: Product[] = [
+  {
+    id: "essentiel",
+    name: "Essentiel",
+    tagline: "L'efficacité, sans superflu",
+    description: "Climatisation fiable et silencieuse pour les pièces jusqu'à 20 m². Le choix malin pour une chambre ou un bureau.",
+    features: ["Pièces jusqu'à 20 m²", "Classe énergétique A+", "Silencieuse (22 dB)", "Télécommande infrarouge"],
+    priceDiyUnit: 699,
+    priceInstalledFrom: 1499,
+    efficiency: "A+",
+    maxSurface: 20,
+  },
+  {
+    id: "confort",
+    name: "Confort+",
+    tagline: "Le meilleur rapport confort / prix",
+    description: "Puissance et silence pour vos pièces de vie. Wi-Fi intégré et mode nuit pour un confort au quotidien, été comme hiver.",
+    features: ["Pièces jusqu'à 35 m²", "Classe énergétique A++", "Ultra-silencieuse (20 dB)", "Wi-Fi intégré — pilotage à distance", "Mode nuit automatique"],
+    priceDiyUnit: 999,
+    priceInstalledFrom: 1999,
+    efficiency: "A++",
+    maxSurface: 35,
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    tagline: "La performance maximale",
+    description: "Conçu pour les grands espaces exigeants. Technologie inverter dernière génération, purification d'air intégrée et connectivité domotique complète.",
+    features: ["Pièces jusqu'à 50 m² et +", "Classe énergétique A+++", "La plus silencieuse (19 dB)", "Wi-Fi + compatibilité domotique", "Purificateur d'air intégré", "Garantie étendue 5 ans"],
+    priceDiyUnit: 1499,
+    priceInstalledFrom: 2499,
+    efficiency: "A+++",
+    maxSurface: 999,
+  },
+];
+
+function getRecommendedProductId(rooms: RoomConfig[]): string {
+  const maxSurface = Math.max(...rooms.map((r) => parseInt(r.surface || "0")));
+  if (maxSurface <= 20) return "essentiel";
+  if (maxSurface <= 35) return "confort";
+  return "premium";
+}
+
+/* ------------------------------------------------------------------ */
+/*  Types & form data                                                  */
+/* ------------------------------------------------------------------ */
+
 interface RoomConfig {
   type: string;
   surface: string;
@@ -99,6 +162,8 @@ interface FormData {
   nbEtages: string;
   nbPieces: number;
   rooms: RoomConfig[];
+  /* REC-048: Produit sélectionné */
+  selectedProduct: string;
   installation: "diy" | "pro";
   nom: string;
   telephone: string;
@@ -117,6 +182,7 @@ const initialData: FormData = {
   nbEtages: "",
   nbPieces: 1,
   rooms: [{ type: "", surface: "", distanceTableau: "", derriereMur: "" }],
+  selectedProduct: "",
   installation: "diy",
   nom: "",
   telephone: "",
@@ -125,14 +191,9 @@ const initialData: FormData = {
   message: "",
 };
 
-/* Prix DIY par pièce selon sa surface */
-function getRoomDiyPrice(surface: string): number {
-  const s = parseInt(surface || "0");
-  if (isNaN(s) || s === 0) return 0;
-  if (s <= 20) return 699;
-  if (s <= 35) return 999;
-  return 1499;
-}
+/* ------------------------------------------------------------------ */
+/*  Pricing helpers                                                    */
+/* ------------------------------------------------------------------ */
 
 function formatPrice(n: number): string {
   const str = n.toString();
@@ -143,27 +204,35 @@ function formatPrice(n: number): string {
 }
 
 function getEstimation(data: FormData): { model: string; priceDiy: string; priceInstalled: string; efficiency: string } {
-  if (data.nbPieces > 1) {
-    /* Plusieurs pièces : somme du prix de chaque pièce selon sa surface */
-    const total = data.rooms.reduce((sum, room) => sum + getRoomDiyPrice(room.surface), 0);
+  const product = products.find((p) => p.id === data.selectedProduct);
+
+  if (product) {
+    const totalDiy = product.priceDiyUnit * data.nbPieces;
+    const totalInstalledFrom = product.priceInstalledFrom * data.nbPieces;
     return {
-      model: "Configuration sur-mesure",
-      priceDiy: total > 0 ? formatPrice(total) : "—",
-      priceInstalled: "Sur devis",
-      efficiency: "A+++",
+      model: data.nbPieces > 1 ? `${product.name} × ${data.nbPieces}` : product.name,
+      priceDiy: formatPrice(totalDiy),
+      priceInstalled: `À partir de ${formatPrice(totalInstalledFrom)} — sur devis`,
+      efficiency: product.efficiency,
     };
   }
+
+  /* Fallback avant sélection produit */
+  if (data.nbPieces > 1) {
+    const total = data.rooms.reduce((sum, room) => {
+      const s = parseInt(room.surface || "0");
+      if (isNaN(s) || s === 0) return sum;
+      if (s <= 20) return sum + 699;
+      if (s <= 35) return sum + 999;
+      return sum + 1499;
+    }, 0);
+    return { model: "Configuration sur-mesure", priceDiy: total > 0 ? formatPrice(total) : "—", priceInstalled: "Sur devis", efficiency: "A+++" };
+  }
   const s = parseInt(data.rooms[0]?.surface || "0");
-  if (isNaN(s) || s > 50) {
-    return { model: "Sur-mesure", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
-  }
-  if (s <= 20) {
-    return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "Sur devis", efficiency: "A+" };
-  }
-  if (s <= 35) {
-    return { model: "Confort+", priceDiy: "999 €", priceInstalled: "Sur devis", efficiency: "A++" };
-  }
-  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
+  if (isNaN(s) || s > 50) return { model: "Sur-mesure", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
+  if (s <= 20) return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "À partir de 1 499 €", efficiency: "A+" };
+  if (s <= 35) return { model: "Confort+", priceDiy: "999 €", priceInstalled: "À partir de 1 999 €", efficiency: "A++" };
+  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "À partir de 2 499 €", efficiency: "A+++" };
 }
 
 /* ------------------------------------------------------------------ */
@@ -240,7 +309,6 @@ export default function DevisForm() {
     if (hash === "#pro" || hash === "#diy") {
       const mode = hash === "#pro" ? "pro" : "diy";
       setData((prev) => ({ ...prev, installation: mode }));
-      // Clean the hash
       window.history.replaceState(null, "", window.location.pathname);
     }
   }, []);
@@ -249,7 +317,6 @@ export default function DevisForm() {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
-  /* When logement type changes, reset conditional sub-fields */
   const handleLogementChange = (value: string) => {
     setData((prev) => ({
       ...prev,
@@ -298,18 +365,31 @@ export default function DevisForm() {
       case 2:
         return data.rooms.every((r) => !!r.type && !!r.surface && !!r.distanceTableau && !!r.derriereMur);
       case 3:
+        return !!data.selectedProduct;
+      case 4:
         return !!data.installation;
       default:
         return false;
     }
   };
 
-  const next = () => { if (canNext() && step < 4) setStep((step + 1) as Step); };
+  const next = () => {
+    if (canNext() && step < 5) {
+      const nextStep = (step + 1) as Step;
+      /* Auto-select recommended product when entering step 3 */
+      if (nextStep === 3) {
+        const recommended = getRecommendedProductId(data.rooms);
+        setData((prev) => ({ ...prev, selectedProduct: recommended }));
+      }
+      setStep(nextStep);
+    }
+  };
   const prev = () => { if (step > 0) setStep((step - 1) as Step); };
-  const submit = () => { setSubmitted(true); setStep(4); };
+  const submit = () => { setSubmitted(true); setStep(5); };
 
   const estimation = getEstimation(data);
-  const progress = (step / 4) * 100;
+  const progress = (step / 5) * 100;
+  const recommendedId = getRecommendedProductId(data.rooms);
 
   /* Helper labels */
   const logementLabel = logementTypes.find((l) => l.value === data.logement)?.label ?? "";
@@ -339,11 +419,11 @@ export default function DevisForm() {
           )}
         </div>
 
-        {/* Progress bar */}
+        {/* Progress bar — 5 steps */}
         {!submitted && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              {[0, 1, 2, 3].map((s) => (
+              {[0, 1, 2, 3, 4].map((s) => (
                 <div
                   key={s}
                   className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs font-bold transition-all duration-500 ${
@@ -374,7 +454,8 @@ export default function DevisForm() {
               <span>Contact</span>
               <span>Logement</span>
               <span>Pièces</span>
-              <span>Installation</span>
+              <span>Produit</span>
+              <span>Formule</span>
             </div>
           </div>
         )}
@@ -382,7 +463,7 @@ export default function DevisForm() {
         {/* Form card */}
         <div className="bg-white rounded-3xl shadow-2xl shadow-black/20 overflow-hidden">
 
-          {/* ============ STEP 0 — Coordonnées (capture lead en premier) ============ */}
+          {/* ============ STEP 0 — Coordonnées ============ */}
           {step === 0 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Commençons par vous connaître</h3>
@@ -391,91 +472,47 @@ export default function DevisForm() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-600 mb-1.5 block">Nom complet *</label>
-                    <input
-                      type="text"
-                      value={data.nom}
-                      onChange={(e) => update("nom", e.target.value)}
-                      placeholder="Jean Dupont"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
+                    <input type="text" value={data.nom} onChange={(e) => update("nom", e.target.value)} placeholder="Jean Dupont" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600 mb-1.5 block">Téléphone *</label>
-                    <input
-                      type="tel"
-                      value={data.telephone}
-                      onChange={(e) => update("telephone", e.target.value)}
-                      placeholder="06 12 34 56 78"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
+                    <input type="tel" value={data.telephone} onChange={(e) => update("telephone", e.target.value)} placeholder="06 12 34 56 78" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                   </div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-600 mb-1.5 block">Email *</label>
-                    <input
-                      type="email"
-                      value={data.email}
-                      onChange={(e) => update("email", e.target.value)}
-                      placeholder="jean@exemple.fr"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
+                    <input type="email" value={data.email} onChange={(e) => update("email", e.target.value)} placeholder="jean@exemple.fr" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600 mb-1.5 block">Ville / Code postal *</label>
-                    <input
-                      type="text"
-                      value={data.ville}
-                      onChange={(e) => update("ville", e.target.value)}
-                      placeholder="31000 Toulouse"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    />
+                    <input type="text" value={data.ville} onChange={(e) => update("ville", e.target.value)} placeholder="31000 Toulouse" className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                   </div>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-600 mb-1.5 block">Message (optionnel)</label>
-                  <textarea
-                    value={data.message}
-                    onChange={(e) => update("message", e.target.value)}
-                    placeholder="Précisions sur votre projet, contraintes particulières..."
-                    rows={3}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
-                  />
+                  <textarea value={data.message} onChange={(e) => update("message", e.target.value)} placeholder="Précisions sur votre projet, contraintes particulières..." rows={3} className="w-full px-4 py-3 rounded-xl border border-gray-300 text-dark text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none" />
                 </div>
               </div>
             </div>
           )}
 
-          {/* ============ STEP 1 — Votre logement (REC-034 / 035 / 036 / 037) ============ */}
+          {/* ============ STEP 1 — Logement ============ */}
           {step === 1 && (
             <div className="p-5 sm:p-8 lg:p-10">
-              {/* REC-037: wording orienté utilisateur */}
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Décrivez votre logement</h3>
               <p className="text-sm text-gray-400 mb-6">Ces informations nous aident à dimensionner votre climatisation</p>
 
-              {/* REC-034: Propriétaire ou locataire — obligatoire */}
+              {/* Statut */}
               <div className="mb-6">
                 <label className="text-sm font-semibold text-dark mb-3 block">Vous êtes *</label>
                 <div className="grid grid-cols-2 gap-3">
                   {statutOptions.map((s) => (
-                    <button
-                      key={s.value}
-                      type="button"
-                      onClick={() => update("statut", s.value)}
-                      className={`flex items-center justify-center gap-2.5 p-4 rounded-xl border-2 text-sm font-medium transition-all ${
-                        data.statut === s.value
-                          ? "border-primary bg-primary-light text-primary"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      }`}
-                    >
+                    <button key={s.value} type="button" onClick={() => update("statut", s.value)} className={`flex items-center justify-center gap-2.5 p-4 rounded-xl border-2 text-sm font-medium transition-all ${data.statut === s.value ? "border-primary bg-primary-light text-primary" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>
                       {s.value === "proprietaire" ? (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                       ) : (
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                        </svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                       )}
                       {s.label}
                     </button>
@@ -483,88 +520,56 @@ export default function DevisForm() {
                 </div>
               </div>
 
-              {/* Type de logement — REC-037: wording amélioré */}
+              {/* Type de logement */}
               <div className="mb-6">
                 <label className="text-sm font-semibold text-dark mb-3 block">Quel type de logement ? *</label>
                 <div className="grid grid-cols-3 gap-3">
                   {logementTypes.map((l) => (
-                    <button
-                      key={l.value}
-                      type="button"
-                      onClick={() => handleLogementChange(l.value)}
-                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-sm font-medium transition-all ${
-                        data.logement === l.value
-                          ? "border-primary bg-primary-light text-primary"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      }`}
-                    >
-                      <div className={data.logement === l.value ? "text-primary" : "text-gray-400"}>
-                        <TypeIcon type={l.icon} />
-                      </div>
+                    <button key={l.value} type="button" onClick={() => handleLogementChange(l.value)} className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-sm font-medium transition-all ${data.logement === l.value ? "border-primary bg-primary-light text-primary" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>
+                      <div className={data.logement === l.value ? "text-primary" : "text-gray-400"}><TypeIcon type={l.icon} /></div>
                       {l.label}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* REC-035: Sous-questions Appartement (conditionnelles) */}
+              {/* Sous-questions Appartement */}
               {data.logement === "appartement" && (
                 <div className="mb-6 bg-blue-50/50 rounded-2xl p-4 sm:p-5 border border-blue-100 space-y-5">
                   <div className="flex items-center gap-2 mb-1">
                     <div className="text-primary"><TypeIcon type="building" /></div>
                     <span className="text-sm font-semibold text-dark">Détails de l&apos;appartement</span>
                   </div>
-
                   <div>
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">À quel étage se situe votre logement ? *</label>
                     <OptionGrid options={etageOptions} value={data.etage} onChange={(v) => update("etage", v)} cols={3} />
                   </div>
-
                   <div>
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">Y a-t-il un ascenseur ? *</label>
                     <div className="grid grid-cols-2 gap-2">
-                      {[
-                        { value: "oui", label: "Oui" },
-                        { value: "non", label: "Non" },
-                      ].map((o) => (
-                        <button
-                          key={o.value}
-                          type="button"
-                          onClick={() => update("ascenseur", o.value)}
-                          className={`py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
-                            data.ascenseur === o.value
-                              ? "border-primary bg-primary-light text-primary"
-                              : "border-gray-200 text-gray-600 hover:border-gray-300"
-                          }`}
-                        >
-                          {o.label}
-                        </button>
+                      {[{ value: "oui", label: "Oui" }, { value: "non", label: "Non" }].map((o) => (
+                        <button key={o.value} type="button" onClick={() => update("ascenseur", o.value)} className={`py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${data.ascenseur === o.value ? "border-primary bg-primary-light text-primary" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>{o.label}</button>
                       ))}
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* REC-036: Sous-questions Maison / Local commercial (conditionnelles) */}
+              {/* Sous-questions Maison / Local */}
               {(data.logement === "maison" || data.logement === "commerce") && (
                 <div className="mb-6 bg-green-50/50 rounded-2xl p-4 sm:p-5 border border-green-100 space-y-5">
                   <div className="flex items-center gap-2 mb-1">
                     <div className="text-primary"><TypeIcon type={data.logement === "maison" ? "home" : "shop"} /></div>
-                    <span className="text-sm font-semibold text-dark">
-                      Détails {data.logement === "maison" ? "de la maison" : "du local"}
-                    </span>
+                    <span className="text-sm font-semibold text-dark">Détails {data.logement === "maison" ? "de la maison" : "du local"}</span>
                   </div>
-
                   <div>
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">Hauteur sous plafond *</label>
                     <OptionGrid options={hauteurPlafondOptions} value={data.hauteurPlafond} onChange={(v) => update("hauteurPlafond", v)} cols={3} />
                   </div>
-
                   <div>
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">Configuration du logement *</label>
                     <OptionGrid options={niveauxOptions} value={data.niveaux} onChange={(v) => update("niveaux", v)} cols={2} />
                   </div>
-
                   {data.niveaux === "etage" && (
                     <div>
                       <label className="text-xs font-semibold text-gray-500 mb-2 block">Combien d&apos;étages ? *</label>
@@ -574,28 +579,16 @@ export default function DevisForm() {
                 </div>
               )}
 
-              {/* Nombre de pièces — REC-037: wording amélioré */}
+              {/* Nombre de pièces */}
               <div>
                 <label className="text-sm font-semibold text-dark mb-3 block">Combien de pièces souhaitez-vous climatiser ? *</label>
                 <div className="flex items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setNbPieces(data.nbPieces - 1)}
-                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
-                  >
-                    −
-                  </button>
+                  <button type="button" onClick={() => setNbPieces(data.nbPieces - 1)} className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors">−</button>
                   <div className="flex-1 text-center">
                     <span className="text-3xl font-extrabold text-primary">{data.nbPieces}</span>
                     <span className="text-sm text-gray-400 ml-2">pièce{data.nbPieces > 1 ? "s" : ""}</span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setNbPieces(data.nbPieces + 1)}
-                    className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors"
-                  >
-                    +
-                  </button>
+                  <button type="button" onClick={() => setNbPieces(data.nbPieces + 1)} className="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 font-bold text-lg hover:bg-gray-200 transition-colors">+</button>
                 </div>
                 {data.nbPieces > 1 && (
                   <p className="text-xs text-gray-400 text-center mt-2">
@@ -606,141 +599,190 @@ export default function DevisForm() {
             </div>
           )}
 
-          {/* ============ STEP 2 — Détail de chaque pièce (REC-038 / 039) ============ */}
+          {/* ============ STEP 2 — Détail pièces ============ */}
           {step === 2 && (
             <div className="p-5 sm:p-8 lg:p-10">
-              {/* REC-039: wording explicite */}
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">
                 {data.nbPieces === 1 ? "Configurez votre pièce" : `Configurez vos ${data.nbPieces} pièces`}
               </h3>
-              <p className="text-sm text-gray-400 mb-6">
-                Pour chaque pièce, précisez le type, la surface, la distance au tableau électrique et ce qu&apos;il y a derrière le mur
-              </p>
+              <p className="text-sm text-gray-400 mb-6">Pour chaque pièce, précisez le type, la surface, la distance au tableau électrique et ce qu&apos;il y a derrière le mur</p>
 
               <div className="space-y-6">
                 {data.rooms.map((room, i) => (
                   <div key={i} className={`${data.nbPieces > 1 ? "bg-gray-50 rounded-2xl p-4 sm:p-5 border border-gray-100" : ""}`}>
                     {data.nbPieces > 1 && (
                       <div className="flex items-center gap-2 mb-4">
-                        <div className="w-7 h-7 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">
-                          {i + 1}
-                        </div>
+                        <div className="w-7 h-7 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">{i + 1}</div>
                         <span className="text-sm font-semibold text-dark">Pièce {i + 1}</span>
                       </div>
                     )}
 
-                    {/* Type de pièce — REC-039 */}
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">Quelle pièce ? *</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {pieceTypes.map((p) => (
-                        <button
-                          key={p.value}
-                          type="button"
-                          onClick={() => updateRoom(i, "type", p.value)}
-                          className={`flex flex-col items-center gap-1 p-2.5 sm:p-3 rounded-xl border-2 transition-all ${
-                            room.type === p.value
-                              ? "border-primary bg-primary-light text-primary"
-                              : "border-gray-200 text-gray-500 hover:border-gray-300"
-                          }`}
-                        >
-                          <div className={`${room.type === p.value ? "text-primary" : "text-gray-400"}`}>
-                            <TypeIcon type={p.icon} />
-                          </div>
+                        <button key={p.value} type="button" onClick={() => updateRoom(i, "type", p.value)} className={`flex flex-col items-center gap-1 p-2.5 sm:p-3 rounded-xl border-2 transition-all ${room.type === p.value ? "border-primary bg-primary-light text-primary" : "border-gray-200 text-gray-500 hover:border-gray-300"}`}>
+                          <div className={room.type === p.value ? "text-primary" : "text-gray-400"}><TypeIcon type={p.icon} /></div>
                           <span className="text-xs font-semibold">{p.label}</span>
                         </button>
                       ))}
                     </div>
 
-                    {/* Surface — REC-039 */}
                     <label className="text-xs font-semibold text-gray-500 mb-2 block">Quelle surface ? *</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {surfaceOptions.map((s) => (
-                        <button
-                          key={s.value}
-                          type="button"
-                          onClick={() => updateRoom(i, "surface", s.value)}
-                          className={`py-2.5 rounded-xl border-2 text-xs font-medium transition-all ${
-                            room.surface === s.value
-                              ? "border-primary bg-primary-light text-primary"
-                              : "border-gray-200 text-gray-600 hover:border-gray-300"
-                          }`}
-                        >
-                          {s.label}
-                        </button>
+                        <button key={s.value} type="button" onClick={() => updateRoom(i, "surface", s.value)} className={`py-2.5 rounded-xl border-2 text-xs font-medium transition-all ${room.surface === s.value ? "border-primary bg-primary-light text-primary" : "border-gray-200 text-gray-600 hover:border-gray-300"}`}>{s.label}</button>
                       ))}
                     </div>
 
-                    {/* REC-038: Distance au tableau électrique (par pièce) */}
-                    <label className="text-xs font-semibold text-gray-500 mb-1 block">
-                      Distance au tableau électrique *
-                    </label>
-                    <p className="text-[11px] text-gray-400 mb-2">
-                      Entre l&apos;emplacement prévu de la clim et votre tableau électrique
-                    </p>
-                    <OptionGrid
-                      options={distanceTableauOptions}
-                      value={room.distanceTableau}
-                      onChange={(v) => updateRoom(i, "distanceTableau", v)}
-                      cols={4}
-                    />
+                    <label className="text-xs font-semibold text-gray-500 mb-1 block">Distance au tableau électrique *</label>
+                    <p className="text-[11px] text-gray-400 mb-2">Entre l&apos;emplacement prévu de la clim et votre tableau électrique</p>
+                    <OptionGrid options={distanceTableauOptions} value={room.distanceTableau} onChange={(v) => updateRoom(i, "distanceTableau", v)} cols={4} />
                     {room.distanceTableau === "plus15" && (
                       <div className="mt-2 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-2.5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
-                          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                         <span className="text-[11px] text-amber-700">Distance importante : un câblage supplémentaire peut être nécessaire.</span>
                       </div>
                     )}
 
-                    {/* REC-038: Ce qu'il y a derrière le mur (par pièce) */}
-                    <label className="text-xs font-semibold text-gray-500 mb-1 block mt-4">
-                      Que se trouve-t-il derrière le mur ? *
-                    </label>
-                    <p className="text-[11px] text-gray-400 mb-2">
-                      Le mur où sera posée l&apos;unité intérieure — cela détermine le passage des liaisons frigorifiques
-                    </p>
-                    <OptionGrid
-                      options={derriereMurOptions}
-                      value={room.derriereMur}
-                      onChange={(v) => updateRoom(i, "derriereMur", v)}
-                      cols={2}
-                    />
+                    <label className="text-xs font-semibold text-gray-500 mb-1 block mt-4">Que se trouve-t-il derrière le mur ? *</label>
+                    <p className="text-[11px] text-gray-400 mb-2">Le mur où sera posée l&apos;unité intérieure — cela détermine le passage des liaisons frigorifiques</p>
+                    <OptionGrid options={derriereMurOptions} value={room.derriereMur} onChange={(v) => updateRoom(i, "derriereMur", v)} cols={2} />
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* ============ STEP 3 — Type d'installation ============ */}
+          {/* ============ STEP 3 — Recommandations produit (REC-048 / 049 / 050) ============ */}
           {step === 3 && (
+            <div className="p-5 sm:p-8 lg:p-10">
+              <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Nos recommandations pour vous</h3>
+              <p className="text-sm text-gray-400 mb-6">
+                Selon vos réponses, voici les 3 modèles adaptés à votre projet{data.nbPieces > 1 ? ` (${data.nbPieces} pièces)` : ""}
+              </p>
+
+              <div className="space-y-4">
+                {products.map((product) => {
+                  const isRecommended = product.id === recommendedId;
+                  const isSelected = data.selectedProduct === product.id;
+                  const totalDiy = product.priceDiyUnit * data.nbPieces;
+                  const totalInstalledFrom = product.priceInstalledFrom * data.nbPieces;
+
+                  return (
+                    <button
+                      key={product.id}
+                      type="button"
+                      onClick={() => update("selectedProduct", product.id)}
+                      className={`w-full text-left rounded-2xl border-2 transition-all relative overflow-hidden ${
+                        isSelected
+                          ? "border-primary bg-primary-light shadow-lg shadow-primary/10"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
+                      }`}
+                    >
+                      {/* Badge recommandé */}
+                      {isRecommended && (
+                        <div className="bg-secondary text-white text-[10px] font-bold uppercase tracking-wider text-center py-1.5 px-4">
+                          Recommandé pour votre configuration
+                        </div>
+                      )}
+
+                      <div className="p-4 sm:p-5">
+                        {/* En-tête : nom + tagline + efficacité */}
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h4 className={`text-base sm:text-lg font-bold ${isSelected ? "text-primary" : "text-dark"}`}>
+                                {product.name}
+                              </h4>
+                              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                                isSelected ? "bg-primary text-white" : "bg-gray-100 text-gray-500"
+                              }`}>
+                                {product.efficiency}
+                              </span>
+                            </div>
+                            <p className={`text-sm mt-0.5 ${isSelected ? "text-primary/70" : "text-gray-400"}`}>
+                              {product.tagline}
+                            </p>
+                          </div>
+                          {/* Radio indicator */}
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1 ${
+                            isSelected ? "border-primary bg-primary" : "border-gray-300"
+                          }`}>
+                            {isSelected && (
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Description — REC-050 */}
+                        <p className="text-sm text-gray-500 mb-3 leading-relaxed">{product.description}</p>
+
+                        {/* Features */}
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {product.features.map((f) => (
+                            <span key={f} className={`text-[11px] font-medium px-2.5 py-1 rounded-lg border ${
+                              isSelected ? "bg-white border-primary/20 text-primary" : "bg-gray-50 border-gray-200 text-gray-500"
+                            }`}>
+                              {f}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Prix — REC-049 : prix sans installation + prix avec installation */}
+                        <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <div className="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-1">
+                                Matériel seul
+                              </div>
+                              <div className={`text-lg font-extrabold ${isSelected ? "text-primary" : "text-dark"}`}>
+                                {formatPrice(totalDiy)}
+                              </div>
+                              {data.nbPieces > 1 && (
+                                <div className="text-[10px] text-gray-400">
+                                  {formatPrice(product.priceDiyUnit)} / unité × {data.nbPieces}
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <div className="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-1">
+                                Fourni + installé
+                              </div>
+                              <div className={`text-lg font-extrabold ${isSelected ? "text-primary" : "text-dark"}`}>
+                                <span className="text-sm font-semibold">À partir de </span>{formatPrice(totalInstalledFrom)}
+                              </div>
+                              <div className="text-[10px] text-amber-600 font-medium">Sur devis — selon configuration</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <p className="mt-4 text-xs text-gray-400 text-center leading-relaxed">
+                Les prix affichés sont indicatifs et peuvent varier selon les contraintes techniques de votre installation. Le devis définitif est établi après visite ou rendez-vous visio.
+              </p>
+            </div>
+          )}
+
+          {/* ============ STEP 4 — Formule + Récap ============ */}
+          {step === 4 && (
             <div className="p-5 sm:p-8 lg:p-10">
               <h3 className="text-base sm:text-lg font-bold text-dark mb-1">Comment souhaitez-vous l&apos;installer ?</h3>
               <p className="text-sm text-gray-400 mb-6">Choisissez la formule qui vous convient</p>
               <div className="space-y-4">
-                {/* DIY — en premier, poussé */}
-                <button
-                  type="button"
-                  onClick={() => update("installation", "diy")}
-                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
-                    data.installation === "diy"
-                      ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    data.installation === "diy" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
-                  }`}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-                      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                      <line x1="12" y1="22.08" x2="12" y2="12" />
-                    </svg>
+                {/* DIY */}
+                <button type="button" onClick={() => update("installation", "diy")} className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${data.installation === "diy" ? "border-primary bg-primary-light" : "border-gray-200 hover:border-gray-300"}`}>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${data.installation === "diy" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className={`font-bold ${data.installation === "diy" ? "text-primary" : "text-dark"}`}>
-                        J&apos;installe moi-même
-                      </span>
+                      <span className={`font-bold ${data.installation === "diy" ? "text-primary" : "text-dark"}`}>J&apos;installe moi-même</span>
                       <span className="px-2 py-0.5 bg-secondary text-white text-[10px] font-bold rounded-full">Populaire</span>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">Pack prêt à poser livré chez vous. Guide d&apos;installation + hotline technique gratuite.</p>
@@ -749,38 +791,20 @@ export default function DevisForm() {
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
-                    <div className="mt-3 text-lg font-extrabold text-primary">
-                      {estimation.priceDiy}
-                    </div>
+                    <div className="mt-3 text-lg font-extrabold text-primary">{estimation.priceDiy}</div>
                   </div>
                 </button>
 
-                {/* Pro — en second, sur devis */}
-                <button
-                  type="button"
-                  onClick={() => update("installation", "pro")}
-                  className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${
-                    data.installation === "pro"
-                      ? "border-primary bg-primary-light"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    data.installation === "pro" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"
-                  }`}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-                    </svg>
+                {/* Pro */}
+                <button type="button" onClick={() => update("installation", "pro")} className={`w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 text-left transition-all ${data.installation === "pro" ? "border-primary bg-primary-light" : "border-gray-200 hover:border-gray-300"}`}>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${data.installation === "pro" ? "bg-primary text-white" : "bg-gray-100 text-gray-400"}`}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
                   </div>
                   <div className="flex-1">
-                    <span className={`font-bold ${data.installation === "pro" ? "text-primary" : "text-dark"}`}>
-                      Installation par un professionnel
-                    </span>
+                    <span className={`font-bold ${data.installation === "pro" ? "text-primary" : "text-dark"}`}>Installation par un professionnel</span>
                     <p className="text-sm text-gray-500 mt-1">On s&apos;occupe de tout. Installateur qualifié, pose soignée et garantie.</p>
                     <div className="mt-2 flex items-center gap-1.5 text-xs text-amber-600 font-medium">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                      </svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
                       Toulouse et alentours uniquement
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -788,12 +812,12 @@ export default function DevisForm() {
                         <span key={t} className="text-[11px] font-medium bg-white px-2.5 py-1 rounded-lg text-gray-500 border border-gray-200">{t}</span>
                       ))}
                     </div>
-                    <div className="mt-3 text-lg font-extrabold text-primary">Sur devis</div>
+                    <div className="mt-3 text-lg font-extrabold text-primary">{estimation.priceInstalled}</div>
                   </div>
                 </button>
               </div>
 
-              {/* Recap complet */}
+              {/* Recap */}
               <div className="mt-6 bg-cream rounded-2xl p-5 border border-gray-200">
                 <h4 className="text-sm font-bold text-dark mb-3">Récapitulatif de votre projet</h4>
                 <div className="grid grid-cols-2 gap-y-2 text-sm">
@@ -805,15 +829,11 @@ export default function DevisForm() {
                   <span className="text-dark font-medium">{data.email}</span>
                   <span className="text-gray-400">Ville</span>
                   <span className="text-dark font-medium">{data.ville}</span>
-
-                  {/* REC-034: Statut */}
                   <span className="text-gray-400">Statut</span>
                   <span className="text-dark font-medium">{statutOptions.find((s) => s.value === data.statut)?.label}</span>
-
                   <span className="text-gray-400">Type de logement</span>
                   <span className="text-dark font-medium">{logementLabel}</span>
 
-                  {/* REC-035: Détails appartement */}
                   {data.logement === "appartement" && (
                     <>
                       <span className="text-gray-400">Étage</span>
@@ -822,29 +842,22 @@ export default function DevisForm() {
                       <span className="text-dark font-medium">{data.ascenseur === "oui" ? "Oui" : "Non"}</span>
                     </>
                   )}
-
-                  {/* REC-036: Détails maison/local */}
                   {(data.logement === "maison" || data.logement === "commerce") && (
                     <>
                       <span className="text-gray-400">Hauteur plafond</span>
                       <span className="text-dark font-medium">{hauteurPlafondOptions.find((h) => h.value === data.hauteurPlafond)?.label}</span>
                       <span className="text-gray-400">Configuration</span>
-                      <span className="text-dark font-medium">
-                        {data.niveaux === "plain-pied" ? "Plain-pied" : `Avec étage(s) — ${nbEtagesOptions.find((e) => e.value === data.nbEtages)?.label ?? ""}`}
-                      </span>
+                      <span className="text-dark font-medium">{data.niveaux === "plain-pied" ? "Plain-pied" : `Avec étage(s) — ${nbEtagesOptions.find((e) => e.value === data.nbEtages)?.label ?? ""}`}</span>
                     </>
                   )}
 
                   <span className="text-gray-400">Pièces à climatiser</span>
                   <span className="text-dark font-medium">{data.nbPieces} pièce{data.nbPieces > 1 ? "s" : ""}</span>
 
-                  {/* REC-038: Détails par pièce */}
                   {data.rooms.map((room, i) => (
                     <span key={i} className="contents">
                       <span className="text-gray-400">{data.nbPieces > 1 ? `Pièce ${i + 1}` : "Pièce"}</span>
-                      <span className="text-dark font-medium">
-                        {pieceTypes.find((p) => p.value === room.type)?.label} — {surfaceOptions.find((s) => s.value === room.surface)?.label}
-                      </span>
+                      <span className="text-dark font-medium">{pieceTypes.find((p) => p.value === room.type)?.label} — {surfaceOptions.find((s) => s.value === room.surface)?.label}</span>
                       <span className="text-gray-400 text-xs pl-2">↳ Tableau élec.</span>
                       <span className="text-dark font-medium text-xs">{distanceTableauOptions.find((d) => d.value === room.distanceTableau)?.label}</span>
                       <span className="text-gray-400 text-xs pl-2">↳ Derrière le mur</span>
@@ -852,20 +865,17 @@ export default function DevisForm() {
                     </span>
                   ))}
 
-                  <span className="text-gray-400">Formule</span>
-                  <span className="text-dark font-medium">{data.installation === "pro" ? "Avec installation pro" : "Pack prêt à poser"}</span>
-                  <span className="text-gray-400">Modèle estimé</span>
+                  <span className="text-gray-400">Modèle choisi</span>
                   <span className="text-primary font-bold">{estimation.model} — {estimation.efficiency}</span>
-                  <span className="text-gray-400">Budget</span>
-                  <span className="text-primary font-bold">{data.installation === "diy" ? estimation.priceDiy : "Sur devis"}</span>
+                  <span className="text-gray-400">Formule</span>
+                  <span className="text-dark font-medium">{data.installation === "pro" ? "Avec installation pro" : "Pack prêt à poser (DIY)"}</span>
+                  <span className="text-gray-400">Budget estimé</span>
+                  <span className="text-primary font-bold">{data.installation === "diy" ? estimation.priceDiy : estimation.priceInstalled}</span>
                 </div>
 
-                {/* Avertissement distance longue */}
                 {hasLongDistance && (
                   <div className="mt-4 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5">
-                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 mt-0.5"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                     <span className="text-xs text-amber-700">Une ou plusieurs pièces ont une distance importante au tableau électrique. Un câblage supplémentaire pourrait être nécessaire — notre installateur vérifiera la faisabilité.</span>
                   </div>
                 )}
@@ -879,121 +889,77 @@ export default function DevisForm() {
             </div>
           )}
 
-
-          {/* ============ STEP 4 — Confirmation DIY (paiement) ou Pro (visio) ============ */}
-          {step === 4 && submitted && (
+          {/* ============ STEP 5 — Confirmation ============ */}
+          {step === 5 && submitted && (
             <div className="p-5 sm:p-8 lg:p-12">
               {data.installation === "diy" ? (
-                /* ---- DIY : Paiement Stripe ---- */
                 <div className="text-center">
                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                   </div>
                   <h3 className="text-2xl font-extrabold text-dark">Votre commande est prête !</h3>
                   <p className="text-gray-500 mt-3 max-w-md mx-auto">
                     Merci <strong className="text-dark">{data.nom}</strong>. Finalisez votre paiement pour recevoir votre pack <strong className="text-primary">{estimation.model}</strong>.
                   </p>
-
-                  {/* Résumé commande */}
                   <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                     <div className="text-xs text-gray-400 uppercase font-medium mb-2">Votre commande</div>
                     <div className="text-3xl font-extrabold text-primary">{estimation.priceDiy}</div>
-                    <div className="text-sm text-gray-500 mt-1">
-                      Pack prêt à poser — Modèle {estimation.model}
-                    </div>
-                    {data.nbPieces > 1 && (
-                      <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>
-                    )}
+                    <div className="text-sm text-gray-500 mt-1">Pack prêt à poser — Modèle {estimation.model}</div>
+                    {data.nbPieces > 1 && <div className="text-xs text-gray-400 mt-1">{data.nbPieces} pièces à climatiser</div>}
                   </div>
-
-                  {/* Bouton paiement Stripe */}
-                  <button
-                    className="mt-6 inline-flex items-center gap-3 px-8 py-4 bg-[#635BFF] text-white font-bold text-base rounded-xl hover:bg-[#5249E6] shadow-lg shadow-[#635BFF]/25 hover:-translate-y-0.5 transition-all duration-200"
-                    onClick={() => {/* Stripe Checkout sera intégré ici */}}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-                    </svg>
+                  <button className="mt-6 inline-flex items-center gap-3 px-8 py-4 bg-[#635BFF] text-white font-bold text-base rounded-xl hover:bg-[#5249E6] shadow-lg shadow-[#635BFF]/25 hover:-translate-y-0.5 transition-all duration-200" onClick={() => {/* Stripe Checkout */}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                     Payer par carte — {estimation.priceDiy}
                   </button>
                   <p className="mt-3 text-xs text-gray-400">Paiement sécurisé par Stripe — Livraison sous 5 jours ouvrés</p>
-
                   <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
                     {["Paiement sécurisé", "Retour 30 jours", "Hotline gratuite"].map((item) => (
                       <div key={item} className="flex items-center gap-2">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                         {item}
                       </div>
                     ))}
                   </div>
-
-                  {/* Option basculer vers pro / visio */}
                   <div className="mt-8 pt-6 border-t border-gray-200">
                     <p className="text-sm text-gray-500 mb-3">Si vous préférez, on s&apos;occupe de tout</p>
-                    <button
-                      type="button"
-                      onClick={() => update("installation", "pro")}
-                      className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold text-sm rounded-xl hover:bg-primary-light transition-all"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                      </svg>
+                    <button type="button" onClick={() => update("installation", "pro")} className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold text-sm rounded-xl hover:bg-primary-light transition-all">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                       Demander un rendez-vous visio
                     </button>
                     <p className="mt-2 text-xs text-gray-400">Installation pro — Toulouse et alentours</p>
                   </div>
                 </div>
               ) : (
-                /* ---- PRO : Rendez-vous visio ---- */
                 <div className="text-center">
                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                    </svg>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                   </div>
                   <h3 className="text-2xl font-extrabold text-dark">Demande de rendez-vous envoyée !</h3>
                   <p className="text-gray-500 mt-3 max-w-md mx-auto">
                     Merci <strong className="text-dark">{data.nom}</strong>. Un conseiller vous recontacte sous <strong className="text-primary">48h</strong> pour planifier votre rendez-vous visio et établir votre devis personnalisé.
                   </p>
-
                   <div className="mt-6 bg-cream rounded-2xl p-6 border border-gray-200 max-w-sm mx-auto">
                     <div className="text-xs text-gray-400 uppercase font-medium mb-2">Installation professionnelle</div>
-                    <div className="text-2xl font-extrabold text-primary">Sur devis</div>
-                    <div className="text-sm text-gray-500 mt-1">
-                      Modèle {estimation.model} — Fourni + installé
-                    </div>
+                    <div className="text-2xl font-extrabold text-primary">{estimation.priceInstalled}</div>
+                    <div className="text-sm text-gray-500 mt-1">Modèle {estimation.model} — Fourni + installé</div>
                     <div className="flex items-center justify-center gap-1.5 mt-3 text-xs text-amber-600 font-medium">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
-                      </svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>
                       Toulouse et alentours
                     </div>
                   </div>
-
                   <div className="mt-6 bg-gray-50 rounded-2xl p-5 border border-gray-200 max-w-sm mx-auto">
                     <div className="text-sm font-semibold text-dark mb-2">Prochaine étape</div>
                     <div className="flex items-start gap-3 text-left">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                       </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Un conseiller vous appelle pour un <strong className="text-dark">rendez-vous visio</strong> afin d&apos;évaluer votre installation et vous proposer le meilleur devis.</p>
-                      </div>
+                      <p className="text-sm text-gray-600">Un conseiller vous appelle pour un <strong className="text-dark">rendez-vous visio</strong> afin d&apos;évaluer votre installation et vous proposer le meilleur devis.</p>
                     </div>
                   </div>
-
                   <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-gray-400">
                     {["Sans engagement", "Devis gratuit", "Réponse sous 48h"].map((item) => (
                       <div key={item} className="flex items-center gap-2">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B5DA8" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                         {item}
                       </div>
                     ))}
@@ -1007,59 +973,29 @@ export default function DevisForm() {
           {!submitted && (
             <div className="px-5 sm:px-8 lg:px-10 pb-5 sm:pb-8 lg:pb-10 flex items-center justify-between gap-4">
               {step > 0 ? (
-                <button
-                  type="button"
-                  onClick={prev}
-                  className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                  </svg>
+                <button type="button" onClick={prev} className="flex items-center gap-2 px-5 py-3 text-sm font-medium text-gray-500 hover:text-dark transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                   Retour
                 </button>
               ) : (
                 <div />
               )}
 
-              {step < 3 ? (
-                <button
-                  type="button"
-                  onClick={next}
-                  disabled={!canNext()}
-                  className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${
-                    canNext()
-                      ? "bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/25 hover:-translate-y-0.5"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                >
+              {step < 4 ? (
+                <button type="button" onClick={next} disabled={!canNext()} className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${canNext() ? "bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/25 hover:-translate-y-0.5" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}>
                   Continuer
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </button>
               ) : (
-                <button
-                  type="button"
-                  onClick={submit}
-                  disabled={!canNext()}
-                  className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${
-                    canNext()
-                      ? "bg-secondary text-white hover:bg-secondary/90 shadow-lg shadow-secondary/25 hover:-translate-y-0.5"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                >
+                <button type="button" onClick={submit} disabled={!canNext()} className={`flex items-center gap-2 px-7 py-3.5 font-bold text-sm rounded-xl transition-all duration-200 ${canNext() ? "bg-secondary text-white hover:bg-secondary/90 shadow-lg shadow-secondary/25 hover:-translate-y-0.5" : "bg-gray-200 text-gray-400 cursor-not-allowed"}`}>
                   {data.installation === "diy" ? (
                     <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
-                      </svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
                       Commander — {estimation.priceDiy}
                     </>
                   ) : (
                     <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-                      </svg>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                       Prendre rendez-vous visio
                     </>
                   )}
@@ -1074,9 +1010,7 @@ export default function DevisForm() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-white/40">
             {["Sans engagement", "Réponse sous 48h", "Données protégées", "100% gratuit"].map((item) => (
               <div key={item} className="flex items-center gap-2">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 {item}
               </div>
             ))}
