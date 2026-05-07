@@ -115,7 +115,7 @@ const products: Product[] = [
     description: "Puissance et silence pour vos pièces de vie. Wi-Fi intégré et mode nuit pour un confort au quotidien, été comme hiver.",
     features: ["Pièces jusqu'à 35 m²", "Classe énergétique A++", "Ultra-silencieuse (20 dB)", "Wi-Fi intégré — pilotage à distance", "Mode nuit automatique"],
     priceDiyUnit: 999,
-    priceInstalledFrom: 1999,
+    priceInstalledFrom: 1899,
     efficiency: "A++",
     maxSurface: 35,
   },
@@ -126,7 +126,7 @@ const products: Product[] = [
     description: "Conçu pour les grands espaces exigeants. Technologie inverter dernière génération, purification d'air intégrée et connectivité domotique complète.",
     features: ["Pièces jusqu'à 50 m² et +", "Classe énergétique A+++", "La plus silencieuse (19 dB)", "Wi-Fi + compatibilité domotique", "Purificateur d'air intégré", "Garantie étendue 5 ans"],
     priceDiyUnit: 1499,
-    priceInstalledFrom: 2499,
+    priceInstalledFrom: 2399,
     efficiency: "A+++",
     maxSurface: 999,
   },
@@ -231,8 +231,8 @@ function getEstimation(data: FormData): { model: string; priceDiy: string; price
   const s = parseInt(data.rooms[0]?.surface || "0");
   if (isNaN(s) || s > 50) return { model: "Sur-mesure", priceDiy: "1 499 €", priceInstalled: "Sur devis", efficiency: "A+++" };
   if (s <= 20) return { model: "Essentiel", priceDiy: "699 €", priceInstalled: "À partir de 1 499 €", efficiency: "A+" };
-  if (s <= 35) return { model: "Confort+", priceDiy: "999 €", priceInstalled: "À partir de 1 999 €", efficiency: "A++" };
-  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "À partir de 2 499 €", efficiency: "A+++" };
+  if (s <= 35) return { model: "Confort+", priceDiy: "999 €", priceInstalled: "À partir de 1 899 €", efficiency: "A++" };
+  return { model: "Premium", priceDiy: "1 499 €", priceInstalled: "À partir de 2 399 €", efficiency: "A+++" };
 }
 
 /* ------------------------------------------------------------------ */
